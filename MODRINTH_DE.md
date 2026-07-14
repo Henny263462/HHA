@@ -1,68 +1,52 @@
-# H&H Armors — Heaven & Hell Sets
+# H&H Armors
 
-**Zwei rivalisierende Endgame-Rüstungssets — eines vom Licht gesegnet, eines im Seelenfeuer geschmiedet — jedes mit eigenen Waffen, Fähigkeiten und Spielstil.**
+Fügt zwei rivalisierende Rüstungssets hinzu: **Heaven** und **Hell**. Beides sind vollwertige Endgame-Sets mit eigenen Fähigkeiten, jeweils einem Schwert und einem Streitkolben. Ursprünglich für ein Zwei-Fraktionen-SMP gebaut, funktioniert aber auch im normalen Survival.
 
-Wähle deine Seite: das strahlende **Heaven-Set** mit goldenen Verzierungen und heiligem Licht, oder das **Hell-Set** — geschwärztes Netherite, das in dunkelblauem Seelenfeuer brennt. Beide Sets kommen mit komplettem Fähigkeiten-Kit, einem einzigartigen Schwert und Streitkolben, animierten Texturen, Partikeleffekten und knackigem Kampf-Feedback.
+Das Heaven-Set ist weißes Netherite mit Goldverzierung. Das Hell-Set ist dunkles Netherite mit blauem Seelenfeuer (die Item-Texturen sind animiert). Hergestellt wird beides per Schmiedetisch-Upgrade aus Diamantausrüstung, ähnlich wie Netherite-Upgrades.
 
----
+## Fähigkeiten
 
-## ⚔️ Die Sets
+Jedes Rüstungsteil hat ein eigenes Passiv, das volle Set schaltet weitere frei. Eine Cooldown-Leiste über der Hotbar zeigt, was bereit ist.
 
-### 😇 Heaven-Set
-- **Halo** — regeneriert dich und Verbündete in der Nähe
-- **Ascension** — Doppelsprung durch die Luft
-- **Shockwave** — nach tiefem Fall in den Boden schmettern und alles ringsum schädigen
-- **Heaven's Step** — bei wenig Leben hinterlässt du eine leuchtende Lichtspur, die Gegner verlangsamt
-- **Light Beam & Purify** — gezielter Strahl: Schaden für Feinde, Heilung + Debuff-Entfernung für Verbündete
-- **Grace** — in der Luft schleichen und sanft herabgleiten
-- **Segen** — Combo treffen, und *jeder* weitere Schlag ist ein Auto-Crit (mit eigenen Effekten und Sound), bis dich ein anderer Spieler trifft
+**Heaven:**
+- Halo: du und Spieler in der Nähe regenerieren langsam
+- Doppelsprung
+- Tiefe Stürze lösen eine Schockwelle aus, statt dir zu schaden
+- Unter 5 Herzen hinterlässt du eine Lichtspur, die Gegner darin verlangsamt
+- Ein Strahl-Angriff, der Gegner schädigt, Teammitglieder aber heilt und entgiftet
+- In der Luft schleichen zum Gleiten
+- Combo treffen, und jeder weitere Schlag ist ein Auto-Crit, bis dich ein anderer Spieler trifft
 
-### 😈 Hell-Set
-- **Undying Rage** — bei wenig Leben: Extra-Tempo und ein Ausbruch aus Höllenfeuer
-- **Warlord's Barrier** — Absorption und Resistenz, solange deine Brutes an deiner Seite kämpfen
-- **Lava Walking & Hellforged** — über Lava spazieren; Stärke, solange du brennst
-- **Magma Stomp & Volcanic** — harte Landungen reißen den Boden zu temporärer Lava auf
-- **Fire Camp** — beschwöre drei treue Piglin-Brute-Vasallen in seelenblauem Gewand. Ein echtes **Soul Campfire** erscheint, und der Boden ringsum verwandelt sich in ein Soul-Soil-Lager mit Soul Torches und Laternen — alles verschwindet, sobald deine Brutes gefallen sind
-- **Klingenrausch** — die Aktiv-Fähigkeit des Hell's Sword: 20 Sekunden lang 50 % schnellere Angriffe und garantierte Crits; Crits segnen dich mit Goldapfel-Absorption
+**Hell:**
+- Auf Lava laufen, plus Stärke solange du brennst
+- Unter 3 Herzen: Extra-Tempo und ein Feuerausbruch
+- Harte Landungen reißen den Boden zu temporärer Lava auf
+- Fire Camp: beschwört drei Piglin-Brute-Leibwächter. Ein Soul Campfire spawnt mit Soul Soil, Fackeln und Laternen drumherum, und das ganze Lager verschwindet wieder, sobald die Brutes tot sind
+- Schwert-Fähigkeit: 20 Sekunden lang 50 % schnellere Angriffe, jeder Treffer crittet, und Crits geben dir Goldapfel-Absorption
 
-### 🗡️ Waffen
-- **Heaven's Sword** — Combo-basierte Auto-Crits mit heiligem Feedback
-- **Hell's Sword** — Seelenfeuer-Klinge mit animiert glühender Schneide und wandernden Runen
-- **Heaven's Mace** — wirf ihn: Er fliegt bis zu 50 Blöcke und ruft auf alles im Weg **Blitze** herab — auf dem Hinweg *und* auf dem Rückweg
-- **Hell's Mace** — eine Kettenwaffe: **ziehe Gegner** aus bis zu 16 Blöcken zu dir (sie kommen *garantiert* an), **hake dich an Blöcke** oder reite deine eigenen Wind Charges und Enderperlen per Kette hinterher
+**Streitkolben** (beide Fraktionen bekommen einen):
+- Der Heaven's Mace lässt sich werfen. Er fliegt bis zu 50 Blöcke, trifft alles auf dem Weg mit Blitzen, kommt zurück und trifft auf dem Rückweg nochmal
+- Der Hell's Mace zieht Gegner aus bis zu 16 Blöcken an einer Kette zu dir. Rechtsklick auf einen Block macht ihn stattdessen zum Enterhaken. Man kann sich sogar an die eigenen Wind Charges oder Enderperlen im Flug hängen
 
-### ✨ Gemeinsam
-- Voll-Set-Bonus: **+10 Herzen**, Fallschaden-Immunität und mehr
-- **Ultra-Modus** — temporärer Power-Up-Zustand mit eigenem HUD-Banner
-- Animierte Item-Texturen, Seelen-/Lichtflammen an getragener Ausrüstung, eigene Partikel
-- Cooldown-HUD über der Hotbar mit eigenen Fähigkeiten-Icons
+Volle Sets geben außerdem +10 Herzen und Fallschaden-Immunität, dazu gibt es einen Ultra-Modus mit eigenem Cooldown.
 
----
+## Konfiguration
 
-## 🔨 Crafting
+Praktisch alles lässt sich abschalten oder anpassen: `/hha toggle` und `/hha set` ändern Fähigkeiten, Schadenswerte und Cooldowns live, ohne Neustart.
 
-Stelle **Hell-/Heaven-Barren** aus Netherite, Seelen-Materialien, Amethyst und Glowstone her und rüste Diamant-Ausrüstung am **Schmiedetisch** mit **Jötunheims Upgrade-Vorlage** auf — genau wie Netherite-Upgrades. Bannermuster inklusive.
+Auch die Rezepte sind editierbar. Beim ersten Start legt die Mod Vorlagen in `config/hha/datapack/` ab. Eine `.json.example` in `.json` umbenennen, bearbeiten, `/hha recipes reload` ausführen, und deine Version ersetzt das eingebaute Rezept. Neue Dateien ergeben komplett neue Rezepte.
 
----
+Sonstiges:
+- `/trust <spieler>` sorgt dafür, dass deine Fähigkeiten, Spuren und Brutes deine Freunde nie verletzen
+- `/hha kit hell|heaven` verteilt ein voll verzaubertes PvP-Kit (braucht aktivierten `kit_mode`)
+- Bannermuster für beide Fraktionen
 
-## ⚙️ Voll konfigurierbar
+## Voraussetzungen
 
-- Jede Fähigkeit lässt sich live per `/hha` schalten und tunen (OP): Schadenswerte, Cooldowns, Schwellen
-- **Eigene Rezepte**: Der Ordner `config/hha/datapack/` wird als automatisch aktiviertes Datapack in deine Welt gespiegelt — bearbeite die mitgelieferten Vorlagen, um jedes Rezept zu ändern oder eigene hinzuzufügen, dann `/hha recipes reload`
-- Rezept-Schalter: `hell_ingot_recipe`, `heaven_ingot_recipe`, `template_recipe`
-- **Kit-Modus** für PvP-Server: `/hha kit hell|heaven` gibt ein volles, voll verzaubertes PvP-Kit (inkl. Stärke- und Weaving-Wurftränken)
-- **Trust-System**: `/trust <spieler>` — getrustete Spieler werden von deinen Fähigkeiten, Spuren und Brutes niemals verletzt
+Fabric API und Fabric Language Kotlin. Client und Server.
 
----
+## Hinweise
 
-## 📋 Voraussetzungen
-
-- Fabric Loader + **Fabric API**
-- **Fabric Language Kotlin**
-- Minecraft 1.21.11
-
-## ⚠️ Gut zu wissen
-
-- Die Mod retexturiert das dunkle Gewand des **Piglin Brute** in Seelenblau (gilt für alle Brutes, auch in Bastionen — passt zum Theme)
-- Temporäre Blöcke (Soul Camp, Magma-Stomp-Lava) bauen sich automatisch zurück; ein harter Server-Absturz währenddessen kann sie zurücklassen
-- Funktioniert im Einzelspieler und auf dedizierten Servern
+- Piglin Brutes bekommen eine seelenblaue Umfärbung ihres Gewands. Das gilt für alle Brutes, auch in Bastionen, da sich Entity-Texturen nicht pro Mob tauschen lassen
+- Temporäre Blöcke (Lava, Soul Camp) räumen sich selbst auf. Bei einem harten Server-Absturz können sie liegen bleiben
+- Bugs und Ideen: [GitHub](https://github.com/Henny263462/HHA/issues)

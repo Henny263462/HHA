@@ -1,68 +1,52 @@
-# H&H Armors — Heaven & Hell Sets
+# H&H Armors
 
-**Two rival endgame armor sets — one blessed by the light, one forged in soul fire — each with its own weapons, abilities and playstyle.**
+Adds two rival armor sets: **Heaven** and **Hell**. Both are full endgame sets with their own abilities, a sword and a mace each. I originally built this for a two-faction SMP, but it works fine in normal survival too.
 
-Choose your side: the radiant **Heaven Set** with golden trims and holy light, or the **Hell Set** — blackened netherite burning with dark-blue soul fire. Both sets come with a full ability kit, a unique sword and a unique mace, animated textures, particle effects and satisfying combat feedback.
+The Heaven set is white netherite with golden trim. The Hell set is dark netherite burning with blue soul fire (the item textures are animated). You craft both by upgrading diamond gear in a smithing table, similar to netherite upgrades.
 
----
+## Abilities
 
-## ⚔️ The Sets
+Each armor piece has its own passive, wearing the full set unlocks more. A cooldown bar above the hotbar shows what's ready.
 
-### 😇 Heaven Set
-- **Halo** — regenerate yourself and nearby allies
-- **Ascension** — double jump through the air
-- **Shockwave** — slam the ground after a long fall, damaging everything around you
-- **Heaven's Step** — at low health, leave a glowing trail of light that slows your enemies
-- **Light Beam & Purify** — a targeted beam that damages enemies and heals & cleanses allies
-- **Grace** — sneak mid-air to glide gently down
-- **Blessing** — land your combo and *every* following hit becomes an auto-crit (with its own visuals and sound) until another player hits you
+**Heaven:**
+- Halo: you and nearby players slowly regenerate
+- Double jump
+- Long falls release a shockwave instead of hurting you
+- Below 5 hearts you leave a light trail that slows enemies walking through it
+- A beam attack that damages enemies but heals and cleanses teammates
+- Sneak in the air to glide
+- Land your hit combo and every following hit is an auto crit, until another player hits you
 
-### 😈 Hell Set
-- **Undying Rage** — at low health, gain extra speed and burst into hellfire
-- **Warlord's Barrier** — absorption and resistance while your brutes fight beside you
-- **Lava Walking & Hellforged** — stroll over lava; gain strength while burning
-- **Magma Stomp & Volcanic** — heavy landings crack the ground into temporary lava
-- **Fire Camp** — summon three loyal Piglin Brute vassals in soul-blue garb. A real **soul campfire** appears, and the ground around it transforms into a soul soil camp with soul torches and lanterns — everything reverts once your brutes have fallen
-- **Blade Rush** — the Hell's Sword's active: 50% faster attacks and guaranteed crits for 20 seconds; crits bless you with golden-apple absorption
+**Hell:**
+- Walk on lava, and get Strength while burning
+- Below 3 hearts: extra speed plus a fire burst
+- Heavy landings crack the ground into temporary lava
+- Fire Camp: summons three piglin brute bodyguards. A soul campfire spawns with soul soil, torches and lanterns around it, and the whole camp disappears again once the brutes are dead
+- Sword ability: 20 seconds of 50% faster attacks where every hit crits, and crits give you golden apple absorption
 
-### 🗡️ Weapons
-- **Heaven's Sword** — combo-based auto-crits with holy feedback
-- **Hell's Sword** — soul-fire blade with an animated glowing edge and wandering runes
-- **Heaven's Mace** — throw it: it flies up to 50 blocks, calls **lightning** on everything in its path — on the way out *and* on the way back
-- **Hell's Mace** — a chain weapon: **pull enemies** to you from up to 16 blocks (they *will* arrive), **grapple** to blocks, or chain-ride your own wind charges and ender pearls
+**Maces** (both factions get one):
+- Heaven's Mace can be thrown. It flies up to 50 blocks and strikes everything in its path with lightning, then comes back and hits everything again on the return
+- Hell's Mace pulls enemies to you on a chain from up to 16 blocks. Right-click a block instead and it works as a grappling hook. You can even latch onto your own wind charges or ender pearls mid-flight
 
-### ✨ Shared
-- Full-set bonus: **+10 hearts**, fall damage immunity and more
-- **Ultra Mode** — a temporary power-up state with its own HUD banner
-- Animated item textures, soul/holy flames on worn equipment, custom particles
-- Cooldown HUD above the hotbar with custom ability icons
+Full sets also give +10 hearts and fall damage immunity, and there's an Ultra Mode with its own cooldown.
 
----
+## Config
 
-## 🔨 Crafting
+Basically everything can be turned off or tuned: `/hha toggle` and `/hha set` change abilities, damage values and cooldowns live, no restart needed.
 
-Craft **Hell / Heaven Ingots** from netherite, soul materials, amethyst and glowstone, then upgrade diamond gear in the **smithing table** using **Jötunheim's Upgrade Template** — just like netherite upgrades. Banner patterns included.
+Recipes are editable too. On first launch the mod puts template files into `config/hha/datapack/`. Rename a `.json.example` to `.json`, edit it, run `/hha recipes reload` and your version replaces the built-in recipe. New files add completely new recipes.
 
----
+Other stuff:
+- `/trust <player>` makes sure your abilities, trails and brutes never hurt your friends
+- `/hha kit hell|heaven` gives out a fully enchanted PvP kit (needs `kit_mode` enabled)
+- Banner patterns for both factions
 
-## ⚙️ Fully Configurable
+## Requirements
 
-- Every ability can be toggled and tuned live via `/hha` (OP): damage values, cooldowns, thresholds, trigger conditions
-- **Custom recipes**: the folder `config/hha/datapack/` is mirrored into your world as an auto-enabled datapack — edit the provided templates to change any recipe or add your own, then `/hha recipes reload`
-- Recipe toggles: `hell_ingot_recipe`, `heaven_ingot_recipe`, `template_recipe`
-- **Kit mode** for PvP servers: `/hha kit hell|heaven` hands out a full, fully-enchanted PvP kit (strength & weaving splash potions included)
-- **Trust system**: `/trust <player>` — trusted players are never harmed by your abilities, trails or brutes
+Fabric API and Fabric Language Kotlin. Client and server.
 
----
+## Notes
 
-## 📋 Requirements
-
-- Fabric Loader + **Fabric API**
-- **Fabric Language Kotlin**
-- Minecraft 1.21.11
-
-## ⚠️ Good to know
-
-- The mod retextures the **Piglin Brute**'s dark tunic into soul-blue (applies to all brutes, including bastion ones — it fits the theme)
-- Temporary blocks (soul camp, magma stomp lava) revert automatically; a hard server crash while they're active can leave them behind
-- Works in singleplayer and on dedicated servers
+- Piglin brutes get a soul-blue recolor of their tunic. This applies to all brutes, including bastions, since entity textures can't be swapped per mob
+- Temporary blocks (lava, soul camp) clean themselves up. If the server hard-crashes while they exist they can stay behind
+- Bug reports and ideas: [GitHub](https://github.com/Henny263462/HHA/issues)
