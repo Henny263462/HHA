@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "hha",
+  "version": "${version}",
+  "name": "H&H Armors",
+  "description": "Heaven and hell armor sets with unique abilities, weapons, and set bonuses.",
+  "authors": [
+    "Henny"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Henny263462/HHA",
+    "sources": "https://github.com/Henny263462/HHA",
+    "issues": "https://github.com/Henny263462/HHA/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/hha/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "dev.henny.hha.client.HhaClient"
+    ],
+    "main": [
+      "dev.henny.hha.Hha"
+    ]
+  },
+  "mixins": [
+    "hha.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

@@ -1,0 +1,31 @@
+name: Feature Request
+description: Suggest a new ability, balance change or improvement
+title: "[Idea] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the mod?
+      options:
+        - Heaven set / abilities
+        - Hell set / abilities
+        - Weapons (swords / maces)
+        - Textures & visuals
+        - Config / commands / recipes
+        - PvP kits
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: What should be added or changed, and why?
+    validations:
+      required: true
+  - type: textarea
+    id: balance
+    attributes:
+      label: Balance considerations
+      description: How does this stay fair in PvP?

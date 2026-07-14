@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "hha:hell"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "hha:hell"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "hha:hell_helmet", "hha:hell_chestplate", "hha:hell_leggings", "hha:hell_boots",
+    "hha:heaven_helmet", "hha:heaven_chestplate", "hha:heaven_leggings", "hha:heaven_boots"
+  ]
+}

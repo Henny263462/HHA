@@ -1,0 +1,14 @@
+{
+  "fabric:load_conditions": [
+    { "condition": "hha:config", "key": "hell_ingot_recipe" }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["MSM", "SIS", "MSM"],
+  "key": {
+    "M": "minecraft:magma_block",
+    "S": "minecraft:soul_soil",
+    "I": "minecraft:netherite_ingot"
+  },
+  "result": { "id": "hha:hell_ingot", "count": 1 }
+}

@@ -1,0 +1,14 @@
+{
+  "fabric:load_conditions": [
+    { "condition": "hha:config", "key": "template_recipe" }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["MDM", "DID", "MDM"],
+  "key": {
+    "M": "minecraft:magma_block",
+    "D": "minecraft:diamond",
+    "I": "hha:hell_ingot"
+  },
+  "result": { "id": "hha:jotunheims_upgrade_template", "count": 1 }
+}

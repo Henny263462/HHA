@@ -1,0 +1,132 @@
+package dev.henny.hha.client
+
+import dev.henny.hha.Hha
+import dev.henny.hha.HhaItems
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gl.RenderPipelines
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.entity.EquipmentSlot
+import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
+import net.minecraft.util.Formatting
+import net.minecraft.util.Identifier
+import kotlin.math.sin
+
+/**
+ * Cooldown-HUD: zentrierte Slot-Leiste über der Hotbar. Bereite Fähigkeiten
+ * pulsieren golden/feurig, laufende Cooldowns dunkeln von oben ab und zeigen
+ * einen Fortschrittsbalken. Oben mittig der Ultra-Status.
+ */
+object CooldownHud {
+
+    private const val SLOT = 22
+    private const val GOLD = 0x00FFD75E
+    private const val FIRE = 0x00FF7B1F
+
+    private val ICON_BEAM: Identifier = Hha.id("hud/beam")
+    private val ICON_CAMP: Identifier = Hha.id("hud/camp")
+    private val ICON_SWORD: Identifier = Hha.id("hud/sword")
+    private val ICON_MACE: Identifier = Hha.id("hud/mace")
+    private val ICON_CHAIN: Identifier = Hha.id("hud/chain")
+
+    /** Vom Server gemeldeter Ultra-Rest (Ticks); tickt clientseitig herunter. */
+    var ultraRemainingTicks = 0
+
+    fun register() {
+        HudRenderCallback.EVENT.register { context, _ ->
+            render(MinecraftClient.getInstance(), context)
+        }
+    }
+
+    fun clientTick() {
+        if (ultraRemainingTicks > 0) ultraRemainingTicks--
+    }
+
+    private fun isHeaven(stack: ItemStack): Boolean =
+        stack.isOf(HhaItems.HEAVEN_HELMET) || stack.isOf(HhaItems.HEAVEN_CHESTPLATE) ||
+            stack.isOf(HhaItems.HEAVEN_LEGGINGS) || stack.isOf(HhaItems.HEAVEN_BOOTS) ||
+            stack.isOf(HhaItems.HEAVENS_SWORD) || stack.isOf(HhaItems.HEAVENS_MACE)
+
+    private fun render(client: MinecraftClient, context: DrawContext) {
+        val player = client.player ?: return
+        if (client.options.hudHidden) return
+
+        val manager = player.itemCooldownManager
+
+        val candidates = ArrayList<Pair<ItemStack, Identifier>>()
+        val chest = player.getEquippedStack(EquipmentSlot.CHEST)
+        val legs = player.getEquippedStack(EquipmentSlot.LEGS)
+        if (chest.isOf(HhaItems.HELL_CHESTPLATE) || chest.isOf(HhaItems.HEAVEN_CHESTPLATE)) {
+            candidates.add(chest to ICON_BEAM)
+        }
+        if (legs.isOf(HhaItems.HELL_LEGGINGS)) candidates.add(legs to ICON_CAMP)
+        for (stack in listOf(player.mainHandStack, player.offHandStack)) {
+            when {
+                stack.isOf(HhaItems.HELLS_SWORD) || stack.isOf(HhaItems.HEAVENS_SWORD) ->
+                    candidates.add(stack to ICON_SWORD)
+                stack.isOf(HhaItems.HELLS_MACE) -> candidates.add(stack to ICON_CHAIN)
+                stack.isOf(HhaItems.HEAVENS_MACE) -> candidates.add(stack to ICON_MACE)
+            }
+        }
+
+        val time = client.world?.time ?: 0L
+
+        if (candidates.isNotEmpty()) {
+            val total = candidates.size * SLOT - (SLOT - 18)
+            var x = (context.scaledWindowWidth - total) / 2
+            val y = context.scaledWindowHeight - 82
+
+            for ((stack, icon) in candidates) {
+                val progress = manager.getCooldownProgress(stack, 0f)
+                val base = if (isHeaven(stack)) GOLD else FIRE
+
+                context.fill(x - 1, y - 1, x + 17, y + 17, 0x90000000.toInt())
+
+                val border = if (progress <= 0f) {
+                    val pulse = sin(time * 0.35) * 0.5 + 0.5
+                    ((140 + pulse * 115).toInt() shl 24) or base
+                } else {
+                    0xFF3A3A3A.toInt()
+                }
+                context.fill(x - 2, y - 2, x + 18, y - 1, border)
+                context.fill(x - 2, y + 17, x + 18, y + 18, border)
+                context.fill(x - 2, y - 1, x - 1, y + 17, border)
+                context.fill(x + 17, y - 1, x + 18, y + 17, border)
+
+                context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, icon, x, y, 16, 16)
+
+                if (progress > 0f) {
+                    val covered = (progress * 16f).toInt().coerceIn(0, 16)
+                    context.fill(x, y, x + 16, y + covered, 0xB0101010.toInt())
+                    context.fill(x - 2, y + 19, x + 18, y + 22, 0xAA000000.toInt())
+                    val w = ((1f - progress) * 20f).toInt()
+                    context.fill(x - 2, y + 20, x - 2 + w, y + 21, 0xFF000000.toInt() or base)
+                }
+                x += SLOT
+            }
+        }
+
+        if (ultraRemainingTicks > 0) {
+            val cx = context.scaledWindowWidth / 2
+            val seconds = (ultraRemainingTicks + 19) / 20
+            val pulse = sin(time * 0.5) * 0.5 + 0.5
+            val titleColor = if (pulse > 0.5) 0xFFFFD75E.toInt() else 0xFFFF7B1F.toInt()
+            val title = Text.translatable("hha.hud.ultra_active", seconds)
+                .formatted(Formatting.BOLD)
+            context.drawCenteredTextWithShadow(client.textRenderer, title, cx, 12, titleColor)
+
+            val total = 1200f
+            val fraction = (ultraRemainingTicks / total).coerceIn(0f, 1f)
+            val barWidth = 140
+            val barX = cx - barWidth / 2
+            context.fill(barX - 2, 23, barX + barWidth + 2, 32, 0xAA000000.toInt())
+            context.fill(barX - 1, 24, barX + barWidth + 1, 31, 0xFF1A120B.toInt())
+            val fill = (barWidth * fraction).toInt()
+            context.fill(barX, 25, barX + fill, 30, 0xFFFF7B1F.toInt())
+            if (fill > 2) {
+                context.fill(barX, 25, barX + fill - 2, 27, 0xFFFFD75E.toInt())
+            }
+        }
+    }
+}

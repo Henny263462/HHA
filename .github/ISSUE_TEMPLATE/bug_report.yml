@@ -1,0 +1,56 @@
+name: Bug Report
+description: Something broke, crashed or behaves wrong
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: mod-version
+    attributes:
+      label: Mod version
+      placeholder: "0.0.1"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Minecraft / Fabric Loader / Fabric API versions
+      placeholder: "1.21.11 / 0.19.3 / 0.141.4"
+    validations:
+      required: true
+  - type: dropdown
+    id: side
+    attributes:
+      label: Where does it happen?
+      options:
+        - Singleplayer
+        - Dedicated server
+        - Both / unsure
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Equip full Hell set
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log / crash report
+      description: Paste the relevant part of latest.log or the crash report (or link a paste site).
+      render: text
+  - type: textarea
+    id: mods
+    attributes:
+      label: Other installed mods
+      description: Helps us find conflicts.

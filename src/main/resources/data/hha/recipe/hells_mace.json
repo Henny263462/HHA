@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "hha:jotunheims_upgrade_template",
+  "base": "minecraft:mace",
+  "addition": "hha:hell_ingot",
+  "result": { "id": "hha:hells_mace", "count": 1 }
+}

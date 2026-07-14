@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "hha:jotunheims_upgrade_template",
+  "base": "minecraft:netherite_boots",
+  "addition": "hha:hell_ingot",
+  "result": { "id": "hha:hell_boots", "count": 1 }
+}

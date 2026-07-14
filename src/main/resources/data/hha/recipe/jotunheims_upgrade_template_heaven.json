@@ -1,0 +1,14 @@
+{
+  "fabric:load_conditions": [
+    { "condition": "hha:config", "key": "template_recipe" }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["GDG", "DID", "GDG"],
+  "key": {
+    "G": "minecraft:glowstone",
+    "D": "minecraft:diamond",
+    "I": "hha:heaven_ingot"
+  },
+  "result": { "id": "hha:jotunheims_upgrade_template", "count": 1 }
+}

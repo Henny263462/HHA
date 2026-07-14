@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "hha:jotunheims_upgrade_template",
+  "base": "minecraft:netherite_helmet",
+  "addition": "hha:heaven_ingot",
+  "result": { "id": "hha:heaven_helmet", "count": 1 }
+}

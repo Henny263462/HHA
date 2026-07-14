@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "hha:jotunheims_upgrade_template",
+  "base": "minecraft:diamond_sword",
+  "addition": "hha:heaven_ingot",
+  "result": { "id": "hha:heavens_sword", "count": 1 }
+}
