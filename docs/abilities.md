@@ -3,16 +3,17 @@
 Paket: `dev.henny.hha.api.ability`
 
 Aktive Fähigkeiten hängen sich an die Tastendrücke, die der HHA-Client
-bereits sendet — Addons brauchen weder Keybinds noch Netzwerkpakete.
+bereits sendet — Addons brauchen weder Keybinds noch Netzwerkpakete. In den
+Steuerungsoptionen heißen die Tasten „Ability 1–3".
 
 ## Trigger
 
-| `AbilityTrigger` | Taste (Default) | Fraktions-Gate | Fallback-Meldung |
+| `AbilityTrigger` | Keybind (Default) | Fraktions-Gate | Fallback-Meldung |
 | --- | --- | --- | --- |
-| `PRIMARY` | G | Brustplatte | `hha.msg.need_full_set` |
-| `UTILITY` | H | Leggings | `hha.msg.need_leggings` |
+| `PRIMARY` | „Ability 1" (G) | Brustplatte | `hha.msg.need_full_set` |
+| `UTILITY` | „Ability 2" (H) | Leggings | `hha.msg.need_leggings` |
 | `MOVEMENT` | Sprungtaste in der Luft | Leggings | keine |
-| `ULTRA` | U | Helm | keine |
+| `ULTRA` | „Ability 3" (U) | Helm | keine |
 
 Ablauf pro Tastendruck (`HhaAbilities.dispatch`):
 

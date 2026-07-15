@@ -4,10 +4,17 @@ import net.minecraft.block.Blocks
 import net.minecraft.registry.RegistryKey
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
 /** Kurzlebige Lava-Blöcke (Magma Stomp) — werden nach Ablauf wieder entfernt. */
 object TempLava {
+
+    /** Wie weit weggeflossene Lava um eine Quelle noch weggeräumt wird. */
+    private const val SWEEP_RADIUS_SQ = 10.0 * 10.0
+
+    /** Obergrenze entfernter Fließ-Lava-Blöcke pro Quelle (Sicherheitsnetz). */
+    private const val SWEEP_BUDGET = 128
 
     private val lava = HashMap<RegistryKey<World>, HashMap<BlockPos, Long>>()
 
@@ -25,10 +32,39 @@ object TempLava {
         while (iterator.hasNext()) {
             val (pos, expiry) = iterator.next()
             if (world.time < expiry) continue
-            if (world.getBlockState(pos).isOf(Blocks.LAVA)) {
-                world.removeBlock(pos, false)
-            }
+            removePool(world, pos)
             iterator.remove()
+        }
+    }
+
+    /**
+     * Entfernt die gesetzte Quelle und alle von ihr weggeflossenen Lava-Blöcke
+     * per Flutfüllung. Natürliche Quellblöcke (still, aber nicht von uns
+     * getrackt) bleiben unangetastet — nur Fließ-Lava wird mitgeräumt.
+     */
+    private fun removePool(world: ServerWorld, source: BlockPos) {
+        if (world.getBlockState(source).isOf(Blocks.LAVA)) {
+            world.removeBlock(source, false)
+        }
+
+        val queue = ArrayDeque<BlockPos>()
+        val seen = HashSet<BlockPos>()
+        queue.add(source)
+        seen.add(source)
+        var budget = SWEEP_BUDGET
+
+        while (queue.isNotEmpty() && budget > 0) {
+            val current = queue.removeFirst()
+            for (direction in Direction.entries) {
+                val next = current.offset(direction)
+                if (!seen.add(next)) continue
+                if (next.getSquaredDistance(source) > SWEEP_RADIUS_SQ) continue
+                if (!world.getBlockState(next).isOf(Blocks.LAVA)) continue
+                if (world.getFluidState(next).isStill) continue
+                world.removeBlock(next, false)
+                budget--
+                queue.add(next)
+            }
         }
     }
 }

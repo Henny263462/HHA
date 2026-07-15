@@ -270,12 +270,15 @@ object PassiveEffects {
         )
     }
 
-    /** Heaven-Helm: Halo — Spieler in 5 Blöcken bekommen Regeneration I (refresht sich). */
+    /** Heaven-Helm: Halo — getrustete Spieler in 5 Blöcken bekommen Regeneration I (refresht sich). */
     private fun tickHalo(world: ServerWorld, player: ServerPlayerEntity) {
         val nearby = world.getEntitiesByClass(
             ServerPlayerEntity::class.java,
             Box.of(player.entityPos, 10.0, 10.0, 10.0)
-        ) { it.isAlive && it != player && it.squaredDistanceTo(player) <= 25.0 }
+        ) {
+            it.isAlive && it != player && it.squaredDistanceTo(player) <= 25.0 &&
+                Targeting.isFriendly(player, it)
+        }
 
         for (other in nearby) {
             other.addStatusEffect(

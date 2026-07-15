@@ -1,9 +1,12 @@
 package dev.henny.hha
 
+import dev.henny.hha.item.GuideBookItem
 import dev.henny.hha.item.HeavensMaceItem
 import dev.henny.hha.item.HeavensSwordItem
 import dev.henny.hha.item.HellsMaceItem
 import dev.henny.hha.item.HellsSwordItem
+import net.minecraft.component.type.WrittenBookContentComponent
+import net.minecraft.text.RawFilteredPair
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.LoreComponent
@@ -72,6 +75,9 @@ object HhaItems {
         2531, 9.0f, 5.0f, 17, HEAVEN_REPAIR_TAG,
     )
 
+    private const val GUIDE_BOOK_PAGES = 12
+
+    lateinit var GUIDE_BOOK: Item; private set
     lateinit var HELL_INGOT: Item; private set
     lateinit var HEAVEN_INGOT: Item; private set
     lateinit var HELL_BANNER_PATTERN: Item; private set
@@ -93,6 +99,13 @@ object HhaItems {
     lateinit var HEAVENS_MACE: Item; private set
 
     fun init() {
+        GUIDE_BOOK = register("guide_book") { s ->
+            GuideBookItem(
+                s.maxCount(1).rarity(Rarity.UNCOMMON)
+                    .component(DataComponentTypes.WRITTEN_BOOK_CONTENT, guideBookContent())
+                    .component(DataComponentTypes.LORE, lore("guide_book", 1))
+            )
+        }
         HELL_INGOT = register("hell_ingot") { s -> Item(s.fireproof().rarity(Rarity.RARE)) }
         HEAVEN_INGOT = register("heaven_ingot") { s -> Item(s.rarity(Rarity.RARE)) }
         HELL_BANNER_PATTERN = register("hell_banner_pattern") { s ->
@@ -197,6 +210,17 @@ object HhaItems {
         return Registry.register(Registries.ITEM, key, factory(Item.Settings().registryKey(key)))
     }
 
+    /** Seiten des Fähigkeiten-Buchs — übersetzbare Texte, gerendert in der Client-Sprache. */
+    private fun guideBookContent(): WrittenBookContentComponent {
+        val pages = (1..GUIDE_BOOK_PAGES).map { page ->
+            RawFilteredPair.of<Text>(Text.translatable("hha.book.page$page"))
+        }
+        return WrittenBookContentComponent(
+            RawFilteredPair.of("H&H Armors"),
+            "Henny", 0, pages, true,
+        )
+    }
+
     private fun lore(name: String, lines: Int): LoreComponent {
         val texts = (1..lines).map { i ->
             Text.translatable("item.hha.$name.lore$i").formatted(Formatting.GOLD)
@@ -212,6 +236,7 @@ object HhaItems {
                 .icon { ItemStack(HELLS_SWORD) }
                 .displayName(Text.translatable("itemGroup.hha.hells_set"))
                 .entries { _, entries ->
+                    entries.add(GUIDE_BOOK)
                     entries.add(HELL_INGOT)
                     entries.add(HEAVEN_INGOT)
                     entries.add(HELL_BANNER_PATTERN)

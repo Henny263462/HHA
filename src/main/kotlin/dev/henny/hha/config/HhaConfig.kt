@@ -47,6 +47,7 @@ object HhaConfig {
         "hell_ingot_recipe" to true,
         "heaven_ingot_recipe" to true,
         "template_recipe" to true,
+        "guide_book_recipe" to true,
         "kit_mode" to false,
     )
 

@@ -1,0 +1,9 @@
+{
+  "fabric:load_conditions": [
+    { "condition": "hha:config", "key": "guide_book_recipe" }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": ["minecraft:book", "minecraft:blaze_powder", "minecraft:feather"],
+  "result": { "id": "hha:guide_book", "count": 1 }
+}

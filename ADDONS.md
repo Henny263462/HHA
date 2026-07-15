@@ -89,12 +89,12 @@ eingebauten Sets `hha:heaven` und `hha:hell`.
 
 Der HHA-Client sendet vier Tastendrücke, an die sich Abilities hängen:
 
-| Trigger    | Taste (Default)     | Fraktions-Gate | Fallback-Meldung        |
+| Trigger    | Keybind (Default)   | Fraktions-Gate | Fallback-Meldung        |
 | ---------- | ------------------- | -------------- | ----------------------- |
-| `PRIMARY`  | G                   | Brustplatte    | „brauchst volles Set"   |
-| `UTILITY`  | H                   | Leggings       | „brauchst Leggings"     |
+| `PRIMARY`  | „Ability 1" (G)     | Brustplatte    | „brauchst volles Set"   |
+| `UTILITY`  | „Ability 2" (H)     | Leggings       | „brauchst Leggings"     |
 | `MOVEMENT` | Sprungtaste in Luft | Leggings       | keine                   |
-| `ULTRA`    | U                   | Helm           | keine                   |
+| `ULTRA`    | „Ability 3" (U)     | Helm           | keine                   |
 
 Pro Trigger gewinnt die **erste registrierte** Ability, deren
 `isAvailable(player)` zutrifft (die eingebauten Heaven/Hell-Abilities sind
