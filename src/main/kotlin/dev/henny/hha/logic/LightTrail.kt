@@ -21,12 +21,26 @@ object LightTrail {
     private const val TRAIL_LIFETIME = 60L
     private const val SLOW_INTERVAL = 10L
 
+    /** Mindest-Horizontalbewegung pro Tick (~0.03 Blöcke), damit die Spur entsteht. */
+    private const val MIN_MOVE_SQ = 0.0009
+
     private data class TrailEntry(val expiry: Long, val owner: java.util.UUID)
 
     private val trail = HashMap<RegistryKey<World>, HashMap<BlockPos, TrailEntry>>()
 
+    /**
+     * Letzte Position pro Spieler. Server-`velocity` taugt nicht als
+     * Bewegungs-Check: Spielerbewegung kommt per Positionspaketen vom Client
+     * und lässt sie bei 0 — nur externe Stöße setzen sie.
+     */
+    private val lastRecordPos = HashMap<java.util.UUID, net.minecraft.util.math.Vec3d>()
+
     fun record(world: ServerWorld, player: ServerPlayerEntity) {
-        if (player.velocity.horizontalLengthSquared() < 0.003) return
+        val current = player.entityPos
+        val previous = lastRecordPos.put(player.uuid, current) ?: return
+        val dx = current.x - previous.x
+        val dz = current.z - previous.z
+        if (dx * dx + dz * dz < MIN_MOVE_SQ) return
         val pos = player.blockPos.toImmutable()
         val map = trail.getOrPut(world.registryKey) { HashMap() }
         val isNew = pos !in map

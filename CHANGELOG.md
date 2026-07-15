@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 — Light trail fix & rebalanced defaults (2026-07-15)
+
+### Fixed
+- Heaven's Step (light trail) now triggers from actual player movement. It previously checked server-side velocity, which stays at zero for normal walking and only gets set by external pushes — so the trail only appeared when another player was shoving you.
+
+### Changed
+- Rebalanced default config: kit mode on by default; harder-hitting abilities (stomp 60, beam 60, shockwave base 12 / max 5000, light wave 20 dmg / 5 knockback, pull arrival 40, bounce 16, purify heal 16) with longer cooldowns (beam 1000, divine shield 1600, mace throw 420, pull 120, grapple 80) and Magma Stomp from 10+ blocks; sword buff cooldown down to 1200. Existing `config/hha.json` files keep their saved values — use `/hha reset` to adopt the new defaults.
+
 ## 0.2.0 — Ability keybinds, configurable throw damage & fixes (2026-07-15)
 
 ### Changed
