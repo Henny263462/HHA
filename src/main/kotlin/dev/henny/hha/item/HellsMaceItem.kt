@@ -174,15 +174,15 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
         spawnFireChain(world, user.eyePos, entity.entityPos.add(0.0, entity.height * 0.5, 0.0))
     }
 
-    /** Feuerkette zwischen zwei Punkten — Hell's Mace brennt immer. */
+    /** Feuerkette zwischen zwei Punkten — funktionales Visual, wird nie ausgedünnt. */
     private fun spawnFireChain(world: ServerWorld, from: Vec3d, to: Vec3d) {
         val delta = to.subtract(from)
         val steps = (delta.length() * 3.5).toInt().coerceIn(6, 96)
         for (i in 0..steps) {
             val p = from.add(delta.multiply(i.toDouble() / steps))
-            dev.henny.hha.logic.Fx.spawn(world, dev.henny.hha.HhaParticles.CHAIN_LINK, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0)
+            dev.henny.hha.logic.Fx.spawnRaw(world, dev.henny.hha.HhaParticles.CHAIN_LINK, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0)
             if (i % 3 == 0) {
-                dev.henny.hha.logic.Fx.spawn(world, dev.henny.hha.HhaParticles.EMBER_SPARK, p.x, p.y, p.z, 1, 0.05, 0.05, 0.05, 0.0)
+                dev.henny.hha.logic.Fx.spawnRaw(world, dev.henny.hha.HhaParticles.EMBER_SPARK, p.x, p.y, p.z, 1, 0.05, 0.05, 0.05, 0.0)
             }
         }
     }

@@ -52,7 +52,8 @@ object HhaConfig {
 
     /** Zahlenwerte: Schaden und Trigger-Schwellen. */
     private val numberDefaults: LinkedHashMap<String, Double> = linkedMapOf(
-        "particle_multiplier" to 1.0,
+        "particle_player" to 1.0,
+        "particle_effects" to 1.0,
         "stomp_min_fall" to 10.0,
         "stomp_lava_lifetime" to 40.0,
         "shockwave_min_fall" to 6.0,

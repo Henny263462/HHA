@@ -13,10 +13,10 @@ import kotlin.math.sin
 object Fx {
 
     /**
-     * Zentraler Partikel-Emitter: skaliert die Anzahl mit dem Config-Wert
-     * `particle_multiplier` (1 = alles, 0 = aus). Bei Werten unter 1 werden
-     * kleine Counts probabilistisch gerundet, damit auch Einzelpartikel-Effekte
-     * anteilig ausgedünnt werden statt komplett zu verschwinden.
+     * Effekt-Partikel (Fähigkeiten, Treffer, Explosionen): skaliert mit dem
+     * Config-Wert `particle_effects` (1 = alles, 0 = aus). Bei Werten unter 1
+     * werden kleine Counts probabilistisch gerundet, damit Einzelpartikel-
+     * Effekte anteilig ausgedünnt werden statt komplett zu verschwinden.
      */
     fun spawn(
         world: ServerWorld,
@@ -30,14 +30,49 @@ object Fx {
         dz: Double,
         speed: Double,
     ) {
-        val scaled = scaledCount(world, count)
+        val scaled = scaledCount(world, count, "particle_effects")
         if (scaled > 0) {
             world.spawnParticles(particle, x, y, z, scaled, dx, dy, dz, speed)
         }
     }
 
-    private fun scaledCount(world: ServerWorld, count: Int): Int {
-        val multiplier = HhaConfig.num("particle_multiplier")
+    /** Idle-Partikel am Spieler (Orbit-Glühen, Rüstungsflammen, Halo …): skaliert mit `particle_player`. */
+    fun spawnAmbient(
+        world: ServerWorld,
+        particle: ParticleEffect,
+        x: Double,
+        y: Double,
+        z: Double,
+        count: Int,
+        dx: Double,
+        dy: Double,
+        dz: Double,
+        speed: Double,
+    ) {
+        val scaled = scaledCount(world, count, "particle_player")
+        if (scaled > 0) {
+            world.spawnParticles(particle, x, y, z, scaled, dx, dy, dz, speed)
+        }
+    }
+
+    /** Unskaliert — für funktionale Visuals (z. B. die Grapple-Kette), die lesbar bleiben müssen. */
+    fun spawnRaw(
+        world: ServerWorld,
+        particle: ParticleEffect,
+        x: Double,
+        y: Double,
+        z: Double,
+        count: Int,
+        dx: Double,
+        dy: Double,
+        dz: Double,
+        speed: Double,
+    ) {
+        world.spawnParticles(particle, x, y, z, count, dx, dy, dz, speed)
+    }
+
+    private fun scaledCount(world: ServerWorld, count: Int, configKey: String): Int {
+        val multiplier = HhaConfig.num(configKey)
         if (multiplier >= 1.0) return count
         if (multiplier <= 0.0) return 0
         val exact = count * multiplier

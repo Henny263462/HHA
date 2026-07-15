@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 — Split particle settings & /hha settings (2026-07-15)
+
+### Changed
+- The particle setting is now split in two: `particle_player` scales only the idle particles on the player (orbit glow, armor/hand flames, halo ring, lava sparks, grace feathers, Undying Rage aura), `particle_effects` scales ability/impact effects. Functional visuals like the grapple/fire chain are never thinned. Replaces `particle_multiplier` from 0.3.0.
+- New `/hha settings` menu: `/hha settings particles player|effects <0..1>` shows or sets the multipliers (also available via `/hha set`)
+
 ## 0.3.1 — Magma Stomp lava actually disappears (2026-07-15)
 
 ### Fixed

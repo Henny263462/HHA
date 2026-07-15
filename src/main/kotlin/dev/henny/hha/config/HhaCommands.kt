@@ -146,6 +146,16 @@ object HhaCommands {
                         )
                         1
                     })
+                    .then(
+                        literal("settings").requires(ADMIN)
+                            .executes { ctx -> showParticleSettings(ctx.source) }
+                            .then(
+                                literal("particles")
+                                    .executes { ctx -> showParticleSettings(ctx.source) }
+                                    .then(particleSetting("player", "particle_player"))
+                                    .then(particleSetting("effects", "particle_effects"))
+                            )
+                    )
                     .then(literal("save").requires(ADMIN).executes { ctx ->
                         HhaConfig.save()
                         ctx.source.sendFeedback(
@@ -250,6 +260,40 @@ object HhaCommands {
                 )
             )
         }
+    }
+
+    /** `/hha settings particles <name> [0..1]` — Anzeige ohne Wert, Setzen mit Wert. */
+    private fun particleSetting(
+        name: String,
+        configKey: String,
+    ): com.mojang.brigadier.builder.LiteralArgumentBuilder<ServerCommandSource> =
+        literal(name)
+            .executes { ctx ->
+                ctx.source.sendFeedback({ numberLine(configKey) }, false)
+                1
+            }
+            .then(
+                argument("value", DoubleArgumentType.doubleArg(0.0, 1.0)).executes { ctx ->
+                    val value = DoubleArgumentType.getDouble(ctx, "value")
+                    HhaConfig.setNumber(configKey, value)
+                    HhaNetworking.syncConfig(ctx.source.server)
+                    ctx.source.sendFeedback({ numberLine(configKey) }, true)
+                    1
+                }
+            )
+
+    private fun showParticleSettings(source: ServerCommandSource): Int {
+        source.sendFeedback({ header("Partikel-Einstellungen") }, false)
+        source.sendFeedback({ numberLine("particle_player") }, false)
+        source.sendFeedback({ numberLine("particle_effects") }, false)
+        source.sendFeedback(
+            {
+                Text.literal(" /hha settings particles player|effects <0..1>")
+                    .formatted(Formatting.DARK_GRAY)
+            },
+            false
+        )
+        return 1
     }
 
     private fun giveKit(source: ServerCommandSource, set: dev.henny.hha.logic.Kits.Set): Int {

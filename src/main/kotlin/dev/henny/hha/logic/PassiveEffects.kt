@@ -84,7 +84,7 @@ object PassiveEffects {
             val cycle = (world.time % 44L) / 44.0
             val glowY = player.y + 0.15 + cycle * (player.height - 0.25)
             val angle = world.time * 0.45
-            Fx.spawn(world, 
+            Fx.spawnAmbient(world,
                 HhaParticles.LIGHT_MOTE,
                 player.x + kotlin.math.cos(angle) * 0.42,
                 glowY,
@@ -97,7 +97,7 @@ object PassiveEffects {
             val cycle = ((world.time + 22L) % 44L) / 44.0
             val glowY = player.y + 0.15 + cycle * (player.height - 0.25)
             val angle = world.time * 0.45 + Math.PI
-            Fx.spawn(world, 
+            Fx.spawnAmbient(world,
                 HhaParticles.SOUL_MOTE,
                 player.x + kotlin.math.cos(angle) * 0.42,
                 glowY,
@@ -114,7 +114,7 @@ object PassiveEffects {
             HellSet.hasLeggings(player) &&
             world.getFluidState(player.blockPos.down()).isIn(net.minecraft.registry.tag.FluidTags.LAVA)
         ) {
-            Fx.spawn(world, 
+            Fx.spawnAmbient(world,
                 HhaParticles.EMBER_SPARK,
                 player.x, player.y + 0.1, player.z,
                 2, 0.3, 0.05, 0.3, 0.02
@@ -126,7 +126,7 @@ object PassiveEffects {
                 StatusEffectInstance(StatusEffects.SLOW_FALLING, 10, 0, true, false, false)
             )
             if (world.time % 3L == 0L) {
-                Fx.spawn(world, 
+                Fx.spawnAmbient(world,
                     HhaParticles.FEATHER,
                     player.x, player.y + 0.4, player.z,
                     1, 0.35, 0.15, 0.35, 0.0
@@ -215,7 +215,7 @@ object PassiveEffects {
             if (spots.isNotEmpty()) {
                 val spot = spots[world.random.nextInt(spots.size)]
                 val angle = world.random.nextDouble() * Math.PI * 2.0
-                Fx.spawn(world, 
+                Fx.spawnAmbient(world,
                     spot.particle,
                     player.x + kotlin.math.cos(angle) * spot.radius,
                     player.y + spot.y + world.random.nextDouble() * 0.15,
@@ -230,7 +230,7 @@ object PassiveEffects {
             for (side in intArrayOf(-1, 1)) {
                 val armX = -kotlin.math.cos(yaw) * 0.45 * side
                 val armZ = -kotlin.math.sin(yaw) * 0.45 * side
-                Fx.spawn(world, 
+                Fx.spawnAmbient(world,
                     HhaParticles.SOUL_FLAME,
                     player.x + armX,
                     player.y + 1.05 + world.random.nextDouble() * 0.35,
@@ -261,7 +261,7 @@ object PassiveEffects {
         val yaw = Math.toRadians(player.bodyYaw.toDouble())
         val handX = -kotlin.math.cos(yaw) * 0.38 * side - kotlin.math.sin(yaw) * 0.25
         val handZ = -kotlin.math.sin(yaw) * 0.38 * side + kotlin.math.cos(yaw) * 0.25
-        Fx.spawn(world, 
+        Fx.spawnAmbient(world,
             particle,
             player.x + handX,
             player.y + 0.95 + world.random.nextDouble() * 0.2,
@@ -289,7 +289,7 @@ object PassiveEffects {
         val phase = world.time * 0.12
         for (i in 0 until 5) {
             val angle = phase + i * (Math.PI * 2.0 / 5.0)
-            Fx.spawn(world, 
+            Fx.spawnAmbient(world,
                 HhaParticles.HOLY_SPARK,
                 player.x + kotlin.math.cos(angle) * 0.42,
                 haloY,
@@ -305,7 +305,7 @@ object PassiveEffects {
             player.addStatusEffect(
                 StatusEffectInstance(StatusEffects.SPEED, 60, 1, true, false, true)
             )
-            Fx.spawn(world, 
+            Fx.spawnAmbient(world,
                 HhaParticles.HELLFIRE,
                 player.x, player.y + 0.9, player.z,
                 3, 0.35, 0.5, 0.35, 0.0
