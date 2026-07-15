@@ -70,7 +70,7 @@ object CombatEvents {
         val buffed = HhaConfig.enabled("sword_buff") && SwordBuff.isActive(world.server!!, player)
         if (buffed) {
             forceCrit(player)
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.HELLFIRE,
                 player.x, player.y + 1.1, player.z,
                 2, 0.3, 0.3, 0.3, 0.02
@@ -91,7 +91,7 @@ object CombatEvents {
                     HhaConfig.num("hell_absorption_duration").toInt(), 0
                 )
             )
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.EMBER_SPARK,
                 player.x, player.y + 1.4, player.z,
                 6, 0.25, 0.25, 0.25, 0.02
@@ -124,7 +124,7 @@ object CombatEvents {
                     forceCrit(player)
                     crit = true
                     showAutoCritImpact(world, target, holy = true)
-                    world.spawnParticles(
+                    Fx.spawn(world, 
                         dev.henny.hha.HhaParticles.HOLY_SPARK,
                         player.x, player.y + 1.2, player.z,
                         12, 0.3, 0.4, 0.3, 0.04
@@ -140,7 +140,7 @@ object CombatEvents {
         }
 
         if (crit) {
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.HOLY_SPARK,
                 player.x, player.y + 2.1, player.z,
                 4, 0.2, 0.1, 0.2, 0.0
@@ -151,12 +151,12 @@ object CombatEvents {
     /** Deutliche Treffer-Rückmeldung für erzwungene Auto-Crits — bei Mobs wie Spielern. */
     private fun showAutoCritImpact(world: ServerWorld, target: LivingEntity, holy: Boolean) {
         val y = target.y + target.height * 0.6
-        world.spawnParticles(
+        Fx.spawn(world, 
             ParticleTypes.CRIT,
             target.x, y, target.z,
             18, 0.35, target.height * 0.3, 0.35, 0.18
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             if (holy) dev.henny.hha.HhaParticles.DIVINE_FLASH else dev.henny.hha.HhaParticles.INFERNAL_BURST,
             target.x, y, target.z,
             1, 0.0, 0.0, 0.0, 0.0

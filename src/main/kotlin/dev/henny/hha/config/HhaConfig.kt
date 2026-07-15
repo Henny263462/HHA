@@ -52,6 +52,7 @@ object HhaConfig {
 
     /** Zahlenwerte: Schaden und Trigger-Schwellen. */
     private val numberDefaults: LinkedHashMap<String, Double> = linkedMapOf(
+        "particle_multiplier" to 1.0,
         "stomp_min_fall" to 10.0,
         "shockwave_min_fall" to 6.0,
         "trail_max_health" to 10.0,
@@ -118,6 +119,10 @@ object HhaConfig {
     fun num(key: String): Double = numbers[key] ?: NUMBER_DEFAULTS[key] ?: 0.0
 
     fun numF(key: String): Float = num(key).toFloat()
+
+    /** Alle effektiven Zahlenwerte — für den S2C-Sync (Lore-Anzeige auf dem Client). */
+    fun numbersSnapshot(): Map<String, Double> =
+        numberDefaults.keys.associateWith { num(it) }
 
     fun setToggle(key: String, value: Boolean): Boolean {
         if (key !in TOGGLE_DEFAULTS) return false

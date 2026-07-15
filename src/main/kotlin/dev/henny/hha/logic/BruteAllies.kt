@@ -71,11 +71,11 @@ object BruteAllies {
             allies[brute.uuid] = Ally(player.uuid, world.time + LIFETIME_TICKS)
             spawned.add(brute.uuid)
 
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.SOUL_FLAME, x, player.y + 1.0, z,
                 14, 0.4, 0.8, 0.4, 0.02
             )
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.SOUL_MOTE, x, player.y + 1.2, z,
                 8, 0.4, 0.7, 0.4, 0.02
             )
@@ -101,7 +101,7 @@ object BruteAllies {
                 continue
             }
             if (world.time >= ally.expiry) {
-                world.spawnParticles(
+                Fx.spawn(world, 
                     dev.henny.hha.HhaParticles.SOOT, brute.x, brute.y + 1.0, brute.z,
                     14, 0.3, 0.5, 0.3, 0.03
                 )
@@ -111,7 +111,7 @@ object BruteAllies {
             }
 
             if (world.time % 8L == 0L) {
-                world.spawnParticles(
+                Fx.spawn(world, 
                     dev.henny.hha.HhaParticles.SOUL_FLAME,
                     brute.x, brute.y + 1.3, brute.z,
                     1, 0.25, 0.45, 0.25, 0.0

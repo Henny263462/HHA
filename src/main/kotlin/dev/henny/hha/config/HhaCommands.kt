@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.DoubleArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.suggestion.SuggestionProvider
 import dev.henny.hha.logic.Trust
+import dev.henny.hha.net.HhaNetworking
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.minecraft.command.CommandSource
 import net.minecraft.command.argument.EntityArgumentType
@@ -89,6 +90,7 @@ object HhaCommands {
                                     val value = DoubleArgumentType.getDouble(ctx, "value")
                                     if (HhaConfig.setNumber(key, value)) {
                                         ctx.source.sendFeedback({ numberLine(key) }, true)
+                                        HhaNetworking.syncConfig(ctx.source.server)
                                         1
                                     } else {
                                         ctx.source.sendError(Text.literal("Unbekannter Wert: $key"))
@@ -137,8 +139,39 @@ object HhaCommands {
                     )
                     .then(literal("reset").requires(ADMIN).executes { ctx ->
                         HhaConfig.reset()
+                        HhaNetworking.syncConfig(ctx.source.server)
                         ctx.source.sendFeedback(
                             { Text.literal("HHA-Konfiguration auf Defaults zurückgesetzt.").formatted(Formatting.GOLD) },
+                            true
+                        )
+                        1
+                    })
+                    .then(literal("save").requires(ADMIN).executes { ctx ->
+                        HhaConfig.save()
+                        ctx.source.sendFeedback(
+                            { Text.literal("HHA-Konfiguration nach config/hha.json geschrieben.").formatted(Formatting.GOLD) },
+                            true
+                        )
+                        1
+                    })
+                    .then(literal("load").requires(ADMIN).executes { ctx ->
+                        HhaConfig.load()
+                        HhaNetworking.syncConfig(ctx.source.server)
+                        ctx.source.sendFeedback(
+                            { Text.literal("HHA-Konfiguration aus config/hha.json neu geladen.").formatted(Formatting.GOLD) },
+                            true
+                        )
+                        1
+                    })
+                    .then(literal("reload").requires(ADMIN).executes { ctx ->
+                        HhaConfig.load()
+                        CustomRecipePack.resync(ctx.source.server)
+                        HhaNetworking.syncConfig(ctx.source.server)
+                        ctx.source.sendFeedback(
+                            {
+                                Text.literal("HHA komplett neu geladen (Config, Rezepte, Client-Sync).")
+                                    .formatted(Formatting.GOLD)
+                            },
                             true
                         )
                         1

@@ -35,11 +35,18 @@ class HhaClient : ClientModInitializer {
         dev.henny.hha.client.particle.HhaParticleFactories.register()
 
         CooldownHud.register()
+        HhaTooltips.register()
 
         loadClientAddons()
 
         ClientPlayNetworking.registerGlobalReceiver(UltraHudPayload.ID) { payload, _ ->
             CooldownHud.ultraRemainingTicks = payload.remainingTicks
+        }
+        ClientPlayNetworking.registerGlobalReceiver(dev.henny.hha.net.ConfigSyncPayload.ID) { payload, _ ->
+            ClientConfigCache.update(payload.numbers)
+        }
+        net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents.DISCONNECT.register { _, _ ->
+            ClientConfigCache.clear()
         }
 
         val category = KeyBinding.Category.create(Hha.id("hells_set"))

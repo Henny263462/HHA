@@ -51,33 +51,34 @@
 
   "item.hha.hell_helmet": "Hell's Helmet",
   "item.hha.hell_helmet.lore1": "Regeneration I",
-  "item.hha.hell_helmet.lore2": "Undying Rage: below 3 hearts → Speed II",
+  "item.hha.hell_helmet.lore2": "Undying Rage: below %s hearts → Speed II",
 
   "item.hha.hell_chestplate": "Hell's Chestplate",
   "item.hha.hell_chestplate.lore1": "Fire Resistance",
   "item.hha.hell_chestplate.lore2": "Warlord's Barrier: +2 absorption hearts & Resistance I while Brutes live nearby",
   "item.hha.hell_chestplate.lore3": "Set: Hellforged — Strength I while burning or in lava",
+  "item.hha.hell_chestplate.lore4": "Set: Ability 1 lava beam — %s dmg (%ss cooldown)",
 
   "item.hha.hell_leggings": "Hell's Leggings",
   "item.hha.hell_leggings.lore1": "Lava Jesus: walk on lava (sneak to sink, hold jump to surface)",
-  "item.hha.hell_leggings.lore2": "Fire Camp [Ability 2]: Regeneration IV + 3 allied Brutes",
-  "item.hha.hell_leggings.lore3": "Magma Stomp: 6+ block falls splash 3×3 lava",
+  "item.hha.hell_leggings.lore2": "Fire Camp [Ability 2]: Regeneration IV + 3 allied Brutes (%ss cooldown)",
+  "item.hha.hell_leggings.lore3": "Magma Stomp: %s+ block falls splash 3×3 lava (%s dmg)",
 
   "item.hha.hell_boots": "Hell's Boots",
   "item.hha.hell_boots.lore1": "Fall damage immunity & Speed I",
-  "item.hha.hell_boots.lore2": "Ember Trail: below 5 hearts, sprinting leaves fire",
+  "item.hha.hell_boots.lore2": "Ember Trail: below %s hearts, sprinting leaves fire (%s dmg)",
   "item.hha.hell_boots.lore3": "Trail burns through Fire Resistance and armor",
 
   "item.hha.hells_sword": "Hell's Sword",
   "item.hha.hells_sword.lore1": "Crits grant 1 absorption heart until you are hit",
-  "item.hha.hells_sword.lore2": "Right-click: Haste III + auto-crits for 20s (90s cooldown)",
+  "item.hha.hells_sword.lore2": "Right-click: Haste III + auto-crits for 20s (%ss cooldown)",
   "item.hha.hells_sword.lore3": "Crits bless you with a golden apple's Absorption (2 min)",
 
   "item.hha.hells_mace": "Hell's Mace",
   "item.hha.hells_mace.lore1": "Full mace smash mechanics included",
-  "item.hha.hells_mace.lore2": "Right-click an enemy: yank it to you — damage on arrival",
-  "item.hha.hells_mace.lore3": "Right-click: grapple to any block within 32 blocks",
-  "item.hha.hells_mace.lore4": "Ground grapple: bounce off the landing into a dash — the slap damages nearby enemies",
+  "item.hha.hells_mace.lore2": "Right-click an enemy: yank it to you — %s dmg on arrival (%ss cooldown)",
+  "item.hha.hells_mace.lore3": "Right-click: grapple to any block within %s blocks (%ss cooldown)",
+  "item.hha.hells_mace.lore4": "Ground grapple: bounce off the landing into a dash — the slap deals %s dmg nearby",
 
   "item.hha.heaven_helmet": "Heaven's Helmet",
   "item.hha.heaven_helmet.lore1": "Regeneration I",
@@ -85,26 +86,27 @@
 
   "item.hha.heaven_chestplate": "Heaven's Chestplate",
   "item.hha.heaven_chestplate.lore1": "Fire Resistance",
-  "item.hha.heaven_chestplate.lore2": "Divine Shield: once per minute a lethal hit leaves you at 3 hearts",
+  "item.hha.heaven_chestplate.lore2": "Divine Shield: every %ss a lethal hit leaves you at 3 hearts",
   "item.hha.heaven_chestplate.lore3": "Set: Grace — sneak mid-air to glide gently",
+  "item.hha.heaven_chestplate.lore4": "Set: Ability 1 light beam — %s dmg, heals allies %s hearts (%ss cooldown)",
 
   "item.hha.heaven_leggings": "Heaven's Leggings",
   "item.hha.heaven_leggings.lore1": "Ascension: 3 jumps total (double jump + 1 extra mid-air)",
-  "item.hha.heaven_leggings.lore2": "Shockwave: fall impact knocks back and damages nearby enemies",
-  "item.hha.heaven_leggings.lore3": "Shockwave triggers from 6+ block falls",
+  "item.hha.heaven_leggings.lore2": "Shockwave: fall impact knocks back and damages nearby enemies (%s+ dmg)",
+  "item.hha.heaven_leggings.lore3": "Shockwave triggers from %s+ block falls",
 
   "item.hha.heaven_boots": "Heaven's Boots",
   "item.hha.heaven_boots.lore1": "Fall damage immunity & Speed I",
-  "item.hha.heaven_boots.lore2": "Heaven's Step: below 5 hearts, a trail of light follows you",
+  "item.hha.heaven_boots.lore2": "Heaven's Step: below %s hearts, a trail of light follows you",
   "item.hha.heaven_boots.lore3": "Enemies in the trail get Slowness I (2s)",
 
   "item.hha.heavens_sword": "Heaven's Sword",
   "item.hha.heavens_sword.lore1": "Every 3rd consecutive hit is an auto-crit",
-  "item.hha.heavens_sword.lore2": "Right-click: light wave flings enemies in a line away (35s cooldown)",
+  "item.hha.heavens_sword.lore2": "Right-click: light wave flings enemies in a line away (%s dmg, %ss cooldown)",
 
   "item.hha.heavens_mace": "Heaven's Mace",
   "item.hha.heavens_mace.lore1": "Full mace smash mechanics included",
-  "item.hha.heavens_mace.lore2": "Right-click: throw 50 blocks — every target on the path is struck by lightning, then it returns",
+  "item.hha.heavens_mace.lore2": "Right-click: throw 50 blocks — every target on the path is struck by lightning, then it returns (%s dmg, %ss cooldown)",
 
   "key.hha.lava_beam": "Ability 1",
   "key.hha.fire_camp": "Ability 2",

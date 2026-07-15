@@ -1,5 +1,6 @@
 package dev.henny.hha.logic
 
+import dev.henny.hha.config.HhaConfig
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
 import net.minecraft.particle.ParticleEffect
 import net.minecraft.server.network.ServerPlayerEntity
@@ -10,6 +11,40 @@ import kotlin.math.sin
 
 /** Gemeinsame Effekt- und Bewegungs-Helfer. */
 object Fx {
+
+    /**
+     * Zentraler Partikel-Emitter: skaliert die Anzahl mit dem Config-Wert
+     * `particle_multiplier` (1 = alles, 0 = aus). Bei Werten unter 1 werden
+     * kleine Counts probabilistisch gerundet, damit auch Einzelpartikel-Effekte
+     * anteilig ausgedünnt werden statt komplett zu verschwinden.
+     */
+    fun spawn(
+        world: ServerWorld,
+        particle: ParticleEffect,
+        x: Double,
+        y: Double,
+        z: Double,
+        count: Int,
+        dx: Double,
+        dy: Double,
+        dz: Double,
+        speed: Double,
+    ) {
+        val scaled = scaledCount(world, count)
+        if (scaled > 0) {
+            world.spawnParticles(particle, x, y, z, scaled, dx, dy, dz, speed)
+        }
+    }
+
+    private fun scaledCount(world: ServerWorld, count: Int): Int {
+        val multiplier = HhaConfig.num("particle_multiplier")
+        if (multiplier >= 1.0) return count
+        if (multiplier <= 0.0) return 0
+        val exact = count * multiplier
+        val base = exact.toInt()
+        val fraction = exact - base
+        return base + if (world.random.nextDouble() < fraction) 1 else 0
+    }
 
     /**
      * Setzt die Velocity eines Spielers UND synchronisiert sie zum Client.

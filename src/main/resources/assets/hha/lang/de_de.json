@@ -51,33 +51,34 @@
 
   "item.hha.hell_helmet": "Hells Helm",
   "item.hha.hell_helmet.lore1": "Regeneration I",
-  "item.hha.hell_helmet.lore2": "Undying Rage: unter 3 Herzen → Geschwindigkeit II",
+  "item.hha.hell_helmet.lore2": "Undying Rage: unter %s Herzen → Geschwindigkeit II",
 
   "item.hha.hell_chestplate": "Hells Brustplatte",
   "item.hha.hell_chestplate.lore1": "Feuerschutz",
   "item.hha.hell_chestplate.lore2": "Warlord's Barrier: +2 Absorptionsherzen & Resistenz I solange Brutes in der Nähe leben",
   "item.hha.hell_chestplate.lore3": "Set: Hellforged — Stärke I solange du brennst oder in Lava stehst",
+  "item.hha.hell_chestplate.lore4": "Set: Ability 1 Lavastrahl — %s Schaden (%ss Abklingzeit)",
 
   "item.hha.hell_leggings": "Hells Beinschutz",
   "item.hha.hell_leggings.lore1": "Lava Jesus: auf Lava laufen (Schleichen zum Eintauchen, Springen zum Auftauchen)",
-  "item.hha.hell_leggings.lore2": "Fire Camp [Ability 2]: Regeneration IV + 3 verbündete Brutes",
-  "item.hha.hell_leggings.lore3": "Magma Stomp: ab 6 Blöcken Fallhöhe 3×3 Lava-Splash",
+  "item.hha.hell_leggings.lore2": "Fire Camp [Ability 2]: Regeneration IV + 3 verbündete Brutes (%ss Abklingzeit)",
+  "item.hha.hell_leggings.lore3": "Magma Stomp: ab %s Blöcken Fallhöhe 3×3 Lava-Splash (%s Schaden)",
 
   "item.hha.hell_boots": "Hells Stiefel",
   "item.hha.hell_boots.lore1": "Immun gegen Fallschaden & Geschwindigkeit I",
-  "item.hha.hell_boots.lore2": "Ember Trail: unter 5 Herzen hinterlässt Sprinten Feuer",
+  "item.hha.hell_boots.lore2": "Ember Trail: unter %s Herzen hinterlässt Sprinten Feuer (%s Schaden)",
   "item.hha.hell_boots.lore3": "Die Spur brennt durch Feuerschutz und Rüstung",
 
   "item.hha.hells_sword": "Hell's Sword",
   "item.hha.hells_sword.lore1": "Crits geben 1 Absorptionsherz bis zum nächsten Treffer",
-  "item.hha.hells_sword.lore2": "Rechtsklick: Eile III + Auto-Crits für 20s (90s Abklingzeit)",
+  "item.hha.hells_sword.lore2": "Rechtsklick: Eile III + Auto-Crits für 20s (%ss Abklingzeit)",
   "item.hha.hells_sword.lore3": "Crits segnen dich mit Goldapfel-Absorption (2 Min)",
 
   "item.hha.hells_mace": "Hell's Mace",
   "item.hha.hells_mace.lore1": "Volle Vanilla-Mace-Smash-Mechanik inklusive",
-  "item.hha.hells_mace.lore2": "Rechtsklick auf Gegner: heranziehen — Schaden beim Ankommen",
-  "item.hha.hells_mace.lore3": "Rechtsklick: Enterhaken zu jedem Block in 32 Blöcken",
-  "item.hha.hells_mace.lore4": "Boden-Grapple: die Landung bounced dich in einen Dash — der Abklatsch verletzt Gegner ringsum",
+  "item.hha.hells_mace.lore2": "Rechtsklick auf Gegner: heranziehen — %s Schaden beim Ankommen (%ss Abklingzeit)",
+  "item.hha.hells_mace.lore3": "Rechtsklick: Enterhaken zu jedem Block in %s Blöcken (%ss Abklingzeit)",
+  "item.hha.hells_mace.lore4": "Boden-Grapple: die Landung bounced dich in einen Dash — der Abklatsch macht %s Schaden ringsum",
 
   "item.hha.heaven_helmet": "Heavens Helm",
   "item.hha.heaven_helmet.lore1": "Regeneration I",
@@ -85,26 +86,27 @@
 
   "item.hha.heaven_chestplate": "Heavens Brustplatte",
   "item.hha.heaven_chestplate.lore1": "Feuerschutz",
-  "item.hha.heaven_chestplate.lore2": "Divine Shield: 1× pro Minute lässt dich ein tödlicher Treffer mit 3 Herzen überleben",
+  "item.hha.heaven_chestplate.lore2": "Divine Shield: alle %ss lässt dich ein tödlicher Treffer mit 3 Herzen überleben",
   "item.hha.heaven_chestplate.lore3": "Set: Grace — Schleichen in der Luft lässt dich sanft gleiten",
+  "item.hha.heaven_chestplate.lore4": "Set: Ability 1 Lichtstrahl — %s Schaden, heilt Verbündete %s Herzen (%ss Abklingzeit)",
 
   "item.hha.heaven_leggings": "Heavens Beinschutz",
   "item.hha.heaven_leggings.lore1": "Ascension: 3 Sprünge total (Doppelsprung + 1× mid-air)",
-  "item.hha.heaven_leggings.lore2": "Shockwave: Aufprall stößt Gegner weg und verletzt sie",
-  "item.hha.heaven_leggings.lore3": "Shockwave löst ab 6 Blöcken Fallhöhe aus",
+  "item.hha.heaven_leggings.lore2": "Shockwave: Aufprall stößt Gegner weg und verletzt sie (%s+ Schaden)",
+  "item.hha.heaven_leggings.lore3": "Shockwave löst ab %s Blöcken Fallhöhe aus",
 
   "item.hha.heaven_boots": "Heavens Stiefel",
   "item.hha.heaven_boots.lore1": "Immun gegen Fallschaden & Geschwindigkeit I",
-  "item.hha.heaven_boots.lore2": "Heaven's Step: unter 5 Herzen folgt dir eine Lichtspur",
+  "item.hha.heaven_boots.lore2": "Heaven's Step: unter %s Herzen folgt dir eine Lichtspur",
   "item.hha.heaven_boots.lore3": "Feinde in der Spur bekommen Langsamkeit I (2s)",
 
   "item.hha.heavens_sword": "Heaven's Sword",
   "item.hha.heavens_sword.lore1": "Jeder 3. Treffer in Folge ist ein Auto-Crit",
-  "item.hha.heavens_sword.lore2": "Rechtsklick: Lichtwelle schleudert Gegner in der Linie weg (35s Abklingzeit)",
+  "item.hha.heavens_sword.lore2": "Rechtsklick: Lichtwelle schleudert Gegner in der Linie weg (%s Schaden, %ss Abklingzeit)",
 
   "item.hha.heavens_mace": "Heaven's Mace",
   "item.hha.heavens_mace.lore1": "Volle Vanilla-Mace-Smash-Mechanik inklusive",
-  "item.hha.heavens_mace.lore2": "Rechtsklick: 50-Block-Wurf — jedes Ziel auf dem Weg trifft der Blitz, dann kommt er zurück",
+  "item.hha.heavens_mace.lore2": "Rechtsklick: 50-Block-Wurf — jedes Ziel auf dem Weg trifft der Blitz, dann kommt er zurück (%s Schaden, %ss Abklingzeit)",
 
   "key.hha.lava_beam": "Ability 1",
   "key.hha.fire_camp": "Ability 2",

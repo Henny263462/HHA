@@ -66,22 +66,22 @@ object FallEvents {
             null, player.blockPos, SoundEvents.ITEM_MACE_SMASH_GROUND_HEAVY,
             SoundCategory.PLAYERS, 1.0f, 1.0f
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.LIGHT_MOTE,
             player.x, player.y + 0.3, player.z,
             10, 1.2, 0.2, 1.2, 0.02
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.DIVINE_FLASH,
             player.x, player.y + 0.6, player.z,
             1, 0.0, 0.0, 0.0, 0.0
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.HOLY_SPARK,
             player.x, player.y + 0.3, player.z,
             18, 1.6, 0.3, 1.6, 0.05
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.FEATHER,
             player.x, player.y + 0.8, player.z,
             10, 1.4, 0.4, 1.4, 0.0
@@ -113,17 +113,17 @@ object FallEvents {
             null, feet, SoundEvents.ITEM_BUCKET_EMPTY_LAVA,
             SoundCategory.PLAYERS, 1.0f, 0.8f
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.SOOT,
             player.x, player.y + 0.3, player.z,
             12, 1.2, 0.3, 1.2, 0.02
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.INFERNAL_BURST,
             player.x, player.y + 0.6, player.z,
             1, 0.0, 0.0, 0.0, 0.0
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.EMBER_SPARK,
             player.x, player.y + 0.4, player.z,
             22, 1.4, 0.4, 1.4, 0.05
@@ -152,12 +152,12 @@ object FallEvents {
             null, player.blockPos, SoundEvents.ENTITY_BLAZE_SHOOT,
             SoundCategory.PLAYERS, 1.0f, 0.7f
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.HELLFIRE,
             player.x, player.y + 0.6, player.z,
             20, 1.0, 0.5, 1.0, 0.04
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.EMBER_SPARK,
             player.x, player.y + 0.5, player.z,
             18, 1.0, 0.4, 1.0, 0.06

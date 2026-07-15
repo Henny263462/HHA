@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 — Particle settings, live item lore & debug commands (2026-07-15)
+
+### Added
+- `particle_multiplier` config value (default 1): scales all HHA particle effects, e.g. `/hha set particle_multiplier 0.3` for 30% density, 0 turns them off; small emitters are thinned probabilistically
+- Debug commands: `/hha save` (write config to disk), `/hha load` (re-read config/hha.json), `/hha reload` (config + custom recipes + client sync)
+
+### Changed
+- Item lore is now built live on the client and shows the actual config values — damage, cooldowns (in seconds) and thresholds (in hearts); the server syncs its numbers on join and after `/hha set|reset|load`, so tooltips are always accurate
+- Chestplates gained a lore line describing the full-set beam (damage, healing, cooldown)
+
 ## 0.2.1 — Light trail fix & rebalanced defaults (2026-07-15)
 
 ### Fixed

@@ -39,7 +39,7 @@ object EmberTrail {
         world.setBlockState(previous, AbstractFireBlock.getState(world, previous))
         fires.getOrPut(world.registryKey) { HashMap() }[previous] =
             FireEntry(world.time + FIRE_LIFETIME, player.uuid)
-        world.spawnParticles(
+        Fx.spawn(world, 
             dev.henny.hha.HhaParticles.EMBER_SPARK,
             previous.x + 0.5, previous.y + 0.4, previous.z + 0.5,
             3, 0.25, 0.2, 0.25, 0.02

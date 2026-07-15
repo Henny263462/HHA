@@ -131,7 +131,7 @@ object SoulCamp {
             if (anyAlive && world.time < camp.expiry) {
                 if (world.time % 20L == 0L && camp.decorations.isNotEmpty()) {
                     val pos = camp.decorations.keys.random()
-                    world.spawnParticles(
+                    Fx.spawn(world, 
                         HhaParticles.SOUL_MOTE,
                         pos.x + 0.5, pos.y + 0.7, pos.z + 0.5,
                         1, 0.1, 0.15, 0.1, 0.0
@@ -170,12 +170,12 @@ object SoulCamp {
         }
 
         val center = camp.center
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.SOUL_MOTE,
             center.x + 0.5, center.y + 1.2, center.z + 0.5,
             18, 2.5, 0.6, 2.5, 0.01
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             HhaParticles.SOOT,
             center.x + 0.5, center.y + 1.0, center.z + 0.5,
             10, 2.0, 0.5, 2.0, 0.01

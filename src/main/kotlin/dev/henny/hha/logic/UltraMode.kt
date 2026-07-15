@@ -111,13 +111,13 @@ object UltraMode {
                 val center = player.entityPos.add(0.0, 0.15, 0.0)
                 Fx.ring(world, center, radius, main, 36, 0.05)
                 Fx.ring(world, center.add(0.0, 0.4, 0.0), radius * 0.65, accent, 18, 0.03)
-                world.spawnParticles(
+                Fx.spawn(world, 
                     main,
                     player.x, player.y + t * 0.35, player.z,
                     8, 0.3, 0.4, 0.3, 0.02
                 )
                 if (t % 10L == 0L) {
-                    world.spawnParticles(
+                    Fx.spawn(world, 
                         if (state.hell) dev.henny.hha.HhaParticles.INFERNAL_BURST else dev.henny.hha.HhaParticles.DIVINE_FLASH,
                         player.x, player.y + 1.0, player.z,
                         1, 0.3, 0.3, 0.3, 0.0
@@ -130,7 +130,7 @@ object UltraMode {
             }
             if (t % 6L == 0L) {
                 val aura = if (state.hell) dev.henny.hha.HhaParticles.HELLFIRE else dev.henny.hha.HhaParticles.HOLY_SPARK
-                world.spawnParticles(aura, player.x, player.y + 1.1, player.z, 2, 0.6, 0.7, 0.6, 0.0)
+                Fx.spawn(world, aura, player.x, player.y + 1.1, player.z, 2, 0.6, 0.7, 0.6, 0.0)
             }
 
             if (t % 20L == 0L) {
@@ -152,7 +152,7 @@ object UltraMode {
                     ) {
                         if (!Targeting.isFriendly(player, entity)) continue
                         entity.heal(1.0f)
-                        world.spawnParticles(
+                        Fx.spawn(world, 
                             dev.henny.hha.HhaParticles.HOLY_SPARK,
                             entity.x, entity.y + entity.height + 0.3, entity.z,
                             2, 0.2, 0.1, 0.2, 0.0
@@ -173,7 +173,7 @@ object UltraMode {
         Fx.ring(world, center, 2.0, main, 24, 0.15)
         Fx.ring(world, center, 3.5, main, 30, 0.1)
         Fx.ring(world, center, 5.0, accent, 20, 0.08)
-        world.spawnParticles(
+        Fx.spawn(world, 
             if (state.hell) dev.henny.hha.HhaParticles.INFERNAL_BURST else dev.henny.hha.HhaParticles.DIVINE_FLASH,
             player.x, player.y + 1.2, player.z,
             3, 1.2, 0.6, 1.2, 0.0

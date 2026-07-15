@@ -35,7 +35,7 @@ object SwordBuff {
         )
         Fx.spiral(world, player.entityPos, 0.8, 2.2, dev.henny.hha.HhaParticles.HELLFIRE)
         Fx.ring(world, player.entityPos.add(0.0, 0.15, 0.0), 1.4, dev.henny.hha.HhaParticles.EMBER_SPARK, 18, 0.05)
-        world.spawnParticles(
+        Fx.spawn(world, 
             dev.henny.hha.HhaParticles.EMBER_SPARK,
             player.x, player.y + 1.2, player.z,
             10, 0.3, 0.6, 0.3, 0.03
@@ -58,7 +58,7 @@ object SwordBuff {
         for (world in server.worlds) {
             for (player in world.players) {
                 if (player.uuid !in active) continue
-                world.spawnParticles(
+                Fx.spawn(world, 
                     dev.henny.hha.HhaParticles.EMBER_SPARK,
                     player.x, player.y + 1.0, player.z,
                     1, 0.35, 0.5, 0.35, 0.0

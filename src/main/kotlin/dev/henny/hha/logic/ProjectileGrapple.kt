@@ -64,7 +64,7 @@ object ProjectileGrapple {
                 val steps = (distance * 2.5).toInt().coerceIn(4, 40)
                 for (i in 1 until steps) {
                     val p = player.eyePos.add(toProjectile.multiply(i.toDouble() / steps))
-                    world.spawnParticles(HhaParticles.CHAIN_LINK, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0)
+                    Fx.spawn(world, HhaParticles.CHAIN_LINK, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0)
                 }
             }
         }

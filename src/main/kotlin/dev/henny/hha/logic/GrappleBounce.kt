@@ -65,7 +65,7 @@ object GrappleBounce {
                 ) {
                     if (!Targeting.shouldHarm(player, entity)) continue
                     entity.damage(world, world.damageSources.playerAttack(player), bounceDamage)
-                    world.spawnParticles(
+                    Fx.spawn(world, 
                         dev.henny.hha.HhaParticles.EMBER_SPARK,
                         entity.x, entity.y + entity.height * 0.5, entity.z,
                         6, 0.25, 0.3, 0.25, 0.03
@@ -74,12 +74,12 @@ object GrappleBounce {
             }
 
             Fx.ring(world, player.entityPos.add(0.0, 0.1, 0.0), 1.0, dev.henny.hha.HhaParticles.HELLFIRE, 14, 0.05)
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.INFERNAL_BURST,
                 player.x, player.y + 0.5, player.z,
                 1, 0.0, 0.0, 0.0, 0.0
             )
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.EMBER_SPARK,
                 player.x, player.y + 0.3, player.z,
                 10, 0.5, 0.2, 0.5, 0.05

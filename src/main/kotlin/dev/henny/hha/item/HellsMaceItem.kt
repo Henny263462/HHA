@@ -166,7 +166,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
 
         world.playSound(null, entity.blockPos, SoundEvents.ENTITY_FISHING_BOBBER_RETRIEVE, SoundCategory.PLAYERS, 1.0f, 0.6f)
         world.playSound(null, user.blockPos, SoundEvents.BLOCK_CHAIN_HIT, SoundCategory.PLAYERS, 1.0f, 0.7f)
-        world.spawnParticles(
+        dev.henny.hha.logic.Fx.spawn(world, 
             dev.henny.hha.HhaParticles.EMBER_SPARK,
             entity.x, entity.y + entity.height * 0.5, entity.z,
             6, 0.3, 0.3, 0.3, 0.02
@@ -180,9 +180,9 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
         val steps = (delta.length() * 3.5).toInt().coerceIn(6, 96)
         for (i in 0..steps) {
             val p = from.add(delta.multiply(i.toDouble() / steps))
-            world.spawnParticles(dev.henny.hha.HhaParticles.CHAIN_LINK, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0)
+            dev.henny.hha.logic.Fx.spawn(world, dev.henny.hha.HhaParticles.CHAIN_LINK, p.x, p.y, p.z, 1, 0.0, 0.0, 0.0, 0.0)
             if (i % 3 == 0) {
-                world.spawnParticles(dev.henny.hha.HhaParticles.EMBER_SPARK, p.x, p.y, p.z, 1, 0.05, 0.05, 0.05, 0.0)
+                dev.henny.hha.logic.Fx.spawn(world, dev.henny.hha.HhaParticles.EMBER_SPARK, p.x, p.y, p.z, 1, 0.05, 0.05, 0.05, 0.0)
             }
         }
     }

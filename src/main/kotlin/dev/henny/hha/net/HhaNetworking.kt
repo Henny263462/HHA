@@ -3,9 +3,12 @@ package dev.henny.hha.net
 import dev.henny.hha.Hha
 import dev.henny.hha.api.ability.AbilityTrigger
 import dev.henny.hha.api.ability.HhaAbilities
+import dev.henny.hha.config.HhaConfig
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.network.RegistryByteBuf
+import net.minecraft.server.MinecraftServer
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.network.packet.CustomPayload
@@ -27,6 +30,29 @@ data class AbilityPayload(val ability: Int) : CustomPayload {
     }
 }
 
+/** S2C-Payload: effektive Config-Zahlenwerte — der Client zeigt sie in der Item-Lore. */
+data class ConfigSyncPayload(val numbers: Map<String, Double>) : CustomPayload {
+
+    override fun getId(): CustomPayload.Id<out CustomPayload> = ID
+
+    companion object {
+        val ID = CustomPayload.Id<ConfigSyncPayload>(Hha.id("config_sync"))
+
+        private val NUMBERS_CODEC: PacketCodec<RegistryByteBuf, MutableMap<String, Double>> =
+            PacketCodecs.map(
+                java.util.function.IntFunction { size -> HashMap(size) },
+                PacketCodecs.STRING,
+                PacketCodecs.DOUBLE,
+            )
+
+        val CODEC: PacketCodec<RegistryByteBuf, ConfigSyncPayload> = PacketCodec.tuple(
+            NUMBERS_CODEC,
+            { payload -> HashMap(payload.numbers) },
+            { map -> ConfigSyncPayload(map) },
+        )
+    }
+}
+
 /** S2C-Payload: Ultra-Modus-Status fürs HUD (verbleibende Ticks, 0 = aus). */
 data class UltraHudPayload(val remainingTicks: Int) : CustomPayload {
 
@@ -44,6 +70,11 @@ object HhaNetworking {
     fun init() {
         PayloadTypeRegistry.playC2S().register(AbilityPayload.ID, AbilityPayload.CODEC)
         PayloadTypeRegistry.playS2C().register(UltraHudPayload.ID, UltraHudPayload.CODEC)
+        PayloadTypeRegistry.playS2C().register(ConfigSyncPayload.ID, ConfigSyncPayload.CODEC)
+
+        ServerPlayConnectionEvents.JOIN.register { _, sender, _ ->
+            sender.sendPacket(ConfigSyncPayload(HhaConfig.numbersSnapshot()))
+        }
 
         ServerPlayNetworking.registerGlobalReceiver(AbilityPayload.ID) { payload, context ->
             val trigger = when (payload.ability) {
@@ -54,6 +85,14 @@ object HhaNetworking {
                 else -> return@registerGlobalReceiver
             }
             HhaAbilities.dispatch(context.player(), trigger)
+        }
+    }
+
+    /** Schickt die aktuellen Config-Zahlen an alle Spieler (nach /hha set|reset|load). */
+    fun syncConfig(server: MinecraftServer) {
+        val payload = ConfigSyncPayload(HhaConfig.numbersSnapshot())
+        for (player in server.playerManager.playerList) {
+            ServerPlayNetworking.send(player, payload)
         }
     }
 }

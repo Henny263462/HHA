@@ -53,12 +53,12 @@ object PullTracker {
             if (Targeting.shouldHarm(attacker, target)) {
                 target.damage(world, world.damageSources.playerAttack(attacker), dev.henny.hha.config.HhaConfig.numF("pull_arrival_damage"))
             }
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.HELLFIRE,
                 target.x, target.y + target.height * 0.5, target.z,
                 12, 0.3, 0.4, 0.3, 0.05
             )
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.EMBER_SPARK,
                 target.x, target.y + target.height * 0.5, target.z,
                 10, 0.2, 0.3, 0.2, 0.04

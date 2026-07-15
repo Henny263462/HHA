@@ -53,7 +53,7 @@ object AirJumps {
         val feet = player.entityPos.add(0.0, 0.05, 0.0)
         Fx.ring(world, feet, 0.8, dev.henny.hha.HhaParticles.LIGHT_MOTE, 16, 0.03)
         Fx.ring(world, feet, 0.4, dev.henny.hha.HhaParticles.HOLY_SPARK, 8, 0.02)
-        world.spawnParticles(
+        Fx.spawn(world, 
             dev.henny.hha.HhaParticles.FEATHER,
             feet.x, feet.y + 0.3, feet.z,
             3, 0.4, 0.1, 0.4, 0.0

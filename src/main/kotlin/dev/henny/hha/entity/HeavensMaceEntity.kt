@@ -48,21 +48,21 @@ class HeavensMaceEntity : ThrownItemEntity {
         life++
         if (startPos == null) startPos = entityPos
 
-        world.spawnParticles(dev.henny.hha.HhaParticles.LIGHT_MOTE, x, y, z, 3, 0.12, 0.12, 0.12, 0.01)
+        dev.henny.hha.logic.Fx.spawn(world, dev.henny.hha.HhaParticles.LIGHT_MOTE, x, y, z, 3, 0.12, 0.12, 0.12, 0.01)
         val spin = life * 0.9
         val r = 0.45
-        world.spawnParticles(
+        dev.henny.hha.logic.Fx.spawn(world, 
             dev.henny.hha.HhaParticles.HOLY_SPARK,
             x + kotlin.math.cos(spin) * r, y + kotlin.math.sin(spin) * r, z + kotlin.math.sin(spin * 0.7) * r,
             1, 0.0, 0.0, 0.0, 0.0
         )
-        world.spawnParticles(
+        dev.henny.hha.logic.Fx.spawn(world, 
             dev.henny.hha.HhaParticles.HOLY_SPARK,
             x - kotlin.math.cos(spin) * r, y - kotlin.math.sin(spin) * r, z - kotlin.math.sin(spin * 0.7) * r,
             1, 0.0, 0.0, 0.0, 0.0
         )
         if (life % 4 == 0) {
-            world.spawnParticles(dev.henny.hha.HhaParticles.FEATHER, x, y, z, 1, 0.15, 0.15, 0.15, 0.0)
+            dev.henny.hha.logic.Fx.spawn(world, dev.henny.hha.HhaParticles.FEATHER, x, y, z, 1, 0.15, 0.15, 0.15, 0.0)
         }
 
         if (!returning) {
@@ -112,7 +112,7 @@ class HeavensMaceEntity : ThrownItemEntity {
                 entity.damage(world, source, damage)
                 entity.setOnFireFor(8.0f)
             }
-            world.spawnParticles(
+            dev.henny.hha.logic.Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.DIVINE_FLASH,
                 entity.x, entity.y + entity.height * 0.5, entity.z,
                 1, 0.0, 0.0, 0.0, 0.0

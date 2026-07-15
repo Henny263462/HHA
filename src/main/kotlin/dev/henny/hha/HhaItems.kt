@@ -6,7 +6,6 @@ import dev.henny.hha.item.HellsMaceItem
 import dev.henny.hha.item.HellsSwordItem
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.minecraft.component.DataComponentTypes
-import net.minecraft.component.type.LoreComponent
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.SmithingTemplateItem
@@ -110,15 +109,14 @@ object HhaItems {
 
         JOTUNHEIMS_UPGRADE_TEMPLATE = registerUpgradeTemplate("jotunheims_upgrade_template")
 
-        HELL_HELMET = registerArmor("hell_helmet", HELL_ARMOR_MATERIAL, EquipmentType.HELMET, 2)
-        HELL_CHESTPLATE = registerArmor("hell_chestplate", HELL_ARMOR_MATERIAL, EquipmentType.CHESTPLATE, 3)
-        HELL_LEGGINGS = registerArmor("hell_leggings", HELL_ARMOR_MATERIAL, EquipmentType.LEGGINGS, 3)
-        HELL_BOOTS = registerArmor("hell_boots", HELL_ARMOR_MATERIAL, EquipmentType.BOOTS, 3)
+        HELL_HELMET = registerArmor("hell_helmet", HELL_ARMOR_MATERIAL, EquipmentType.HELMET)
+        HELL_CHESTPLATE = registerArmor("hell_chestplate", HELL_ARMOR_MATERIAL, EquipmentType.CHESTPLATE)
+        HELL_LEGGINGS = registerArmor("hell_leggings", HELL_ARMOR_MATERIAL, EquipmentType.LEGGINGS)
+        HELL_BOOTS = registerArmor("hell_boots", HELL_ARMOR_MATERIAL, EquipmentType.BOOTS)
         HELLS_SWORD = register("hells_sword") { s ->
             HellsSwordItem(
                 s.sword(HELL_TOOL_MATERIAL, 5.0f, -2.4f)
                     .fireproof().rarity(Rarity.EPIC)
-                    .component(DataComponentTypes.LORE, lore("hells_sword", 3))
                     .component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
             )
         }
@@ -126,20 +124,18 @@ object HhaItems {
             HellsMaceItem(
                 s.sword(HELL_TOOL_MATERIAL, MACE_ATTACK_DAMAGE, -2.8f)
                     .fireproof().rarity(Rarity.EPIC)
-                    .component(DataComponentTypes.LORE, lore("hells_mace", 4))
                     .component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
             )
         }
 
-        HEAVEN_HELMET = registerArmor("heaven_helmet", HEAVEN_ARMOR_MATERIAL, EquipmentType.HELMET, 2)
-        HEAVEN_CHESTPLATE = registerArmor("heaven_chestplate", HEAVEN_ARMOR_MATERIAL, EquipmentType.CHESTPLATE, 3)
-        HEAVEN_LEGGINGS = registerArmor("heaven_leggings", HEAVEN_ARMOR_MATERIAL, EquipmentType.LEGGINGS, 3)
-        HEAVEN_BOOTS = registerArmor("heaven_boots", HEAVEN_ARMOR_MATERIAL, EquipmentType.BOOTS, 3)
+        HEAVEN_HELMET = registerArmor("heaven_helmet", HEAVEN_ARMOR_MATERIAL, EquipmentType.HELMET)
+        HEAVEN_CHESTPLATE = registerArmor("heaven_chestplate", HEAVEN_ARMOR_MATERIAL, EquipmentType.CHESTPLATE)
+        HEAVEN_LEGGINGS = registerArmor("heaven_leggings", HEAVEN_ARMOR_MATERIAL, EquipmentType.LEGGINGS)
+        HEAVEN_BOOTS = registerArmor("heaven_boots", HEAVEN_ARMOR_MATERIAL, EquipmentType.BOOTS)
         HEAVENS_SWORD = register("heavens_sword") { s ->
             HeavensSwordItem(
                 s.sword(HEAVEN_TOOL_MATERIAL, 5.0f, -2.4f)
                     .rarity(Rarity.EPIC)
-                    .component(DataComponentTypes.LORE, lore("heavens_sword", 2))
                     .component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
             )
         }
@@ -147,7 +143,6 @@ object HhaItems {
             HeavensMaceItem(
                 s.sword(HEAVEN_TOOL_MATERIAL, MACE_ATTACK_DAMAGE, -2.8f)
                     .rarity(Rarity.EPIC)
-                    .component(DataComponentTypes.LORE, lore("heavens_mace", 2))
                     .component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
             )
         }
@@ -181,13 +176,11 @@ object HhaItems {
         name: String,
         material: ArmorMaterial,
         type: EquipmentType,
-        loreLines: Int,
         factory: (Item.Settings) -> Item = ::Item,
     ): Item = register(name) { s ->
         factory(
             s.armor(material, type)
                 .fireproof().rarity(Rarity.EPIC)
-                .component(DataComponentTypes.LORE, lore(name, loreLines))
                 .component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
         )
     }
@@ -195,13 +188,6 @@ object HhaItems {
     private fun register(name: String, factory: (Item.Settings) -> Item): Item {
         val key = RegistryKey.of(RegistryKeys.ITEM, Hha.id(name))
         return Registry.register(Registries.ITEM, key, factory(Item.Settings().registryKey(key)))
-    }
-
-    private fun lore(name: String, lines: Int): LoreComponent {
-        val texts = (1..lines).map { i ->
-            Text.translatable("item.hha.$name.lore$i").formatted(Formatting.GOLD)
-        }
-        return LoreComponent(texts)
     }
 
     private fun registerItemGroup() {

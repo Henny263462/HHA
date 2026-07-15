@@ -53,22 +53,22 @@ object DivineShield {
             null, player.blockPos, SoundEvents.ITEM_TOTEM_USE,
             SoundCategory.PLAYERS, 1.0f, 1.3f
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             dev.henny.hha.HhaParticles.DIVINE_FLASH,
             player.x, player.y + 1.2, player.z,
             1, 0.0, 0.0, 0.0, 0.0
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             dev.henny.hha.HhaParticles.HOLY_SPARK,
             player.x, player.y + 1.0, player.z,
             30, 0.5, 0.8, 0.5, 0.08
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             dev.henny.hha.HhaParticles.FEATHER,
             player.x, player.y + 1.6, player.z,
             14, 0.6, 0.4, 0.6, 0.0
         )
-        world.spawnParticles(
+        Fx.spawn(world, 
             dev.henny.hha.HhaParticles.LIGHT_MOTE,
             player.x, player.y + 1.0, player.z,
             22, 0.4, 0.6, 0.4, 0.08

@@ -46,12 +46,12 @@ object LightTrail {
         val isNew = pos !in map
         map[pos] = TrailEntry(world.time + TRAIL_LIFETIME, player.uuid)
         if (isNew) {
-            world.spawnParticles(
+            Fx.spawn(world, 
                 dev.henny.hha.HhaParticles.LIGHT_MOTE,
                 pos.x + 0.5, pos.y + 0.2, pos.z + 0.5,
                 4, 0.3, 0.1, 0.3, 0.01
             )
-            world.spawnParticles(
+            Fx.spawn(world, 
                 ParticleTypes.END_ROD,
                 pos.x + 0.5, pos.y + 0.25, pos.z + 0.5,
                 2, 0.25, 0.05, 0.25, 0.0
@@ -71,21 +71,21 @@ object LightTrail {
                 continue
             }
             if (world.time % 2L == 0L) {
-                world.spawnParticles(
+                Fx.spawn(world, 
                     dev.henny.hha.HhaParticles.LIGHT_MOTE,
                     pos.x + 0.5, pos.y + 0.15, pos.z + 0.5,
                     2, 0.3, 0.08, 0.3, 0.0
                 )
             }
             if (world.time % 6L == 0L) {
-                world.spawnParticles(
+                Fx.spawn(world, 
                     dev.henny.hha.HhaParticles.HOLY_SPARK,
                     pos.x + 0.5, pos.y + 0.3, pos.z + 0.5,
                     2, 0.25, 0.15, 0.25, 0.0
                 )
             }
             if (world.time % 8L == 0L) {
-                world.spawnParticles(
+                Fx.spawn(world, 
                     ParticleTypes.END_ROD,
                     pos.x + 0.5, pos.y + 0.25, pos.z + 0.5,
                     1, 0.25, 0.1, 0.25, 0.0
