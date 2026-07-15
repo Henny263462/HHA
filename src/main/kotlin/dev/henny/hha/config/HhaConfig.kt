@@ -54,6 +54,7 @@ object HhaConfig {
     private val numberDefaults: LinkedHashMap<String, Double> = linkedMapOf(
         "particle_multiplier" to 1.0,
         "stomp_min_fall" to 10.0,
+        "stomp_lava_lifetime" to 40.0,
         "shockwave_min_fall" to 6.0,
         "trail_max_health" to 10.0,
         "undying_rage_health" to 6.0,

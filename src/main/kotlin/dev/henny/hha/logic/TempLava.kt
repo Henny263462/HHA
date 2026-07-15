@@ -44,7 +44,9 @@ object TempLava {
      */
     private fun removePool(world: ServerWorld, source: BlockPos) {
         if (world.getBlockState(source).isOf(Blocks.LAVA)) {
-            world.removeBlock(source, false)
+            // removeBlock() würde den Fluid-Blockzustand wieder einsetzen (Vanilla-
+            // "Block abbauen, Flüssigkeit behalten") — Lava muss explizit Luft werden.
+            world.setBlockState(source, Blocks.AIR.defaultState)
         }
 
         val queue = ArrayDeque<BlockPos>()
@@ -61,7 +63,7 @@ object TempLava {
                 if (next.getSquaredDistance(source) > SWEEP_RADIUS_SQ) continue
                 if (!world.getBlockState(next).isOf(Blocks.LAVA)) continue
                 if (world.getFluidState(next).isStill) continue
-                world.removeBlock(next, false)
+                world.setBlockState(next, Blocks.AIR.defaultState)
                 budget--
                 queue.add(next)
             }

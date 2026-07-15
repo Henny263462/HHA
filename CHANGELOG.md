@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1 — Magma Stomp lava actually disappears (2026-07-15)
+
+### Fixed
+- Magma Stomp lava pools really do remove themselves now. The cleanup used `removeBlock()`, which in vanilla re-places the fluid at that position ("break the block, keep the liquid") — for a lava block that is a no-op, so the pool stayed forever. The cleanup now sets air explicitly.
+
+### Added
+- `stomp_lava_lifetime` config value (ticks, default 40 = 2 s): how long the Magma Stomp lava pool lasts before it removes itself
+
 ## 0.3.0 — Particle settings, live item lore & debug commands (2026-07-15)
 
 ### Added

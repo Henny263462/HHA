@@ -88,16 +88,17 @@ object FallEvents {
         )
     }
 
-    /** Leggings: 3×3-Lava-Splash am Aufprallpunkt. */
+    /** Leggings: 3×3-Lava-Splash am Aufprallpunkt; Lebensdauer aus der Config (Ticks). */
     private fun magmaStomp(world: ServerWorld, player: ServerPlayerEntity) {
         val feet = player.blockPos
+        val lifetime = HhaConfig.num("stomp_lava_lifetime").toLong().coerceAtLeast(1L)
 
         for (dx in -1..1) {
             for (dz in -1..1) {
                 if (dx == 0 && dz == 0) continue
                 val pos = feet.add(dx, 0, dz)
                 if (hasSolidFloor(world, pos)) {
-                    TempLava.place(world, pos, 40L)
+                    TempLava.place(world, pos, lifetime)
                 }
             }
         }
