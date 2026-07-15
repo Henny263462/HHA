@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3 — Sharper HUD icons & stronger Brutes (2026-07-15)
+
+### Changed
+- HUD cooldown icons sharpened: deeper shadows, brighter highlights and a theme-tinted dark outline around every glyph — the chain icon especially is much more readable now
+- Allied Piglin Brutes now have 100 HP (up from 50) and wield a diamond axe with Sharpness IV in the Hell's Sword soul-fire look: no enchantment glint, soul flames licking from the axe hand
+
 ## 0.3.2 — Split particle settings & /hha settings (2026-07-15)
 
 ### Changed

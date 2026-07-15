@@ -54,11 +54,17 @@ object BruteAllies {
             brute.setImmuneToZombification(true)
             brute.setPersistent()
             brute.addCommandTag("hha_ally")
-            val axe = net.minecraft.item.ItemStack(net.minecraft.item.Items.IRON_AXE)
+            brute.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.MAX_HEALTH)
+                ?.baseValue = 100.0
+            brute.health = brute.maxHealth
+            // Seelenfeuer-Axt im Hell's-Sword-Look: Diamant, Sharpness IV, kein Glint —
+            // die Flammen kommen wie beim Sword aus der Hand (siehe tick()).
+            val axe = net.minecraft.item.ItemStack(net.minecraft.item.Items.DIAMOND_AXE)
             val sharpness = world.registryManager
                 .getOrThrow(net.minecraft.registry.RegistryKeys.ENCHANTMENT)
                 .getOrThrow(net.minecraft.enchantment.Enchantments.SHARPNESS)
-            axe.addEnchantment(sharpness, 3)
+            axe.addEnchantment(sharpness, 4)
+            axe.set(net.minecraft.component.DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
             brute.equipStack(net.minecraft.entity.EquipmentSlot.MAINHAND, axe)
             brute.setEquipmentDropChance(net.minecraft.entity.EquipmentSlot.MAINHAND, 0.0f)
             brute.addStatusEffect(
@@ -111,10 +117,24 @@ object BruteAllies {
             }
 
             if (world.time % 8L == 0L) {
-                Fx.spawn(world, 
+                Fx.spawn(world,
                     dev.henny.hha.HhaParticles.SOUL_FLAME,
                     brute.x, brute.y + 1.3, brute.z,
                     1, 0.25, 0.45, 0.25, 0.0
+                )
+            }
+
+            // Seelenflammen an der Axthand — dasselbe Feuer wie am Hell's Sword.
+            if (world.time % 4L == 0L) {
+                val yaw = Math.toRadians(brute.bodyYaw.toDouble())
+                val handX = -cos(yaw) * 0.45 - sin(yaw) * 0.35
+                val handZ = -sin(yaw) * 0.45 + cos(yaw) * 0.35
+                Fx.spawn(world,
+                    dev.henny.hha.HhaParticles.SOUL_FLAME,
+                    brute.x + handX,
+                    brute.y + 1.05 + world.random.nextDouble() * 0.2,
+                    brute.z + handZ,
+                    1, 0.03, 0.06, 0.03, 0.0
                 )
             }
 
