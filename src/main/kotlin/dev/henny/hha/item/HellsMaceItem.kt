@@ -4,6 +4,7 @@ import dev.henny.hha.config.HhaConfig
 import dev.henny.hha.logic.Cooldowns
 import dev.henny.hha.logic.Fx
 import dev.henny.hha.logic.GrappleBounce
+import dev.henny.hha.logic.PullCharges
 import dev.henny.hha.logic.PullTracker
 import dev.henny.hha.logic.Targeting
 import net.minecraft.entity.LivingEntity
@@ -43,6 +44,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
         if (user !is ServerPlayerEntity || !entity.isAlive) return ActionResult.PASS
         if (!HhaConfig.enabled("mace_pull")) return ActionResult.PASS
         if (!Targeting.canPull(user, entity)) return ActionResult.PASS
+        if (!PullCharges.tryUse(user, stack)) return ActionResult.PASS
 
         pullEntity(world, user, stack, entity)
         return ActionResult.SUCCESS
@@ -72,6 +74,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
                 )
             )
             if (blockToTarget.type == HitResult.Type.MISS) {
+                if (!PullCharges.tryUse(user, stack)) return ActionResult.PASS
                 pullEntity(world, user, stack, entityHit.entity as LivingEntity)
                 return ActionResult.SUCCESS
             }
@@ -145,8 +148,6 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
         stack: ItemStack,
         entity: LivingEntity,
     ) {
-        Cooldowns.set(user, stack, "pull_cooldown")
-
         val delta = user.entityPos.subtract(entity.entityPos)
         val horizontal = delta.horizontalLength().coerceAtLeast(0.1)
         val strength = (PULL_STRENGTH + horizontal * 0.06).coerceAtMost(2.4)

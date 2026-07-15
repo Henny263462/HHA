@@ -26,8 +26,29 @@ object BruteAllies {
 
     private val allies = HashMap<UUID, Ally>()
 
+    private val ARMOR_MODIFIER_ID = net.minecraft.util.Identifier.of("hha", "brute_hidden_armor")
+    private val TOUGHNESS_MODIFIER_ID = net.minecraft.util.Identifier.of("hha", "brute_hidden_toughness")
+
     @JvmStatic
     fun isAlly(uuid: UUID): Boolean = allies.containsKey(uuid)
+
+    /** Unsichtbare Rüstung: Armor- und Toughness-Attribute (≈ Protection-II-Set) ohne Rüstungsteile. */
+    private fun addArmor(brute: PiglinBruteEntity) {
+        brute.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.ARMOR)
+            ?.addPersistentModifier(
+                net.minecraft.entity.attribute.EntityAttributeModifier(
+                    ARMOR_MODIFIER_ID, 12.0,
+                    net.minecraft.entity.attribute.EntityAttributeModifier.Operation.ADD_VALUE
+                )
+            )
+        brute.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.ARMOR_TOUGHNESS)
+            ?.addPersistentModifier(
+                net.minecraft.entity.attribute.EntityAttributeModifier(
+                    TOUGHNESS_MODIFIER_ID, 4.0,
+                    net.minecraft.entity.attribute.EntityAttributeModifier.Operation.ADD_VALUE
+                )
+            )
+    }
 
     /** Besitzer greift an → alle eigenen Brutes stürzen sich sofort auf das Ziel. */
     fun onOwnerAttack(world: ServerWorld, owner: ServerPlayerEntity, target: LivingEntity) {
@@ -55,15 +76,18 @@ object BruteAllies {
             brute.setPersistent()
             brute.addCommandTag("hha_ally")
             brute.getAttributeInstance(net.minecraft.entity.attribute.EntityAttributes.MAX_HEALTH)
-                ?.baseValue = 100.0
+                ?.baseValue = 250.0
+            // Unsichtbare "Rüstung": Attribut-Modifier statt getragener Teile — grob eine
+            // Protection-II-Rüstung wert, ohne dass etwas den Piglin-Look überdeckt.
+            addArmor(brute)
             brute.health = brute.maxHealth
-            // Seelenfeuer-Axt im Hell's-Sword-Look: Diamant, Sharpness IV, kein Glint —
+            // Seelenfeuer-Axt im Hell's-Sword-Look: Diamant, Sharpness V, kein Glint —
             // die Flammen kommen wie beim Sword aus der Hand (siehe tick()).
             val axe = net.minecraft.item.ItemStack(net.minecraft.item.Items.DIAMOND_AXE)
             val sharpness = world.registryManager
                 .getOrThrow(net.minecraft.registry.RegistryKeys.ENCHANTMENT)
                 .getOrThrow(net.minecraft.enchantment.Enchantments.SHARPNESS)
-            axe.addEnchantment(sharpness, 4)
+            axe.addEnchantment(sharpness, 5)
             axe.set(net.minecraft.component.DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
             brute.equipStack(net.minecraft.entity.EquipmentSlot.MAINHAND, axe)
             brute.setEquipmentDropChance(net.minecraft.entity.EquipmentSlot.MAINHAND, 0.0f)
@@ -71,6 +95,12 @@ object BruteAllies {
                 net.minecraft.entity.effect.StatusEffectInstance(
                     net.minecraft.entity.effect.StatusEffects.FIRE_RESISTANCE,
                     LIFETIME_TICKS.toInt(), 0, false, false, false
+                )
+            )
+            brute.addStatusEffect(
+                net.minecraft.entity.effect.StatusEffectInstance(
+                    net.minecraft.entity.effect.StatusEffects.STRENGTH,
+                    LIFETIME_TICKS.toInt(), 1, false, false, false
                 )
             )
             world.spawnEntity(brute)

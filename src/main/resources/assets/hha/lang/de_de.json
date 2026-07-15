@@ -76,7 +76,7 @@
 
   "item.hha.hells_mace": "Hell's Mace",
   "item.hha.hells_mace.lore1": "Volle Vanilla-Mace-Smash-Mechanik inklusive",
-  "item.hha.hells_mace.lore2": "Rechtsklick auf Gegner: heranziehen — %s Schaden beim Ankommen (%ss Abklingzeit)",
+  "item.hha.hells_mace.lore2": "Rechtsklick auf Gegner: heranziehen — %s Schaden beim Ankommen (%s schnelle Ketten, dann %ss Abklingzeit)",
   "item.hha.hells_mace.lore3": "Rechtsklick: Enterhaken zu jedem Block in %s Blöcken (%ss Abklingzeit)",
   "item.hha.hells_mace.lore4": "Boden-Grapple: die Landung bounced dich in einen Dash — der Abklatsch macht %s Schaden ringsum",
 

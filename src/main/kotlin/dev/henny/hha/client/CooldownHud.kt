@@ -25,7 +25,8 @@ object CooldownHud {
     private const val GOLD = 0x00FFD75E
     private const val FIRE = 0x00FF7B1F
 
-    private val ICON_BEAM: Identifier = Hha.id("hud/beam")
+    private val ICON_BEAM_LIGHT: Identifier = Hha.id("hud/beam_light")
+    private val ICON_BEAM_LAVA: Identifier = Hha.id("hud/beam_lava")
     private val ICON_CAMP: Identifier = Hha.id("hud/camp")
     private val ICON_SWORD: Identifier = Hha.id("hud/sword")
     private val ICON_MACE: Identifier = Hha.id("hud/mace")
@@ -64,8 +65,10 @@ object CooldownHud {
         val candidates = ArrayList<Slot>()
         val chest = player.getEquippedStack(EquipmentSlot.CHEST)
         val legs = player.getEquippedStack(EquipmentSlot.LEGS)
-        if (chest.isOf(HhaItems.HELL_CHESTPLATE) || chest.isOf(HhaItems.HEAVEN_CHESTPLATE)) {
-            candidates.add(builtin(chest, ICON_BEAM))
+        if (chest.isOf(HhaItems.HEAVEN_CHESTPLATE)) {
+            candidates.add(builtin(chest, ICON_BEAM_LIGHT))
+        } else if (chest.isOf(HhaItems.HELL_CHESTPLATE)) {
+            candidates.add(builtin(chest, ICON_BEAM_LAVA))
         }
         if (legs.isOf(HhaItems.HELL_LEGGINGS)) candidates.add(builtin(legs, ICON_CAMP))
         for (stack in listOf(player.mainHandStack, player.offHandStack)) {

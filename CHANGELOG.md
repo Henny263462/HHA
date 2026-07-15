@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0 — Chain charges, new beam icons & tankier Brutes (2026-07-15)
+
+### Added
+- Hell's Mace chain-pull is now a charge system: `pull_charges` quick chains (default 2, `pull_cooldown` 2 s between them), then a long `pull_recharge` cooldown (default 20 s) before the charges refill
+- Dedicated HUD cooldown icons for each beam — a radiant light pillar for Heaven, a molten lance for Hell — plus a brand-new Heaven's Mace icon (golden mace struck by lightning)
+
+### Changed
+- Allied Piglin Brutes: 250 HP (up from 100), Sharpness V axe (up from IV), permanent Strength II, and invisible armor (armor + toughness attributes ≈ a Protection II set) that never covers the piglin look
+- Light Wave now follows your full look direction: the particle line and hit arc travel up or down where you aim instead of always going flat, and the knockback carries that vertical aim
+
+### Fixed
+- Light Wave particles no longer always shoot straight ahead when looking up or down
+
 ## 0.3.3 — Sharper HUD icons & stronger Brutes (2026-07-15)
 
 ### Changed

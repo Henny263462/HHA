@@ -278,7 +278,8 @@ object Abilities {
     /** Heaven's Sword Aktiv: Lichtwelle schleudert alle Gegner in der Linie weg. */
     fun lightWave(world: ServerWorld, player: ServerPlayerEntity) {
         val start = player.eyePos
-        val direction = player.getRotationVec(1.0f).let { Vec3d(it.x, 0.0, it.z) }.normalize()
+        // Volle Blickrichtung — die Welle (Partikel & Treffer) folgt jetzt auch nach oben/unten.
+        val direction = player.getRotationVec(1.0f).normalize()
         val knockback = HhaConfig.num("light_wave_knockback")
 
         val flung = HashSet<UUID>()
@@ -292,9 +293,10 @@ object Abilities {
             val hitBox = Box.of(point, 3.0, 3.0, 3.0)
             for (entity in world.getEntitiesByClass(LivingEntity::class.java, hitBox, { it.isAlive && it != player })) {
                 if (!Targeting.shouldHarm(player, entity) || !flung.add(entity.uuid)) continue
+                // Schub entlang der Blickrichtung, mit garantiertem Auftrieb.
                 entity.velocity = Vec3d(
                     direction.x * knockback,
-                    0.55,
+                    (direction.y * knockback).coerceAtLeast(0.0) + 0.55,
                     direction.z * knockback,
                 )
                 entity.velocityDirty = true
