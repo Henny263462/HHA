@@ -1,5 +1,7 @@
 package dev.henny.hha.logic
 
+import dev.henny.hha.api.event.HhaEvents
+import net.fabricmc.fabric.api.util.TriState
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.network.ServerPlayerEntity
@@ -11,6 +13,8 @@ object Targeting {
     @JvmStatic
     fun shouldHarm(attacker: ServerPlayerEntity, target: LivingEntity): Boolean {
         if (target === attacker || !target.isAlive) return false
+        val override = HhaEvents.SHOULD_HARM.invoker().check(attacker, target)
+        if (override != TriState.DEFAULT) return override.get()
         if (BruteAllies.isAlly(target.uuid)) return false
         if (target is PlayerEntity && Trust.isTrusted(attacker.uuid, target.uuid)) return false
         return true
@@ -31,6 +35,8 @@ object Targeting {
     @JvmStatic
     fun isFriendly(owner: ServerPlayerEntity, target: LivingEntity): Boolean {
         if (target === owner || !target.isAlive) return false
+        val override = HhaEvents.IS_FRIENDLY.invoker().check(owner, target)
+        if (override != TriState.DEFAULT) return override.get()
         if (BruteAllies.isAlly(target.uuid)) return true
         return target is PlayerEntity && Trust.isTrusted(owner.uuid, target.uuid)
     }

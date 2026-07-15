@@ -16,15 +16,21 @@ import org.slf4j.LoggerFactory
 class Hha : ModInitializer {
 
     override fun onInitialize() {
+        HhaItems.init()
+        HhaEntities.init()
+        HhaParticles.init()
+        HhaBuiltins.init()
+
+        // Addons registrieren Items, Sets, Abilities und Config-Defaults —
+        // deshalb vor HhaConfig.load(), damit gespeicherte Addon-Werte greifen.
+        dev.henny.hha.addon.AddonLoader.init()
+
         HhaConfig.load()
         dev.henny.hha.config.ConfigResourceCondition.register()
         dev.henny.hha.config.CustomRecipePack.init()
         dev.henny.hha.logic.Trust.load()
         HhaCommands.register()
         InfoCommand.register()
-        HhaItems.init()
-        HhaEntities.init()
-        HhaParticles.init()
         HhaNetworking.init()
         FactionLock.init()
         CombatEvents.init()

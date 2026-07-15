@@ -15,7 +15,7 @@ import java.nio.file.Path
 object HhaConfig {
 
     /** Feature-Toggles (true = aktiv). */
-    val TOGGLE_DEFAULTS: Map<String, Boolean> = linkedMapOf(
+    private val toggleDefaults: LinkedHashMap<String, Boolean> = linkedMapOf(
         "undying_rage" to true,
         "warlords_barrier" to true,
         "lava_walking" to true,
@@ -51,7 +51,7 @@ object HhaConfig {
     )
 
     /** Zahlenwerte: Schaden und Trigger-Schwellen. */
-    val NUMBER_DEFAULTS: Map<String, Double> = linkedMapOf(
+    private val numberDefaults: LinkedHashMap<String, Double> = linkedMapOf(
         "stomp_min_fall" to 6.0,
         "shockwave_min_fall" to 6.0,
         "trail_max_health" to 10.0,
@@ -84,8 +84,27 @@ object HhaConfig {
         "ultra_cooldown" to 6000.0,
     )
 
+    /** Alle bekannten Toggles (eingebaute + von Addons registrierte). */
+    val TOGGLE_DEFAULTS: Map<String, Boolean> get() = toggleDefaults
+
+    /** Alle bekannten Zahlenwerte (eingebaute + von Addons registrierte). */
+    val NUMBER_DEFAULTS: Map<String, Double> get() = numberDefaults
+
     private val toggles = LinkedHashMap<String, Boolean>()
     private val numbers = LinkedHashMap<String, Double>()
+
+    /**
+     * Registriert einen Addon-Toggle. Muss vor [load] passieren (der
+     * Addon-Entrypoint läuft früh genug), damit gespeicherte Werte greifen.
+     */
+    fun registerToggle(key: String, default: Boolean) {
+        toggleDefaults.putIfAbsent(key, default)
+    }
+
+    /** Registriert einen Addon-Zahlenwert; siehe [registerToggle]. */
+    fun registerNumber(key: String, default: Double) {
+        numberDefaults.putIfAbsent(key, default)
+    }
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
 

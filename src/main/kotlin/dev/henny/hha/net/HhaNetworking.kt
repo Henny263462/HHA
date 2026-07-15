@@ -1,13 +1,10 @@
 package dev.henny.hha.net
 
 import dev.henny.hha.Hha
-import dev.henny.hha.logic.Abilities
-import dev.henny.hha.logic.AirJumps
-import dev.henny.hha.logic.FactionLock
-import dev.henny.hha.logic.UltraMode
+import dev.henny.hha.api.ability.AbilityTrigger
+import dev.henny.hha.api.ability.HhaAbilities
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.entity.EquipmentSlot
 import net.minecraft.network.RegistryByteBuf
 import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
@@ -49,25 +46,14 @@ object HhaNetworking {
         PayloadTypeRegistry.playS2C().register(UltraHudPayload.ID, UltraHudPayload.CODEC)
 
         ServerPlayNetworking.registerGlobalReceiver(AbilityPayload.ID) { payload, context ->
-            val player = context.player()
-            when (payload.ability) {
-                AbilityPayload.BEAM -> {
-                    val chest = player.getEquippedStack(EquipmentSlot.CHEST)
-                    if (FactionLock.canUse(player, chest)) Abilities.beam(player)
-                }
-                AbilityPayload.UTILITY -> {
-                    val leggings = player.getEquippedStack(EquipmentSlot.LEGS)
-                    if (FactionLock.canUse(player, leggings)) Abilities.utility(player)
-                }
-                AbilityPayload.AIR_JUMP -> {
-                    val leggings = player.getEquippedStack(EquipmentSlot.LEGS)
-                    if (FactionLock.canUse(player, leggings)) AirJumps.tryJump(player)
-                }
-                AbilityPayload.ULTRA -> {
-                    val helmet = player.getEquippedStack(EquipmentSlot.HEAD)
-                    if (FactionLock.canUse(player, helmet)) UltraMode.tryActivate(player)
-                }
+            val trigger = when (payload.ability) {
+                AbilityPayload.BEAM -> AbilityTrigger.PRIMARY
+                AbilityPayload.UTILITY -> AbilityTrigger.UTILITY
+                AbilityPayload.AIR_JUMP -> AbilityTrigger.MOVEMENT
+                AbilityPayload.ULTRA -> AbilityTrigger.ULTRA
+                else -> return@registerGlobalReceiver
             }
+            HhaAbilities.dispatch(context.player(), trigger)
         }
     }
 }

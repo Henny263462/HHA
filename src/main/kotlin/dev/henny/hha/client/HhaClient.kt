@@ -36,6 +36,8 @@ class HhaClient : ClientModInitializer {
 
         CooldownHud.register()
 
+        loadClientAddons()
+
         ClientPlayNetworking.registerGlobalReceiver(UltraHudPayload.ID) { payload, _ ->
             CooldownHud.ultraRemainingTicks = payload.remainingTicks
         }
@@ -96,6 +98,32 @@ class HhaClient : ClientModInitializer {
                 ClientPlayNetworking.send(AbilityPayload(AbilityPayload.AIR_JUMP))
             }
             jumpWasPressed = jumpPressed
+        }
+    }
+
+    /** Lädt alle Mods mit `"hha_client"`-Entrypoint (Addon-Client-API). */
+    private fun loadClientAddons() {
+        val containers = net.fabricmc.loader.api.FabricLoader.getInstance()
+            .getEntrypointContainers("hha_client", dev.henny.hha.api.client.HhaClientAddon::class.java)
+        for (container in containers) {
+            val addonId = container.provider.metadata.id
+            Hha.LOGGER.info("Lade HHA-Client-Addon: {}", addonId)
+            container.entrypoint.onInitializeClient(ClientAddonContextImpl(addonId))
+        }
+    }
+
+    private class ClientAddonContextImpl(
+        override val addonId: String,
+    ) : dev.henny.hha.api.client.HhaClientAddonContext {
+
+        override fun registerHudCooldown(
+            icon: net.minecraft.util.Identifier,
+            accentColor: Int,
+            provider: (net.minecraft.entity.player.PlayerEntity) -> net.minecraft.item.ItemStack?,
+        ) {
+            dev.henny.hha.api.client.HudCooldowns.register(
+                dev.henny.hha.api.client.HudCooldowns.Entry(icon, accentColor, provider)
+            )
         }
     }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0 — Addon system (2026-07-15)
+
+### Addon system
+- Addons are regular Fabric mods that hook into HHA via the new `"hha"` entrypoint (optional `"hha_client"` for HUD) — see `ADDONS.md` and `docs/`
+- Public API under `dev.henny.hha.api`: armor-set registry with builder DSL and tick hooks, ability registry bound to the existing keybinds, item registration helpers
+- Events: `ABILITY_CAST` (cancellable), `PLAYER_TICK`, `FULL_SET_CHANGED`, `SHOULD_HARM`/`IS_FRIENDLY` overrides
+- Addon config keys (`<addonid>.<key>`) live in `config/hha.json` and work with `/hha list|toggle|set|get`
+- Addons can add slots to the cooldown HUD with their own icon and accent color
+- Internally, the built-in Heaven/Hell sets and abilities now register through the same registries
+
 ## 0.0.1 — Initial release (2026-07-14)
 
 First public release for Minecraft 1.21.11 (Fabric).

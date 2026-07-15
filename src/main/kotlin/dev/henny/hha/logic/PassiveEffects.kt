@@ -2,6 +2,8 @@ package dev.henny.hha.logic
 
 import dev.henny.hha.Hha
 import dev.henny.hha.HhaParticles
+import dev.henny.hha.api.event.HhaEvents
+import dev.henny.hha.api.set.HhaSets
 import dev.henny.hha.config.HhaConfig
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
@@ -30,6 +32,9 @@ object PassiveEffects {
 
     /** Spieler, deren Warlord's Barrier gerade aktiv ist (für Trigger-Effekte). */
     private val barrierActive = HashSet<UUID>()
+
+    /** Pro Spieler: welche registrierten Sets aktuell komplett getragen werden. */
+    private val fullSets = HashMap<UUID, MutableSet<net.minecraft.util.Identifier>>()
 
     fun tick(server: MinecraftServer) {
         for (world in server.worlds) {
@@ -129,6 +134,8 @@ object PassiveEffects {
             }
         }
 
+        tickApi(world, player)
+
         if (world.time % 20L != 0L) return
 
         if (full && HhaConfig.enabled("hellforged") && (player.isOnFire || player.isInLava)) {
@@ -169,6 +176,21 @@ object PassiveEffects {
         }
 
         applySetHealthBonus(player, (full || hFull) && HhaConfig.enabled("set_health_bonus"))
+    }
+
+    /** Addon-Set-Ticker und API-Events — jeden Tick, unabhängig vom Sekundenraster. */
+    private fun tickApi(world: ServerWorld, player: ServerPlayerEntity) {
+        val worn = fullSets.getOrPut(player.uuid) { HashSet() }
+        for (set in HhaSets.all()) {
+            val state = set.state(player)
+            if (state.anyPiece) set.ticker?.tick(world, player, state)
+            if (state.full) {
+                if (worn.add(set.id)) HhaEvents.FULL_SET_CHANGED.invoker().onChanged(player, set, true)
+            } else if (worn.remove(set.id)) {
+                HhaEvents.FULL_SET_CHANGED.invoker().onChanged(player, set, false)
+            }
+        }
+        HhaEvents.PLAYER_TICK.invoker().onTick(world, player)
     }
 
     /** Wo an der Rüstung eine Flamme züngeln darf: Partikeltyp, Höhe und Radius. */

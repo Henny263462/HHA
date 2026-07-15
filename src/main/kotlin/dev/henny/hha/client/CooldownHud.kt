@@ -2,6 +2,7 @@ package dev.henny.hha.client
 
 import dev.henny.hha.Hha
 import dev.henny.hha.HhaItems
+import dev.henny.hha.api.client.HudCooldowns
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.RenderPipelines
@@ -48,26 +49,36 @@ object CooldownHud {
             stack.isOf(HhaItems.HEAVEN_LEGGINGS) || stack.isOf(HhaItems.HEAVEN_BOOTS) ||
             stack.isOf(HhaItems.HEAVENS_SWORD) || stack.isOf(HhaItems.HEAVENS_MACE)
 
+    /** Ein Eintrag in der Cooldown-Leiste: Stack, Icon, Akzentfarbe (0xRRGGBB). */
+    private class Slot(val stack: ItemStack, val icon: Identifier, val color: Int)
+
+    private fun builtin(stack: ItemStack, icon: Identifier): Slot =
+        Slot(stack, icon, if (isHeaven(stack)) GOLD else FIRE)
+
     private fun render(client: MinecraftClient, context: DrawContext) {
         val player = client.player ?: return
         if (client.options.hudHidden) return
 
         val manager = player.itemCooldownManager
 
-        val candidates = ArrayList<Pair<ItemStack, Identifier>>()
+        val candidates = ArrayList<Slot>()
         val chest = player.getEquippedStack(EquipmentSlot.CHEST)
         val legs = player.getEquippedStack(EquipmentSlot.LEGS)
         if (chest.isOf(HhaItems.HELL_CHESTPLATE) || chest.isOf(HhaItems.HEAVEN_CHESTPLATE)) {
-            candidates.add(chest to ICON_BEAM)
+            candidates.add(builtin(chest, ICON_BEAM))
         }
-        if (legs.isOf(HhaItems.HELL_LEGGINGS)) candidates.add(legs to ICON_CAMP)
+        if (legs.isOf(HhaItems.HELL_LEGGINGS)) candidates.add(builtin(legs, ICON_CAMP))
         for (stack in listOf(player.mainHandStack, player.offHandStack)) {
             when {
                 stack.isOf(HhaItems.HELLS_SWORD) || stack.isOf(HhaItems.HEAVENS_SWORD) ->
-                    candidates.add(stack to ICON_SWORD)
-                stack.isOf(HhaItems.HELLS_MACE) -> candidates.add(stack to ICON_CHAIN)
-                stack.isOf(HhaItems.HEAVENS_MACE) -> candidates.add(stack to ICON_MACE)
+                    candidates.add(builtin(stack, ICON_SWORD))
+                stack.isOf(HhaItems.HELLS_MACE) -> candidates.add(builtin(stack, ICON_CHAIN))
+                stack.isOf(HhaItems.HEAVENS_MACE) -> candidates.add(builtin(stack, ICON_MACE))
             }
+        }
+        for (entry in HudCooldowns.all()) {
+            val stack = entry.provider(player) ?: continue
+            if (!stack.isEmpty) candidates.add(Slot(stack, entry.icon, entry.accentColor and 0xFFFFFF))
         }
 
         val time = client.world?.time ?: 0L
@@ -77,9 +88,11 @@ object CooldownHud {
             var x = (context.scaledWindowWidth - total) / 2
             val y = context.scaledWindowHeight - 82
 
-            for ((stack, icon) in candidates) {
+            for (slot in candidates) {
+                val stack = slot.stack
+                val icon = slot.icon
+                val base = slot.color
                 val progress = manager.getCooldownProgress(stack, 0f)
-                val base = if (isHeaven(stack)) GOLD else FIRE
 
                 context.fill(x - 1, y - 1, x + 17, y + 17, 0x90000000.toInt())
 

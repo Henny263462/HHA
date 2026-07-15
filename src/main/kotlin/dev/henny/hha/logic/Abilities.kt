@@ -36,29 +36,6 @@ object Abilities {
     private const val CAMP_COOLDOWN = 1200
     private const val WAVE_RANGE = 9.0
 
-    /** Kontextabhängig: volles Heaven's Set → Lichtstrahl, volles Hells Set → Lavastrahl. */
-    fun beam(player: ServerPlayerEntity) {
-        when {
-            HeavenSet.hasFullSet(player) -> {
-                if (HhaConfig.enabled("light_beam")) lightBeam(player)
-            }
-            HellSet.hasFullSet(player) -> {
-                if (HhaConfig.enabled("lava_beam")) lavaBeam(player)
-            }
-            else -> actionBar(player, "hha.msg.need_full_set")
-        }
-    }
-
-    /** Utility-Taste [H]: Hells Leggings → Fire Camp. */
-    fun utility(player: ServerPlayerEntity) {
-        when {
-            HellSet.hasLeggings(player) -> {
-                if (HhaConfig.enabled("fire_camp")) fireCamp(player)
-            }
-            else -> actionBar(player, "hha.msg.need_leggings")
-        }
-    }
-
     /** Set-Bonus: gezielter Lavastrahl aus der Brustplatte. */
     fun lavaBeam(player: ServerPlayerEntity) {
         val world = player.entityWorld as? ServerWorld ?: return
