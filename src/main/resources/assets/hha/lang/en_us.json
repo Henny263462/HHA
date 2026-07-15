@@ -106,22 +106,6 @@
   "item.hha.heavens_mace.lore1": "Full mace smash mechanics included",
   "item.hha.heavens_mace.lore2": "Right-click: throw 50 blocks — every target on the path is struck by lightning, then it returns",
 
-  "item.hha.guide_book": "Tome of Abilities",
-  "item.hha.guide_book.lore1": "Right-click to read",
-
-  "hha.book.page1": "§8✦ §6§lH&H Armors§r §8✦\n§7§oTome of Abilities§r\n\nGear, passives, actives and Ultra Mode of the Hell's & Heaven's sets.\n\n§8More help: §7/info§r",
-  "hha.book.page2": "§6§lForging§r\nUpgrade §7Netherite§r gear at the smithing table with §cHell's§r or §bHeaven's Ingot§r + Jötunheim's Template.\n\nYour first set item locks your §lfaction§r.",
-  "hha.book.page3": "§6§lControls§r\n§lAbility 1§r §8(G)§r Set beam\n§lAbility 2§r §8(H)§r Fire Camp\n§lAbility 3§r §8(U)§r Ultra\n§lJump§r in mid-air: double jump\n§lRight-click§r: weapon skills\n§8Rebind in Options → Controls§r",
-  "hha.book.page4": "§6§lShared Passives§r\n§7Helmet:§r Regeneration I\n§7Chest:§r Fire Resistance\n§7Boots:§r Speed I, no fall damage\n§7Full set:§r 20 hearts\n\n§7/trust§r spares friends.",
-  "hha.book.page5": "§c§lHell's Armor§r\n§7Helmet:§r Undying Rage — Speed II below 3 ❤\n§7Chest:§r Warlord's Barrier near Brutes\n§7Legs:§r lava walking, Magma Stomp\n§7Boots:§r Ember Trail below 5 ❤",
-  "hha.book.page6": "§c§lHell's Actives§r\n§lAbility 1§r: lava beam (full set)\n§lAbility 2§r: Fire Camp — Regen IV + 3 Brutes\n§7Set:§r Hellforged — Strength I in fire/lava, Volcanic fireballs",
-  "hha.book.page7": "§c§lHell's Weapons§r\n§7Sword:§r crits give absorption; right-click: Haste III + auto-crits (20s)\n§7Mace:§r pull enemies in, grapple to blocks, bounce dash",
-  "hha.book.page8": "§b§lHeaven's Armor§r\n§7Helmet:§r Halo — Regen I for trusted players\n§7Chest:§r Divine Shield — survive lethal hits\n§7Legs:§r 2 extra air jumps, Shockwave\n§7Boots:§r light trail below 5 ❤",
-  "hha.book.page9": "§b§lHeaven's Actives§r\n§lAbility 1§r: light beam — hurts enemies, heals & cleanses trusted players (full set)\n§7Set:§r Grace — sneak mid-air to glide",
-  "hha.book.page10": "§b§lHeaven's Weapons§r\n§7Sword:§r every 3rd hit crits; right-click: light wave\n§7Mace:§r 50-block throw — lightning on every target, then it returns",
-  "hha.book.page11": "§6§lUltra Mode§r\n§lAbility 3§r with a full set: 60s without HHA cooldowns.\n§cHell:§r Strength II + fire aura\n§bHeaven:§r Regen II + ally healing\n§85 min cooldown§r",
-  "hha.book.page12": "§6§lMore§r\n§7/info§r — help in chat\n§7/trust <name>§r — protect friends\n§7/hha kit§r — PvP kits\n\n§8Fly high, stay crispy!§r",
-
   "key.hha.lava_beam": "Ability 1",
   "key.hha.fire_camp": "Ability 2",
   "key.hha.ultra": "Ability 3",

@@ -1,12 +1,10 @@
 # Changelog
 
-## 0.2.0 — Tome of Abilities & fixes (2026-07-15)
-
-### Added
-- Tome of Abilities: an in-game guide book (12 localized pages, EN/DE) explaining sets, controls, actives and Ultra Mode; craft it from a book + blaze powder + feather (`guide_book_recipe` toggle), or grab it from the creative tab
+## 0.2.0 — Ability keybinds, configurable throw damage & fixes (2026-07-15)
 
 ### Changed
-- Keybinds are now listed as "Ability 1" (set beam), "Ability 2" (Fire Camp) and "Ability 3" (Ultra) in the controls menu; lore, `/info` texts and the book reference them accordingly
+- Keybinds are now listed as "Ability 1" (set beam), "Ability 2" (Fire Camp) and "Ability 3" (Ultra) in the controls menu; lore and `/info` texts reference them accordingly
+- Heaven's Mace throw damage is now configurable via `mace_throw_damage` (default 5, i.e. the old lightning damage); the lightning strikes are purely visual now, targets still catch fire
 - Halo (Heaven's Helmet) now grants Regeneration only to trusted players in range instead of everyone
 
 ### Fixed

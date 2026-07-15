@@ -47,7 +47,6 @@ object HhaConfig {
         "hell_ingot_recipe" to true,
         "heaven_ingot_recipe" to true,
         "template_recipe" to true,
-        "guide_book_recipe" to true,
         "kit_mode" to false,
     )
 
@@ -78,6 +77,7 @@ object HhaConfig {
         "fire_camp_cooldown" to 1200.0,
         "sword_buff_cooldown" to 1800.0,
         "light_wave_cooldown" to 700.0,
+        "mace_throw_damage" to 5.0,
         "mace_throw_cooldown" to 160.0,
         "pull_cooldown" to 80.0,
         "grapple_cooldown" to 40.0,

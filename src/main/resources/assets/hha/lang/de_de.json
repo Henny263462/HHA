@@ -106,22 +106,6 @@
   "item.hha.heavens_mace.lore1": "Volle Vanilla-Mace-Smash-Mechanik inklusive",
   "item.hha.heavens_mace.lore2": "Rechtsklick: 50-Block-Wurf — jedes Ziel auf dem Weg trifft der Blitz, dann kommt er zurück",
 
-  "item.hha.guide_book": "Buch der Fähigkeiten",
-  "item.hha.guide_book.lore1": "Rechtsklick zum Lesen",
-
-  "hha.book.page1": "§8✦ §6§lH&H Armors§r §8✦\n§7§oBuch der Fähigkeiten§r\n\nAusrüstung, Passives, Actives und Ultra-Modus der Hells- & Heavens-Sets.\n\n§8Mehr Hilfe: §7/info§r",
-  "hha.book.page2": "§6§lSchmieden§r\nWerte §7Netherit§r-Ausrüstung am Schmiedetisch auf: §cHells§r- oder §bHeavens Barren§r + Jötunheims Vorlage.\n\nDein erstes Setitem legt deine §lFraktion§r fest.",
-  "hha.book.page3": "§6§lSteuerung§r\n§lAbility 1§r §8(G)§r Set-Strahl\n§lAbility 2§r §8(H)§r Fire Camp\n§lAbility 3§r §8(U)§r Ultra\n§lSprung§r in der Luft: Doppelsprung\n§lRechtsklick§r: Waffen-Skills\n§8Belegung: Optionen → Steuerung§r",
-  "hha.book.page4": "§6§lGemeinsame Passives§r\n§7Helm:§r Regeneration I\n§7Brust:§r Feuerschutz\n§7Stiefel:§r Speed I, kein Fallschaden\n§7Volles Set:§r 20 Herzen\n\n§7/trust§r verschont Freunde.",
-  "hha.book.page5": "§c§lHells Rüstung§r\n§7Helm:§r Undying Rage — Speed II unter 3 ❤\n§7Brust:§r Warlord's Barrier bei Brutes\n§7Hose:§r Lavalaufen, Magma Stomp\n§7Stiefel:§r Feuerspur unter 5 ❤",
-  "hha.book.page6": "§c§lHells Actives§r\n§lAbility 1§r: Lavastrahl (volles Set)\n§lAbility 2§r: Fire Camp — Regen IV + 3 Brutes\n§7Set:§r Hellforged — Stärke I in Feuer/Lava, Volcanic-Feuerbälle",
-  "hha.book.page7": "§c§lHells Waffen§r\n§7Sword:§r Crits geben Absorption; Rechtsklick: Eile III + Auto-Crits (20s)\n§7Mace:§r Gegner heranziehen, Enterhaken, Bounce-Dash",
-  "hha.book.page8": "§b§lHeavens Rüstung§r\n§7Helm:§r Halo — Regen I für Getrustete\n§7Brust:§r Divine Shield — Tödliches überleben\n§7Hose:§r 2 Extra-Luftsprünge, Shockwave\n§7Stiefel:§r Lichtspur unter 5 ❤",
-  "hha.book.page9": "§b§lHeavens Actives§r\n§lAbility 1§r: Lichtstrahl — verletzt Feinde, heilt & reinigt Getrustete (volles Set)\n§7Set:§r Grace — Schleichen in der Luft = Gleiten",
-  "hha.book.page10": "§b§lHeavens Waffen§r\n§7Sword:§r jeder 3. Treffer critet; Rechtsklick: Lichtwelle\n§7Mace:§r 50-Block-Wurf — Blitz auf jedes Ziel, dann kommt er zurück",
-  "hha.book.page11": "§6§lUltra-Modus§r\n§lAbility 3§r mit vollem Set: 60s ohne HHA-Cooldowns.\n§cHell:§r Stärke II + Feueraura\n§bHeaven:§r Regen II + Heilung für Verbündete\n§85 Min Cooldown§r",
-  "hha.book.page12": "§6§lSonstiges§r\n§7/info§r — Hilfe im Chat\n§7/trust <Name>§r — Freunde schützen\n§7/hha kit§r — PvP-Kits\n\n§8Fly high, stay crispy!§r",
-
   "key.hha.lava_beam": "Ability 1",
   "key.hha.fire_camp": "Ability 2",
   "key.hha.ultra": "Ability 3",

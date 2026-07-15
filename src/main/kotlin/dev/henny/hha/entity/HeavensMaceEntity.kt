@@ -2,6 +2,7 @@ package dev.henny.hha.entity
 
 import dev.henny.hha.HhaEntities
 import dev.henny.hha.HhaItems
+import dev.henny.hha.config.HhaConfig
 import net.minecraft.component.DataComponentTypes
 import net.minecraft.component.type.CustomModelDataComponent
 import net.minecraft.entity.EntityType
@@ -86,6 +87,10 @@ class HeavensMaceEntity : ThrownItemEntity {
         }
     }
 
+    /**
+     * Der Blitz ist rein kosmetisch — der Schaden kommt direkt vom Werfer und
+     * ist über `mace_throw_damage` konfigurierbar (Feuer wie beim echten Blitz).
+     */
     private fun smiteEntitiesOnPath(world: ServerWorld) {
         val thrower = this.getOwner()
         for (entity in world.getEntitiesByClass(LivingEntity::class.java, boundingBox.expand(1.2), { it.isAlive })) {
@@ -93,8 +98,20 @@ class HeavensMaceEntity : ThrownItemEntity {
             if (thrower is ServerPlayerEntity && !dev.henny.hha.logic.Targeting.shouldHarm(thrower, entity)) continue
             val bolt = EntityType.LIGHTNING_BOLT.create(world, SpawnReason.TRIGGERED) ?: continue
             bolt.refreshPositionAfterTeleport(entity.x, entity.y, entity.z)
+            bolt.setCosmetic(true)
             (thrower as? ServerPlayerEntity)?.let { bolt.channeler = it }
             world.spawnEntity(bolt)
+
+            val damage = HhaConfig.numF("mace_throw_damage")
+            if (damage > 0f) {
+                val source = if (thrower is ServerPlayerEntity) {
+                    world.damageSources.playerAttack(thrower)
+                } else {
+                    world.damageSources.lightningBolt()
+                }
+                entity.damage(world, source, damage)
+                entity.setOnFireFor(8.0f)
+            }
             world.spawnParticles(
                 dev.henny.hha.HhaParticles.DIVINE_FLASH,
                 entity.x, entity.y + entity.height * 0.5, entity.z,
