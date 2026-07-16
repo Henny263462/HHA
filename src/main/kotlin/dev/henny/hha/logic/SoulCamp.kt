@@ -4,7 +4,6 @@ import dev.henny.hha.HhaParticles
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.entity.mob.PiglinBruteEntity
 import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -23,8 +22,8 @@ import java.util.UUID
  */
 object SoulCamp {
 
-    /** Harte Obergrenze: Brute-Lebenszeit (1800) plus Sicherheitspuffer. */
-    private const val MAX_LIFETIME_TICKS = 1900L
+    /** Harte Obergrenze: Brute-Lebenszeit (10 Minuten) plus Sicherheitspuffer. */
+    private const val MAX_LIFETIME_TICKS = BruteAllies.LIFETIME_TICKS + 100L
 
     private class Camp(
         val brutes: Set<UUID>,
@@ -125,9 +124,10 @@ object SoulCamp {
         val iterator = list.iterator()
         while (iterator.hasNext()) {
             val camp = iterator.next()
-            val anyAlive = camp.brutes.any {
-                (world.getEntity(it) as? PiglinBruteEntity)?.isAlive == true
-            }
+            // Über BruteAllies prüfen statt world.getEntity(): ein Brute in einem
+            // entladenen Chunk zählt sonst fälschlich als tot und das Camp
+            // verschwindet, obwohl noch Brutes leben.
+            val anyAlive = camp.brutes.any { BruteAllies.isAlly(it) }
             if (anyAlive && world.time < camp.expiry) {
                 if (world.time % 20L == 0L && camp.decorations.isNotEmpty()) {
                     val pos = camp.decorations.keys.random()

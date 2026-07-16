@@ -7,9 +7,10 @@ import java.util.UUID
 
 /**
  * Ladesystem für den Hell's-Mace-Kettenzug: `pull_charges` Ladungen (Default 2),
- * zwischen den Ladungen der kurze `pull_cooldown` (2 s). Ist die letzte Ladung
- * verbraucht, greift der lange `pull_recharge` (20 s), danach sind alle Ladungen
- * wieder da. Im Ultra-Modus deaktiviert (freies Spammen, kein Cooldown).
+ * zwischen den Ladungen der kurze `pull_cooldown` (2 s). Die Ladungen füllen
+ * sich `pull_recharge` Ticks (20 s) nach der **letzten Nutzung** wieder komplett
+ * auf — egal ob eine oder beide verbraucht wurden. Ist die letzte Ladung weg,
+ * zeigt das Item den langen Recharge-Cooldown. Im Ultra-Modus deaktiviert.
  */
 object PullCharges {
 
@@ -28,17 +29,16 @@ object PullCharges {
         val max = HhaConfig.num("pull_charges").toInt().coerceAtLeast(1)
         val state = states.getOrPut(player.uuid) { State(max, 0L) }
 
-        if (state.charges <= 0) {
-            if (now < state.refillAt) return false
-            state.charges = max
-        }
+        // Recharge-Fenster abgelaufen → volle Ladungen (auch nach nur einer Nutzung).
+        if (now >= state.refillAt) state.charges = max
+        if (state.charges <= 0) return false
 
         state.charges--
+        state.refillAt = now + HhaConfig.num("pull_recharge").toLong()
         if (state.charges > 0) {
             Cooldowns.set(player, stack, "pull_cooldown")
         } else {
             Cooldowns.set(player, stack, "pull_recharge")
-            state.refillAt = now + HhaConfig.num("pull_recharge").toLong()
         }
         return true
     }

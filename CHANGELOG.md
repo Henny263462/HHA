@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.1 — Fire Camp & chain-charge fixes, ability-matched icons (2026-07-16)
+
+### Fixed
+- Fire Camp no longer vanishes while Brutes are alive: the camp had a hard 95-second cap, and a Brute in an unloaded chunk counted as dead. Brutes and camp now last 10 minutes; the camp only reverts when all its Brutes are dead (tracked via BruteAllies, which survives chunk unloads) or the 10 minutes run out
+- Hell's Mace chain charges refill properly: charges now fully restore 20 s after the last use — previously a single pull used long ago still counted, so the next pull triggered the long cooldown immediately
+
+### Changed
+- Heaven's Sword cooldown icon now shows the actual ability: an expanding light wave (three arcs) instead of a generic sword
+- Heaven's Mace icon redrawn: clean round flanged gold head, straight handle, lightning accents
+- Lava beam icon redrawn: glow origin, white-hot horizontal beam, impact star
+- Allied Brutes' Sharpness V diamond axe shows its enchantment glint again
+
 ## 0.5.0 — Six ability slots & complete addon API (2026-07-16)
 
 ### Added

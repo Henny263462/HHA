@@ -29,6 +29,7 @@ object CooldownHud {
     private val ICON_BEAM_LAVA: Identifier = Hha.id("hud/beam_lava")
     private val ICON_CAMP: Identifier = Hha.id("hud/camp")
     private val ICON_SWORD: Identifier = Hha.id("hud/sword")
+    private val ICON_WAVE: Identifier = Hha.id("hud/wave")
     private val ICON_MACE: Identifier = Hha.id("hud/mace")
     private val ICON_CHAIN: Identifier = Hha.id("hud/chain")
 
@@ -73,8 +74,8 @@ object CooldownHud {
         if (legs.isOf(HhaItems.HELL_LEGGINGS)) candidates.add(builtin(legs, ICON_CAMP))
         for (stack in listOf(player.mainHandStack, player.offHandStack)) {
             when {
-                stack.isOf(HhaItems.HELLS_SWORD) || stack.isOf(HhaItems.HEAVENS_SWORD) ->
-                    candidates.add(builtin(stack, ICON_SWORD))
+                stack.isOf(HhaItems.HELLS_SWORD) -> candidates.add(builtin(stack, ICON_SWORD))
+                stack.isOf(HhaItems.HEAVENS_SWORD) -> candidates.add(builtin(stack, ICON_WAVE))
                 stack.isOf(HhaItems.HELLS_MACE) -> candidates.add(builtin(stack, ICON_CHAIN))
                 stack.isOf(HhaItems.HEAVENS_MACE) -> candidates.add(builtin(stack, ICON_MACE))
             }

@@ -20,7 +20,8 @@ import kotlin.math.sin
  */
 object BruteAllies {
 
-    private const val LIFETIME_TICKS = 1800L
+    /** 10 Minuten — danach verschwinden Brutes (und mit ihnen das Soul Camp) automatisch. */
+    const val LIFETIME_TICKS = 12000L
 
     private data class Ally(val owner: UUID, val expiry: Long)
 
@@ -81,14 +82,13 @@ object BruteAllies {
             // Protection-II-Rüstung wert, ohne dass etwas den Piglin-Look überdeckt.
             addArmor(brute)
             brute.health = brute.maxHealth
-            // Seelenfeuer-Axt im Hell's-Sword-Look: Diamant, Sharpness V, kein Glint —
-            // die Flammen kommen wie beim Sword aus der Hand (siehe tick()).
+            // Seelenfeuer-Axt: Diamant, Sharpness V mit sichtbarem Glint — die Flammen
+            // kommen wie beim Hell's Sword aus der Hand (siehe tick()).
             val axe = net.minecraft.item.ItemStack(net.minecraft.item.Items.DIAMOND_AXE)
             val sharpness = world.registryManager
                 .getOrThrow(net.minecraft.registry.RegistryKeys.ENCHANTMENT)
                 .getOrThrow(net.minecraft.enchantment.Enchantments.SHARPNESS)
             axe.addEnchantment(sharpness, 5)
-            axe.set(net.minecraft.component.DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, false)
             brute.equipStack(net.minecraft.entity.EquipmentSlot.MAINHAND, axe)
             brute.setEquipmentDropChance(net.minecraft.entity.EquipmentSlot.MAINHAND, 0.0f)
             brute.addStatusEffect(
