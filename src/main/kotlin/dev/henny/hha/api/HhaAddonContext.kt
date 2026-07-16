@@ -1,8 +1,10 @@
 package dev.henny.hha.api
 
 import dev.henny.hha.api.ability.Ability
+import dev.henny.hha.api.lore.HhaLore
 import dev.henny.hha.api.set.ArmorSet
 import dev.henny.hha.api.set.ArmorSetBuilder
+import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 import org.slf4j.Logger
 
@@ -41,11 +43,22 @@ interface HhaAddonContext {
     fun registerSet(set: ArmorSet)
 
     /**
-     * Registriert eine aktive Fähigkeit. Der Client sendet weiter die
-     * bestehenden HHA-Tastendrücke; pro Trigger gewinnt die erste registrierte
-     * Ability, deren [Ability.isAvailable] zutrifft.
+     * Registriert eine aktive Fähigkeit auf einem der sechs Ability-Slots
+     * (Keybinds „Ability 1–6"; 4–6 sind standardmäßig unbelegt und für Addons
+     * gedacht). Pro Slot gewinnt die erste registrierte Ability, deren
+     * [Ability.isAvailable] zutrifft — Muster: Taste → Ausrüstungs-Check →
+     * Funktion.
      */
     fun registerAbility(ability: Ability)
+
+    /**
+     * Registriert dynamische Lore-Zeilen für ein Item. Die Zeilen zeigen live
+     * die echten Config-Werte (`num`/`seconds`/`hearts` im Builder) und werden
+     * beim Ändern der Config automatisch aktuell — wie bei den HHA-Items.
+     * Config-Schlüssel sind die vollen Keys (z. B. der Rückgabewert von
+     * [registerNumber] oder eingebaute wie `"beam_damage"`).
+     */
+    fun registerLore(item: Item, configure: HhaLore.LoreBuilder.() -> Unit)
 
     /**
      * Registriert einen Feature-Toggle in der HHA-Config (Default [default]).

@@ -46,6 +46,13 @@ private class AddonContextImpl(override val addonId: String) : HhaAddonContext {
         HhaAbilities.register(ability)
     }
 
+    override fun registerLore(
+        item: net.minecraft.item.Item,
+        configure: dev.henny.hha.api.lore.HhaLore.LoreBuilder.() -> Unit,
+    ) {
+        dev.henny.hha.api.lore.HhaLore.register(item, configure)
+    }
+
     override fun registerToggle(key: String, default: Boolean): String {
         val full = fullKey(key)
         HhaConfig.registerToggle(full, default)

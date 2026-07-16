@@ -108,9 +108,12 @@
   "item.hha.heavens_mace.lore1": "Volle Vanilla-Mace-Smash-Mechanik inklusive",
   "item.hha.heavens_mace.lore2": "Rechtsklick: 50-Block-Wurf — jedes Ziel auf dem Weg trifft der Blitz, dann kommt er zurück (%s Schaden, %ss Abklingzeit)",
 
-  "key.hha.lava_beam": "Ability 1",
-  "key.hha.fire_camp": "Ability 2",
-  "key.hha.ultra": "Ability 3",
+  "key.hha.ability_1": "Ability 1",
+  "key.hha.ability_2": "Ability 2",
+  "key.hha.ability_3": "Ability 3",
+  "key.hha.ability_4": "Ability 4",
+  "key.hha.ability_5": "Ability 5",
+  "key.hha.ability_6": "Ability 6",
   "key.categories.hha.hells_set": "Hells & Heavens Set",
   "key.category.hha.hells_set": "Hells & Heavens Set",
 

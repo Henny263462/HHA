@@ -1,4 +1,4 @@
-# Config & HUD
+# Config, Lore & HUD
 
 ## Config-Schlüssel
 
@@ -14,8 +14,10 @@ context.registerNumber("nova_cooldown", default = 200.0)
 Die Schlüssel landen als `<addonid>.<key>` in `config/hha/hha.json` und verhalten
 sich wie eingebaute:
 
-- `/hha list` zeigt sie, `/hha toggle|set|get` ändern sie live (OP Level 2)
+- `/hha list` zeigt sie gruppiert unter „Addon: <id>", `/hha toggle|set|get`
+  ändern sie live (OP Level 2)
 - Werte persistieren und überleben `/hha reset` als Default
+- Zahlenwerte werden automatisch an alle Clients gesynct (für die Lore)
 
 Lesen (überall außer im Entrypoint selbst — dort ist die Datei noch nicht
 geladen):
@@ -28,6 +30,28 @@ HhaConfig.enabled("myaddon.frost_nova")  // voller Key, z. B. aus statischem Kon
 
 Konvention: Cooldown-Schlüssel enthalten die Dauer in **Ticks** und werden
 über `Cooldowns.set(player, stack, "myaddon.nova_cooldown")` angewendet.
+
+## Dynamische Lore
+
+`context.registerLore(item) { ... }` (Registry: `api.lore.HhaLore`) definiert
+Tooltip-Zeilen, die clientseitig mit den echten, vom Server gesyncten
+Config-Werten gerendert werden — genau wie bei den HHA-Items:
+
+```kotlin
+context.registerLore(FROST_BLADE) {
+    line("item.frost.frost_blade.lore1")                            // statisch
+    line("item.frost.frost_blade.lore2",                            // mit %s-Platzhaltern
+         num("frost.nova_damage"), seconds("frost.nova_cooldown"))
+}
+```
+
+- `num(key)` — Wert unverändert (Schaden, Blöcke, Anzahl)
+- `seconds(key)` — Ticks → Sekunden
+- `hearts(key)` — Half-Hearts → Herzen
+
+Die Zeilen erscheinen goldfarben direkt unter dem Itemnamen und sind nach
+`/hha set` sofort aktuell. Config-Schlüssel sind volle Keys (`addonid.key`
+oder eingebaute wie `beam_damage`).
 
 ## Cooldown-HUD
 

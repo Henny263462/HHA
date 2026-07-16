@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0 — Six ability slots & complete addon API (2026-07-16)
+
+### Added
+- Six generic ability keybinds ("Ability 1–6"): 1–3 keep their defaults (G/H/U — set beam, Fire Camp, Ultra), 4–6 start unbound and are free for addons — no custom keybinds or network packets needed
+- Lore API (`api.lore.HhaLore` / `context.registerLore`): addons define dynamic tooltip lines with `num`/`seconds`/`hearts` placeholders that render the live, server-synced config values — the built-in items use the same registry now
+- `/hha list` groups addon config keys under their own "Addon: <id>" headers
+
+### Changed
+- Ability model restructured to **ability key → equipment check → function**: `AbilityTrigger` is now `AbilitySlot` (`ABILITY_1..6`, `MOVEMENT`), and the faction gate moved from the slot to the individual ability (`factionGateSlot`) — e.g. Ability 1 + full Hell set → lava beam
+- Keybind IDs renamed to `key.hha.ability_1..6`; custom rebinds of the old G/H/U keys reset to defaults once
+
 ## 0.4.1 — Config files consolidated under config/hha/ (2026-07-15)
 
 ### Changed

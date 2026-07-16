@@ -18,9 +18,8 @@ import org.lwjgl.glfw.GLFW
 
 class HhaClient : ClientModInitializer {
 
-    private lateinit var beamKey: KeyBinding
-    private lateinit var utilityKey: KeyBinding
-    private lateinit var ultraKey: KeyBinding
+    /** „Ability 1–6" in der Reihenfolge der Slots; 4–6 starten unbelegt (für Addons). */
+    private lateinit var abilityKeys: List<KeyBinding>
     private var jumpWasPressed = false
     private var airJumpsUsedClient = 0
 
@@ -51,15 +50,15 @@ class HhaClient : ClientModInitializer {
 
         val category = KeyBinding.Category.create(Hha.id("hells_set"))
 
-        beamKey = KeyBindingHelper.registerKeyBinding(
-            KeyBinding("key.hha.lava_beam", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, category)
+        val defaultKeys = intArrayOf(
+            GLFW.GLFW_KEY_G, GLFW.GLFW_KEY_H, GLFW.GLFW_KEY_U,
+            GLFW.GLFW_KEY_UNKNOWN, GLFW.GLFW_KEY_UNKNOWN, GLFW.GLFW_KEY_UNKNOWN,
         )
-        utilityKey = KeyBindingHelper.registerKeyBinding(
-            KeyBinding("key.hha.fire_camp", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, category)
-        )
-        ultraKey = KeyBindingHelper.registerKeyBinding(
-            KeyBinding("key.hha.ultra", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_U, category)
-        )
+        abilityKeys = defaultKeys.mapIndexed { index, key ->
+            KeyBindingHelper.registerKeyBinding(
+                KeyBinding("key.hha.ability_${index + 1}", InputUtil.Type.KEYSYM, key, category)
+            )
+        }
 
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             CooldownHud.clientTick()
@@ -71,14 +70,14 @@ class HhaClient : ClientModInitializer {
                 return@register
             }
 
-            while (beamKey.wasPressed()) {
-                ClientPlayNetworking.send(AbilityPayload(AbilityPayload.BEAM))
-            }
-            while (utilityKey.wasPressed()) {
-                ClientPlayNetworking.send(AbilityPayload(AbilityPayload.UTILITY))
-            }
-            while (ultraKey.wasPressed()) {
-                ClientPlayNetworking.send(AbilityPayload(AbilityPayload.ULTRA))
+            val payloadIds = intArrayOf(
+                AbilityPayload.ABILITY_1, AbilityPayload.ABILITY_2, AbilityPayload.ABILITY_3,
+                AbilityPayload.ABILITY_4, AbilityPayload.ABILITY_5, AbilityPayload.ABILITY_6,
+            )
+            abilityKeys.forEachIndexed { index, key ->
+                while (key.wasPressed()) {
+                    ClientPlayNetworking.send(AbilityPayload(payloadIds[index]))
+                }
             }
 
             val jumpPressed = client.options.jumpKey.isPressed

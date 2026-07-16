@@ -62,15 +62,23 @@ class FrostAddon : HhaAddon {
             }
         }
 
-        // Aktive Fähigkeit auf der Beam-Taste (Standard G)
+        // Aktive Fähigkeit auf einem freien Ability-Slot (Keybind "Ability 4").
+        // Muster: Ability-Taste -> Ausrüstungs-Check -> Funktion.
         context.registerAbility(
-            SimpleAbility(context.id("frost_nova"), AbilityTrigger.PRIMARY, frostSet::hasFullSet) { player ->
+            SimpleAbility(context.id("frost_nova"), AbilitySlot.ABILITY_4, frostSet::hasFullSet, { player ->
                 if (!context.toggle("frost_nova")) return@SimpleAbility
                 val chestStack = player.getEquippedStack(EquipmentSlot.CHEST)
                 if (player.itemCooldownManager.isCoolingDown(chestStack)) return@SimpleAbility
                 // ... Nova wirken, context.number("nova_damage") als Schaden ...
-            }
+            })
         )
+
+        // Dynamische Lore mit echten Config-Werten — wie bei den HHA-Items.
+        val damageKey = context.registerNumber("nova_damage", 8.0) // = "frost.nova_damage"
+        context.registerLore(helmet) {
+            line("item.frost.frost_helmet.lore1")
+            line("item.frost.frost_helmet.lore2", num(damageKey), seconds("frost.nova_cooldown"))
+        }
     }
 }
 ```
@@ -87,21 +95,26 @@ eingebauten Sets `hha:heaven` und `hha:hell`.
 
 ### Abilities — `dev.henny.hha.api.ability`
 
-Der HHA-Client sendet vier Tastendrücke, an die sich Abilities hängen:
+Sechs generische Ability-Tasten plus Bewegungs-Trigger. Das Modell ist immer
+**Ability-Taste → Ausrüstungs-Check → Funktion**:
 
-| Trigger    | Keybind (Default)   | Fraktions-Gate | Fallback-Meldung        |
-| ---------- | ------------------- | -------------- | ----------------------- |
-| `PRIMARY`  | „Ability 1" (G)     | Brustplatte    | „brauchst volles Set"   |
-| `UTILITY`  | „Ability 2" (H)     | Leggings       | „brauchst Leggings"     |
-| `MOVEMENT` | Sprungtaste in Luft | Leggings       | keine                   |
-| `ULTRA`    | „Ability 3" (U)     | Helm           | keine                   |
+| `AbilitySlot` | Keybind (Default) | Eingebaut                     |
+| ------------- | ----------------- | ----------------------------- |
+| `ABILITY_1`   | „Ability 1" (G)   | Licht-/Lavastrahl (volles Set)|
+| `ABILITY_2`   | „Ability 2" (H)   | Fire Camp (Hell-Leggings)     |
+| `ABILITY_3`   | „Ability 3" (U)   | Ultra-Modus                   |
+| `ABILITY_4–6` | unbelegt          | **frei für Addons**           |
+| `MOVEMENT`    | Sprung in der Luft| Doppelsprung (Heaven)         |
 
-Pro Trigger gewinnt die **erste registrierte** Ability, deren
+Pro Slot gewinnt die **erste registrierte** Ability, deren
 `isAvailable(player)` zutrifft (die eingebauten Heaven/Hell-Abilities sind
-zuerst dran und matchen nur bei getragenem Heaven/Hell-Set). `cast` ist
-selbst für Cooldowns und Config-Toggles zuständig — `Cooldowns.set(player,
-stack, "frost.nova_cooldown")` liest die Dauer aus der Config und
-respektiert den Ultra-Modus.
+zuerst dran und matchen nur bei getragenem Heaven/Hell-Set) — Slots 4–6
+gehören komplett den Addons. Über `factionGateSlot` (optionaler Parameter von
+`SimpleAbility` bzw. Property im Interface) prüft der Dispatcher vor dem Cast
+die Fraktionssperre auf dem getragenen Item dieses Slots. `cast` ist selbst
+für Cooldowns und Config-Toggles zuständig — `Cooldowns.set(player, stack,
+"frost.nova_cooldown")` liest die Dauer aus der Config und respektiert den
+Ultra-Modus.
 
 ### Events — `dev.henny.hha.api.event.HhaEvents`
 
@@ -115,9 +128,27 @@ respektiert den Ultra-Modus.
 
 `context.registerToggle("key", default)` / `registerNumber` legen Schlüssel
 als `<addonid>.key` in `config/hha/hha.json` an. Sie sind sofort über
-`/hha list`, `/hha toggle`, `/hha set`, `/hha get` administrierbar und
-persistieren automatisch. Lesen per `context.toggle("key")` /
+`/hha list` (dort gruppiert unter „Addon: <id>"), `/hha toggle`, `/hha set`,
+`/hha get` administrierbar, persistieren automatisch und werden für die
+Lore-Anzeige an alle Clients gesynct. Lesen per `context.toggle("key")` /
 `context.number("key")` (oder `HhaConfig.enabled("addonid.key")`).
+
+### Lore — `dev.henny.hha.api.lore.HhaLore`
+
+`context.registerLore(item) { ... }` definiert dynamische Tooltip-Zeilen, die
+live die echten Config-Werte zeigen (auch nach `/hha set`):
+
+```kotlin
+context.registerLore(FROST_BLADE) {
+    line("item.frost.frost_blade.lore1")                              // statisch
+    line("item.frost.frost_blade.lore2", num("frost.nova_damage"),    // %s-Platzhalter
+         seconds("frost.nova_cooldown"))
+}
+```
+
+`num` zeigt den Wert unverändert, `seconds` rechnet Ticks in Sekunden um,
+`hearts` Half-Hearts in Herzen. Config-Schlüssel sind volle Keys
+(`addonid.key` oder eingebaute wie `beam_damage`).
 
 ### Client-HUD — Entrypoint `hha_client`
 

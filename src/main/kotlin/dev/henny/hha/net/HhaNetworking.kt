@@ -1,7 +1,7 @@
 package dev.henny.hha.net
 
 import dev.henny.hha.Hha
-import dev.henny.hha.api.ability.AbilityTrigger
+import dev.henny.hha.api.ability.AbilitySlot
 import dev.henny.hha.api.ability.HhaAbilities
 import dev.henny.hha.config.HhaConfig
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
@@ -13,16 +13,20 @@ import net.minecraft.network.codec.PacketCodec
 import net.minecraft.network.codec.PacketCodecs
 import net.minecraft.network.packet.CustomPayload
 
-/** C2S-Payload: Spieler hat eine Fähigkeiten-Taste gedrückt. */
+/** C2S-Payload: Spieler hat eine Ability-Taste gedrückt. */
 data class AbilityPayload(val ability: Int) : CustomPayload {
 
     override fun getId(): CustomPayload.Id<out CustomPayload> = ID
 
     companion object {
-        const val BEAM = 0
-        const val UTILITY = 1
+        // Wire-IDs 0–3 bleiben aus Kompatibilität wie in 0.1.x belegt.
+        const val ABILITY_1 = 0
+        const val ABILITY_2 = 1
         const val AIR_JUMP = 2
-        const val ULTRA = 3
+        const val ABILITY_3 = 3
+        const val ABILITY_4 = 4
+        const val ABILITY_5 = 5
+        const val ABILITY_6 = 6
 
         val ID = CustomPayload.Id<AbilityPayload>(Hha.id("ability"))
         val CODEC: PacketCodec<RegistryByteBuf, AbilityPayload> =
@@ -77,14 +81,17 @@ object HhaNetworking {
         }
 
         ServerPlayNetworking.registerGlobalReceiver(AbilityPayload.ID) { payload, context ->
-            val trigger = when (payload.ability) {
-                AbilityPayload.BEAM -> AbilityTrigger.PRIMARY
-                AbilityPayload.UTILITY -> AbilityTrigger.UTILITY
-                AbilityPayload.AIR_JUMP -> AbilityTrigger.MOVEMENT
-                AbilityPayload.ULTRA -> AbilityTrigger.ULTRA
+            val slot = when (payload.ability) {
+                AbilityPayload.ABILITY_1 -> AbilitySlot.ABILITY_1
+                AbilityPayload.ABILITY_2 -> AbilitySlot.ABILITY_2
+                AbilityPayload.AIR_JUMP -> AbilitySlot.MOVEMENT
+                AbilityPayload.ABILITY_3 -> AbilitySlot.ABILITY_3
+                AbilityPayload.ABILITY_4 -> AbilitySlot.ABILITY_4
+                AbilityPayload.ABILITY_5 -> AbilitySlot.ABILITY_5
+                AbilityPayload.ABILITY_6 -> AbilitySlot.ABILITY_6
                 else -> return@registerGlobalReceiver
             }
-            HhaAbilities.dispatch(context.player(), trigger)
+            HhaAbilities.dispatch(context.player(), slot)
         }
     }
 

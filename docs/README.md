@@ -8,7 +8,7 @@ gibt es in [ADDONS.md](../ADDONS.md) im Repo-Root.
 | [Sets](sets.md) | Rüstungssets registrieren, Voll-Set-Erkennung, Tick-Hooks |
 | [Abilities](abilities.md) | Aktive Fähigkeiten auf den HHA-Tasten |
 | [Events](events.md) | Hooks in Ability-Casts, Spieler-Ticks und Targeting |
-| [Config & HUD](config-und-hud.md) | Eigene Config-Schlüssel und Cooldown-HUD-Slots |
+| [Config, Lore & HUD](config-und-hud.md) | Eigene Config-Schlüssel, dynamische Lore und Cooldown-HUD-Slots |
 
 ## Wie ein Addon aufgebaut ist
 
@@ -48,6 +48,7 @@ Client: HHA-HUD & Keybinds → Addon-Client-Entrypoints ("hha_client")
 
 - FactionLock kennt nur Heaven↔Hell; Addon-Sets sind fraktionsneutral.
 - `/hha kit` ist auf Heaven/Hell beschränkt.
-- Nur die vier vorhandenen Tasten-Trigger; eigene Keybinds baut das Addon selbst.
+- Sechs Ability-Slots (1–3 belegt durch HHA, 4–6 frei für Addons) plus
+  Bewegungs-Trigger; darüber hinausgehende Keybinds baut das Addon selbst.
 - Assets (Modelle, Texturen, `equipment/*.json`, Lang) liefert das Addon im
   eigenen Namespace mit.

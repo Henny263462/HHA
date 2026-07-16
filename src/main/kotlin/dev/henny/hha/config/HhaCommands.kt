@@ -52,12 +52,26 @@ object HhaCommands {
                     .then(literal("list").requires(ADMIN).executes { ctx ->
                         val source = ctx.source
                         source.sendFeedback({ header("Fähigkeiten") }, false)
-                        HhaConfig.TOGGLE_DEFAULTS.keys.forEach { key ->
+                        HhaConfig.TOGGLE_DEFAULTS.keys.filter { '.' !in it }.forEach { key ->
                             source.sendFeedback({ toggleLine(key) }, false)
                         }
                         source.sendFeedback({ header("Werte") }, false)
-                        HhaConfig.NUMBER_DEFAULTS.keys.forEach { key ->
+                        HhaConfig.NUMBER_DEFAULTS.keys.filter { '.' !in it }.forEach { key ->
                             source.sendFeedback({ numberLine(key) }, false)
+                        }
+                        // Addon-Schlüssel (addonid.key) gruppiert je Addon anhängen.
+                        val addonIds = (HhaConfig.TOGGLE_DEFAULTS.keys + HhaConfig.NUMBER_DEFAULTS.keys)
+                            .filter { '.' in it }
+                            .map { it.substringBefore('.') }
+                            .distinct()
+                        for (addonId in addonIds) {
+                            source.sendFeedback({ header("Addon: $addonId") }, false)
+                            HhaConfig.TOGGLE_DEFAULTS.keys
+                                .filter { it.startsWith("$addonId.") }
+                                .forEach { key -> source.sendFeedback({ toggleLine(key) }, false) }
+                            HhaConfig.NUMBER_DEFAULTS.keys
+                                .filter { it.startsWith("$addonId.") }
+                                .forEach { key -> source.sendFeedback({ numberLine(key) }, false) }
                         }
                         1
                     })
