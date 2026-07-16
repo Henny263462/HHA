@@ -4,13 +4,13 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import dev.henny.hha.Hha
 import dev.henny.hha.HhaItems
+import dev.henny.hha.config.HhaPaths
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback
 import net.fabricmc.fabric.api.event.player.UseBlockCallback
 import net.fabricmc.fabric.api.event.player.UseEntityCallback
 import net.fabricmc.fabric.api.event.player.UseItemCallback
-import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -53,7 +53,7 @@ object FactionLock {
     private val gson = GsonBuilder().setPrettyPrinting().create()
     private var initialized = false
 
-    private fun path(): Path = FabricLoader.getInstance().configDir.resolve("hha_factions.json")
+    private fun path(): Path = HhaPaths.file("factions.json")
 
     /**
      * Lädt die Bindungen und registriert alle serverseitigen Sperren.
@@ -336,6 +336,7 @@ object FactionLock {
     private fun load() {
         bindings.clear()
         val file = path()
+        HhaPaths.migrate("hha_factions.json", file)
         if (!Files.exists(file)) return
 
         try {

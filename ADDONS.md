@@ -114,7 +114,7 @@ respektiert den Ultra-Modus.
 ### Config
 
 `context.registerToggle("key", default)` / `registerNumber` legen Schlüssel
-als `<addonid>.key` in `config/hha.json` an. Sie sind sofort über
+als `<addonid>.key` in `config/hha/hha.json` an. Sie sind sofort über
 `/hha list`, `/hha toggle`, `/hha set`, `/hha get` administrierbar und
 persistieren automatisch. Lesen per `context.toggle("key")` /
 `context.number("key")` (oder `HhaConfig.enabled("addonid.key")`).

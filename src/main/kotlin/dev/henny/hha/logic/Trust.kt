@@ -3,7 +3,7 @@ package dev.henny.hha.logic
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import dev.henny.hha.Hha
-import net.fabricmc.loader.api.FabricLoader
+import dev.henny.hha.config.HhaPaths
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.UUID
@@ -11,14 +11,14 @@ import java.util.UUID
 /**
  * /trust-System: Wen ich truste, den treffen meine Fähigkeiten nicht —
  * stattdessen wirken Purify & Co. Einseitig: A trustet B ≠ B trustet A.
- * Persistiert in config/hha_trust.json.
+ * Persistiert in config/hha/trust.json.
  */
 object Trust {
 
     private val trusts = HashMap<UUID, MutableSet<UUID>>()
     private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    private fun path(): Path = FabricLoader.getInstance().configDir.resolve("hha_trust.json")
+    private fun path(): Path = HhaPaths.file("trust.json")
 
     @JvmStatic
     fun isTrusted(owner: UUID, other: UUID): Boolean =
@@ -41,6 +41,7 @@ object Trust {
     fun load() {
         trusts.clear()
         val file = path()
+        HhaPaths.migrate("hha_trust.json", file)
         if (!Files.exists(file)) return
         try {
             val root = gson.fromJson(Files.readString(file), JsonObject::class.java) ?: return

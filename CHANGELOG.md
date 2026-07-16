@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1 — Config files consolidated under config/hha/ (2026-07-15)
+
+### Changed
+- All HHA config files now live under `config/hha/`: `config/hha/hha.json` (settings), `config/hha/factions.json` and `config/hha/trust.json` (joining the custom recipes already in `config/hha/datapack/`). Legacy files (`config/hha.json`, `config/hha_factions.json`, `config/hha_trust.json`) are migrated automatically on first launch — no settings are lost.
+
 ## 0.4.0 — Chain charges, new beam icons & tankier Brutes (2026-07-15)
 
 ### Added

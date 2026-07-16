@@ -11,7 +11,7 @@ context.registerNumber("nova_damage", default = 8.0)    // → "myaddon.nova_dam
 context.registerNumber("nova_cooldown", default = 200.0)
 ```
 
-Die Schlüssel landen als `<addonid>.<key>` in `config/hha.json` und verhalten
+Die Schlüssel landen als `<addonid>.<key>` in `config/hha/hha.json` und verhalten
 sich wie eingebaute:
 
 - `/hha list` zeigt sie, `/hha toggle|set|get` ändern sie live (OP Level 2)

@@ -3,13 +3,12 @@ package dev.henny.hha.config
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import dev.henny.hha.Hha
-import net.fabricmc.loader.api.FabricLoader
 import java.nio.file.Files
 import java.nio.file.Path
 
 /**
  * Developer-Konfiguration: alle Fähigkeiten lassen sich abschalten, Schadenswerte
- * und Trigger-Schwellen anpassen. Persistiert in config/hha.json, live änderbar
+ * und Trigger-Schwellen anpassen. Persistiert in config/hha/hha.json, live änderbar
  * über den /hha-Befehl.
  */
 object HhaConfig {
@@ -114,7 +113,7 @@ object HhaConfig {
 
     private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    private fun path(): Path = FabricLoader.getInstance().configDir.resolve("hha.json")
+    private fun path(): Path = HhaPaths.file("hha.json")
 
     @JvmStatic
     fun enabled(key: String): Boolean = toggles[key] ?: TOGGLE_DEFAULTS[key] ?: true
@@ -152,6 +151,7 @@ object HhaConfig {
         toggles.clear()
         numbers.clear()
         val file = path()
+        HhaPaths.migrate("hha.json", file)
         if (!Files.exists(file)) {
             save()
             return
