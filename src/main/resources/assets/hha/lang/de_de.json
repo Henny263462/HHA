@@ -131,6 +131,7 @@
   "hha.msg.kit_disabled": "Der Kit-Modus ist deaktiviert (/hha toggle kit_mode true).",
   "hha.msg.kit_hell": "Hells SMP-Kit ausgerüstet — stay crispy!",
   "hha.msg.kit_heaven": "Heavens SMP-Kit ausgerüstet — fly high!",
+  "hha.msg.kit_generic": "%s-Kit ausgerüstet!",
   "hha.faction.hell": "Hell",
   "hha.faction.heaven": "Heaven",
   "hha.msg.faction_bound": "Fraktion festgelegt: %s — Wechsel nur mit allen 6 Teilen des Gegen-Sets.",

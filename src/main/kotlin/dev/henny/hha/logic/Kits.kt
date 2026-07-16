@@ -1,6 +1,6 @@
 package dev.henny.hha.logic
 
-import dev.henny.hha.HhaItems
+import dev.henny.hha.api.set.ArmorSet
 import net.minecraft.component.type.PotionContentsComponent
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.Enchantments
@@ -18,19 +18,26 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 
 /**
- * Kit-Modus: das klassische Diamond-SMP-Kit in der vorgegebenen Slot-Belegung,
- * aber komplett mit den Set-eigenen Sachen: Set-Rüstung, Set-Schwert und Set-Mace,
- * alles voll verzaubert. Statt Heiltränken gibt es Stärke-II- und Weaving-Wurftränke.
+ * Kit-Modus: das klassische Diamond-SMP-Kit in der vorgegebenen Slot-Belegung.
+ * Kits werden **automatisch aus jedem registrierten [ArmorSet] generiert** —
+ * auch aus Addon-Sets: die vier Rüstungsteile voll verzaubert, dazu die
+ * Set-Waffen nach Rollen-Konvention (`weapons[0]` = Schwert-Verzauberungen,
+ * `weapons[1]` = Mace-Verzauberungen) und die Standard-Ausrüstung mit
+ * Stärke-II- und Weaving-Wurftränken.
  */
 object Kits {
 
-    enum class Set { HELL, HEAVEN }
+    private val armorSlots = listOf(
+        EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET,
+    )
 
-    fun give(player: ServerPlayerEntity, set: Set) {
+    /** Generiert und gibt das Kit für ein registriertes Set. */
+    fun give(player: ServerPlayerEntity, set: ArmorSet) {
         val inventory = player.inventory
         inventory.clear()
 
-        for ((slot, piece) in armorPieces(set)) {
+        for (slot in armorSlots) {
+            val piece = set.piece(slot) ?: continue
             player.equipStack(
                 slot,
                 enchanted(
@@ -46,31 +53,46 @@ object Kits {
             enchanted(player, Items.SHIELD, Enchantments.UNBREAKING to 3, Enchantments.MENDING to 1)
         )
 
-        inventory.setStack(
-            0,
-            enchanted(
-                player, mace(set),
-                Enchantments.WIND_BURST to 1,
-                Enchantments.DENSITY to 5,
-                Enchantments.UNBREAKING to 3,
-                Enchantments.MENDING to 1,
+        // Waffen-Rollen: [0] = Schwert (Hotbar 2), [1] = Mace (Hotbar 0), Rest ab Slot 3.
+        set.weapons.getOrNull(1)?.let { mace ->
+            inventory.setStack(
+                0,
+                enchanted(
+                    player, mace,
+                    Enchantments.WIND_BURST to 1,
+                    Enchantments.DENSITY to 5,
+                    Enchantments.UNBREAKING to 3,
+                    Enchantments.MENDING to 1,
+                )
             )
-        )
+        }
         inventory.setStack(1, ItemStack(Items.TOTEM_OF_UNDYING))
-        inventory.setStack(
-            2,
-            enchanted(
-                player, sword(set),
-                Enchantments.SHARPNESS to 5,
-                Enchantments.KNOCKBACK to 1,
-                Enchantments.FIRE_ASPECT to 2,
-                Enchantments.SWEEPING_EDGE to 3,
-                Enchantments.UNBREAKING to 3,
-                Enchantments.MENDING to 1,
+        set.weapons.getOrNull(0)?.let { sword ->
+            inventory.setStack(
+                2,
+                enchanted(
+                    player, sword,
+                    Enchantments.SHARPNESS to 5,
+                    Enchantments.KNOCKBACK to 1,
+                    Enchantments.FIRE_ASPECT to 2,
+                    Enchantments.SWEEPING_EDGE to 3,
+                    Enchantments.UNBREAKING to 3,
+                    Enchantments.MENDING to 1,
+                )
             )
-        )
-        inventory.setStack(3, splashPotion(Potions.STRONG_STRENGTH))
-        inventory.setStack(4, ItemStack(Items.COBWEB, 64))
+        }
+        var extraSlot = 3
+        for (weapon in set.weapons.drop(2)) {
+            if (extraSlot > 4) break
+            inventory.setStack(
+                extraSlot++,
+                enchanted(player, weapon, Enchantments.UNBREAKING to 3, Enchantments.MENDING to 1)
+            )
+        }
+        inventory.setStack(3, inventory.getStack(3).takeIf { !it.isEmpty }
+            ?: splashPotion(Potions.STRONG_STRENGTH))
+        inventory.setStack(4, inventory.getStack(4).takeIf { !it.isEmpty }
+            ?: ItemStack(Items.COBWEB, 64))
         inventory.setStack(5, ItemStack(Items.WATER_BUCKET))
         inventory.setStack(6, ItemStack(Items.ENDER_PEARL, 16))
         inventory.setStack(7, ItemStack(Items.GOLDEN_APPLE, 64))
@@ -113,30 +135,9 @@ object Kits {
         player.currentScreenHandler.sendContentUpdates()
         player.entityWorld.playSound(
             null, player.blockPos, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE.value(),
-            SoundCategory.PLAYERS, 1.0f, if (set == Set.HELL) 0.8f else 1.2f
+            SoundCategory.PLAYERS, 1.0f, if (set.id == dev.henny.hha.api.set.HhaSets.HELL_ID) 0.8f else 1.2f
         )
     }
-
-    private fun armorPieces(set: Set): List<Pair<EquipmentSlot, Item>> = when (set) {
-        Set.HELL -> listOf(
-            EquipmentSlot.HEAD to HhaItems.HELL_HELMET,
-            EquipmentSlot.CHEST to HhaItems.HELL_CHESTPLATE,
-            EquipmentSlot.LEGS to HhaItems.HELL_LEGGINGS,
-            EquipmentSlot.FEET to HhaItems.HELL_BOOTS,
-        )
-        Set.HEAVEN -> listOf(
-            EquipmentSlot.HEAD to HhaItems.HEAVEN_HELMET,
-            EquipmentSlot.CHEST to HhaItems.HEAVEN_CHESTPLATE,
-            EquipmentSlot.LEGS to HhaItems.HEAVEN_LEGGINGS,
-            EquipmentSlot.FEET to HhaItems.HEAVEN_BOOTS,
-        )
-    }
-
-    private fun sword(set: Set): Item =
-        if (set == Set.HELL) HhaItems.HELLS_SWORD else HhaItems.HEAVENS_SWORD
-
-    private fun mace(set: Set): Item =
-        if (set == Set.HELL) HhaItems.HELLS_MACE else HhaItems.HEAVENS_MACE
 
     private fun splashPotion(potion: RegistryEntry<Potion>): ItemStack =
         PotionContentsComponent.createStack(Items.SPLASH_POTION, potion)

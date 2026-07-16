@@ -4,8 +4,12 @@ import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.DoubleArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.suggestion.SuggestionProvider
+import dev.henny.hha.api.HhaAddons
+import dev.henny.hha.api.set.ArmorSet
+import dev.henny.hha.api.set.HhaSets
 import dev.henny.hha.logic.Trust
 import dev.henny.hha.net.HhaNetworking
+import net.minecraft.util.Identifier
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.minecraft.command.CommandSource
 import net.minecraft.command.argument.EntityArgumentType
@@ -37,6 +41,16 @@ object HhaCommands {
         CommandSource.suggestMatching(HhaConfig.NUMBER_DEFAULTS.keys, builder)
     }
 
+    /** Alle registrierten Sets — `hha:`-Sets ohne Präfix, Addon-Sets als `addonid.pfad`. */
+    private val SET_KEYS = SuggestionProvider<ServerCommandSource> { _, builder ->
+        CommandSource.suggestMatching(
+            HhaSets.all().map { set ->
+                if (set.id.namespace == "hha") set.id.path else "${set.id.namespace}.${set.id.path}"
+            },
+            builder,
+        )
+    }
+
     /** Admin-Unterbefehle brauchen OP Level 2 — /hha kit bleibt für alle offen. */
     private val ADMIN = CommandManager.requirePermissionLevel<ServerCommandSource>(CommandManager.GAMEMASTERS_CHECK)
 
@@ -45,10 +59,13 @@ object HhaCommands {
             dispatcher.register(
                 literal("hha")
                     .then(
-                        literal("kit")
-                            .then(literal("heaven").executes { ctx -> giveKit(ctx.source, dev.henny.hha.logic.Kits.Set.HEAVEN) })
-                            .then(literal("hell").executes { ctx -> giveKit(ctx.source, dev.henny.hha.logic.Kits.Set.HELL) })
+                        literal("kit").then(
+                            argument("set", StringArgumentType.word()).suggests(SET_KEYS).executes { ctx ->
+                                giveKit(ctx.source, StringArgumentType.getString(ctx, "set"))
+                            }
+                        )
                     )
+                    .then(literal("addons").executes { ctx -> listAddons(ctx.source) })
                     .then(literal("list").requires(ADMIN).executes { ctx ->
                         val source = ctx.source
                         source.sendFeedback({ header("Fähigkeiten") }, false)
@@ -310,20 +327,64 @@ object HhaCommands {
         return 1
     }
 
-    private fun giveKit(source: ServerCommandSource, set: dev.henny.hha.logic.Kits.Set): Int {
+    /** Kit für ein registriertes Set — Auflösung: `pfad` (hha oder eindeutig), `addonid.pfad`. */
+    private fun resolveSet(name: String): ArmorSet? {
+        HhaSets.get(Identifier.of("hha", name))?.let { return it }
+        if ('.' in name) {
+            val namespace = name.substringBefore('.')
+            val path = name.substringAfter('.')
+            HhaSets.get(Identifier.of(namespace, path))?.let { return it }
+        }
+        return HhaSets.all().firstOrNull { it.id.path == name }
+    }
+
+    private fun giveKit(source: ServerCommandSource, setName: String): Int {
         val player = source.playerOrThrow
         if (!HhaConfig.enabled("kit_mode")) {
             source.sendError(Text.translatable("hha.msg.kit_disabled"))
             return 0
         }
+        val set = resolveSet(setName)
+        if (set == null) {
+            source.sendError(Text.literal("Unbekanntes Set: $setName"))
+            return 0
+        }
         dev.henny.hha.logic.Kits.give(player, set)
-        source.sendFeedback(
-            {
-                Text.translatable(
-                    if (set == dev.henny.hha.logic.Kits.Set.HELL) "hha.msg.kit_hell" else "hha.msg.kit_heaven"
-                ).formatted(Formatting.GOLD)
-            }, false
-        )
+        val message = when (set.id) {
+            HhaSets.HELL_ID -> Text.translatable("hha.msg.kit_hell")
+            HhaSets.HEAVEN_ID -> Text.translatable("hha.msg.kit_heaven")
+            else -> Text.translatable("hha.msg.kit_generic", set.id.path)
+        }
+        source.sendFeedback({ message.formatted(Formatting.GOLD) }, false)
+        return 1
+    }
+
+    /** `/hha addons` — was ist geladen und was hat es registriert? */
+    private fun listAddons(source: ServerCommandSource): Int {
+        val addons = HhaAddons.all()
+        if (addons.isEmpty()) {
+            source.sendFeedback(
+                { Text.literal("Keine HHA-Addons geladen.").formatted(Formatting.GRAY) }, false
+            )
+            return 1
+        }
+        source.sendFeedback({ header("Addons") }, false)
+        for (addon in addons) {
+            source.sendFeedback(
+                {
+                    Text.literal(" ${addon.id} ${addon.version}").formatted(Formatting.GOLD)
+                        .append(Text.literal(" — ${addon.name}").formatted(Formatting.GRAY))
+                }, false
+            )
+            source.sendFeedback(
+                {
+                    Text.literal(
+                        "   Sets: ${addon.sets.size} | Abilities: ${addon.abilities.size} | " +
+                            "Lore: ${addon.loreItemCount} Items | Config: ${addon.configKeys.size} Keys"
+                    ).formatted(Formatting.DARK_GRAY)
+                }, false
+            )
+        }
         return 1
     }
 

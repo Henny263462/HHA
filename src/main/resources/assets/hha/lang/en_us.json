@@ -131,6 +131,7 @@
   "hha.msg.kit_disabled": "Kit mode is disabled (/hha toggle kit_mode true).",
   "hha.msg.kit_hell": "Hell's SMP kit equipped — stay crispy!",
   "hha.msg.kit_heaven": "Heaven's SMP kit equipped — fly high!",
+  "hha.msg.kit_generic": "%s kit equipped!",
   "hha.faction.hell": "Hell",
   "hha.faction.heaven": "Heaven",
   "hha.msg.faction_bound": "Faction locked in: %s — switching requires all 6 pieces of the opposing set.",

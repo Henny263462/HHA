@@ -58,3 +58,15 @@ HhaSets.all()
 
 Voll-Set-Wechsel aller registrierten Sets melden sich über das Event
 `HhaEvents.FULL_SET_CHANGED` — siehe [Events](events.md).
+
+## Auto-Kits
+
+Für jedes registrierte Set generiert HHA automatisch ein SMP-Kit:
+`/hha kit <pfad>` (hha-Sets) bzw. `/hha kit <addonid>.<pfad>` (Addon-Sets),
+sofern `kit_mode` aktiv ist. Die Rüstungsteile werden voll verzaubert
+(Protection IV, Unbreaking III, Mending); für Waffen gilt die
+Rollen-Konvention der `weapon(...)`-Reihenfolge: die **erste** Waffe bekommt
+Schwert-Verzauberungen (Sharpness V, Knockback, Fire Aspect, Sweeping Edge),
+die **zweite** Mace-Verzauberungen (Wind Burst, Density V). Weitere Waffen
+landen mit Unbreaking/Mending in der Hotbar, der Rest ist das
+Standard-Loadout (Totem, Tränke, Perlen, Gapples …).

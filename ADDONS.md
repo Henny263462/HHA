@@ -93,6 +93,12 @@ class FrostAddon : HhaAddon {
 Teil trägt. `HhaSets` ist die globale Registry — dort stecken auch die
 eingebauten Sets `hha:heaven` und `hha:hell`.
 
+**Kits kommen gratis:** Für jedes registrierte Set generiert HHA automatisch
+ein SMP-Kit — `/hha kit <addonid>.<pfad>` (mit Tab-Vervollständigung).
+Rüstung voll verzaubert (Prot IV/Unb III/Mending); Waffen-Rollen-Konvention:
+**erste `weapon(...)` = Schwert**-Verzauberungen, **zweite = Mace**-
+Verzauberungen (Wind Burst, Density V).
+
 ### Abilities — `dev.henny.hha.api.ability`
 
 Sechs generische Ability-Tasten plus Bewegungs-Trigger. Das Modell ist immer
@@ -132,6 +138,9 @@ als `<addonid>.key` in `config/hha/hha.json` an. Sie sind sofort über
 `/hha get` administrierbar, persistieren automatisch und werden für die
 Lore-Anzeige an alle Clients gesynct. Lesen per `context.toggle("key")` /
 `context.number("key")` (oder `HhaConfig.enabled("addonid.key")`).
+
+`/hha addons` zeigt alle geladenen Addons samt Version und registrierten
+Sets, Abilities, Lore-Items und Config-Keys (Registry: `api.HhaAddons`).
 
 ### Lore — `dev.henny.hha.api.lore.HhaLore`
 
@@ -179,7 +188,6 @@ Versionen ändern:
 
 - **FactionLock** kennt nur Heaven↔Hell. Addon-Sets sind fraktionsneutral —
   jeder darf sie tragen, sie lösen keine Bindung aus.
-- **Kits** (`/hha kit`) sind auf Heaven/Hell beschränkt.
 - **Keybinds** sind auf die vier Trigger begrenzt; eigene Tasten brauchen
   einen eigenen Client-Keybind + C2S-Payload im Addon.
 - Assets (Texturen, Modelle, `equipment/*.json`, Lang-Dateien) liefert das

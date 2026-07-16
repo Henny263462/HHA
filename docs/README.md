@@ -47,7 +47,6 @@ Client: HHA-HUD & Keybinds → Addon-Client-Entrypoints ("hha_client")
 ## Grenzen (Stand 0.1.0)
 
 - FactionLock kennt nur Heaven↔Hell; Addon-Sets sind fraktionsneutral.
-- `/hha kit` ist auf Heaven/Hell beschränkt.
 - Sechs Ability-Slots (1–3 belegt durch HHA, 4–6 frei für Addons) plus
   Bewegungs-Trigger; darüber hinausgehende Keybinds baut das Addon selbst.
 - Assets (Modelle, Texturen, `equipment/*.json`, Lang) liefert das Addon im

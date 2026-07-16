@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 — Auto-generated kits & addon management (2026-07-16)
+
+### Added
+- Kits are now auto-generated from every registered armor set — including addon sets: `/hha kit <set>` (tab completion; addon sets as `<addonid>.<path>`) equips the fully enchanted armor, the set weapons by role convention (first weapon = sword enchants, second = mace enchants) and the standard SMP loadout
+- `/hha addons` lists all loaded HHA addons with version and what they registered (sets, abilities, lore items, config keys); backed by the new `api.HhaAddons` registry
+
 ## 0.5.1 — Fire Camp & chain-charge fixes, ability-matched icons (2026-07-16)
 
 ### Fixed
