@@ -46,6 +46,7 @@ object PassiveEffects {
             TempLava.tick(world)
             PullTracker.tick(world)
             GrappleBounce.tick(world)
+            GrappleFlight.tick(world)
             ProjectileGrapple.tick(world)
             BruteAllies.tick(world)
             SoulCamp.tick(world)

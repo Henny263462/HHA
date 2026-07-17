@@ -128,6 +128,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
             )
         )
         user.fallDistance = 0.0
+        dev.henny.hha.logic.GrappleFlight.start(world, user)
 
         if (hit.side == Direction.UP) {
             GrappleBounce.arm(world, user)

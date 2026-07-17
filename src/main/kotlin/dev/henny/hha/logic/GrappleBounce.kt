@@ -28,6 +28,11 @@ object GrappleBounce {
         pending[player.uuid] = Pending(world.time + TIMEOUT_TICKS, false)
     }
 
+    /** Entschärfen — z. B. wenn der Spieler die Kette per Sneak losgelassen hat. */
+    fun disarm(playerId: UUID) {
+        pending.remove(playerId)
+    }
+
     fun tick(world: ServerWorld) {
         if (pending.isEmpty()) return
         val iterator = pending.entries.iterator()

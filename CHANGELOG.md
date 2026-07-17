@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.2 — Sneak to let go of the chain (2026-07-16)
+
+### Added
+- Sneaking during a grapple releases the chain: your momentum is cut and you drop — works mid-flight on block grapples and while riding a projectile grapple. Letting go also disarms the pending bounce dash. Sneaking while firing doesn't cancel; the release only arms once you let go of sneak
+
 ## 0.6.1 — Chain charges cover the grapple, sword texture polish (2026-07-16)
 
 ### Fixed

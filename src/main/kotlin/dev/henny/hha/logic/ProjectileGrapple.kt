@@ -19,12 +19,17 @@ object ProjectileGrapple {
     private const val REEL_SPEED = 0.9
     private const val ARRIVE_DISTANCE = 2.0
 
-    private data class Ride(val projectile: UUID, val expiry: Long)
+    private class Ride(
+        val projectile: UUID,
+        val expiry: Long,
+        /** Erst nach einmaligem Nicht-Sneaken scharf — wer sneakend abfeuert, ridet trotzdem. */
+        var sneakArmed: Boolean,
+    )
 
     private val rides = HashMap<UUID, Ride>()
 
     fun start(world: ServerWorld, player: ServerPlayerEntity, projectile: Entity) {
-        rides[player.uuid] = Ride(projectile.uuid, world.time + TIMEOUT_TICKS)
+        rides[player.uuid] = Ride(projectile.uuid, world.time + TIMEOUT_TICKS, !player.isSneaking)
         world.playSound(null, player.blockPos, SoundEvents.BLOCK_CHAIN_PLACE, SoundCategory.PLAYERS, 1.0f, 0.9f)
         world.playSound(null, player.blockPos, SoundEvents.ITEM_TRIDENT_THROW.value(), SoundCategory.PLAYERS, 0.8f, 1.2f)
     }
@@ -37,6 +42,15 @@ object ProjectileGrapple {
             val player = world.getPlayerByUuid(uuid) as? ServerPlayerEntity ?: continue
             val projectile = world.getEntity(ride.projectile)
             if (world.time >= ride.expiry || projectile == null || !projectile.isAlive || !player.isAlive) {
+                iterator.remove()
+                continue
+            }
+
+            // Sneaken lässt die Kette los — Schwung weg, Spieler fällt.
+            if (!player.isSneaking) {
+                ride.sneakArmed = true
+            } else if (ride.sneakArmed) {
+                GrappleFlight.release(world, player)
                 iterator.remove()
                 continue
             }

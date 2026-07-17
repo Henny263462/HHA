@@ -77,7 +77,7 @@
   "item.hha.hells_mace": "Hell's Mace",
   "item.hha.hells_mace.lore1": "Full mace smash mechanics included",
   "item.hha.hells_mace.lore2": "Right-click an enemy: yank it to you — %s dmg on arrival (%s quick chains, then %ss cooldown)",
-  "item.hha.hells_mace.lore3": "Right-click: grapple to any block within %s blocks (shares the chain charges)",
+  "item.hha.hells_mace.lore3": "Right-click: grapple to any block within %s blocks — sneak to let go (shares the chain charges)",
   "item.hha.hells_mace.lore4": "Ground grapple: bounce off the landing into a dash — the slap deals %s dmg nearby",
 
   "item.hha.heaven_helmet": "Heaven's Helmet",
