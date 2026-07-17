@@ -121,8 +121,8 @@ object HhaBuiltins {
         }
         HhaLore.register(HhaItems.HELLS_MACE) {
             line("item.hha.hells_mace.lore1")
-            line("item.hha.hells_mace.lore2", num("pull_arrival_damage"), num("pull_charges"), seconds("pull_recharge"))
-            line("item.hha.hells_mace.lore3", num("grapple_range"), seconds("grapple_cooldown"))
+            line("item.hha.hells_mace.lore2", num("pull_arrival_damage"), num("chain_charges"), seconds("chain_recharge"))
+            line("item.hha.hells_mace.lore3", num("grapple_range"))
             line("item.hha.hells_mace.lore4", num("bounce_damage"))
         }
         HhaLore.register(HhaItems.HEAVEN_HELMET) {

@@ -4,7 +4,7 @@ import dev.henny.hha.config.HhaConfig
 import dev.henny.hha.logic.Cooldowns
 import dev.henny.hha.logic.Fx
 import dev.henny.hha.logic.GrappleBounce
-import dev.henny.hha.logic.PullCharges
+import dev.henny.hha.logic.ChainCharges
 import dev.henny.hha.logic.PullTracker
 import dev.henny.hha.logic.Targeting
 import net.minecraft.entity.LivingEntity
@@ -44,7 +44,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
         if (user !is ServerPlayerEntity || !entity.isAlive) return ActionResult.PASS
         if (!HhaConfig.enabled("mace_pull")) return ActionResult.PASS
         if (!Targeting.canPull(user, entity)) return ActionResult.PASS
-        if (!PullCharges.tryUse(user, stack)) return ActionResult.PASS
+        if (!ChainCharges.tryUse(user, stack)) return ActionResult.PASS
 
         pullEntity(world, user, stack, entity)
         return ActionResult.SUCCESS
@@ -74,7 +74,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
                 )
             )
             if (blockToTarget.type == HitResult.Type.MISS) {
-                if (!PullCharges.tryUse(user, stack)) return ActionResult.PASS
+                if (!ChainCharges.tryUse(user, stack)) return ActionResult.PASS
                 pullEntity(world, user, stack, entityHit.entity as LivingEntity)
                 return ActionResult.SUCCESS
             }
@@ -95,7 +95,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
             grappleRange * grappleRange
         )
         if (projectileHit != null) {
-            Cooldowns.set(user, stack, "grapple_cooldown")
+            if (!ChainCharges.tryUse(user, stack)) return ActionResult.PASS
             dev.henny.hha.logic.ProjectileGrapple.start(world, user, projectileHit.entity)
             spawnFireChain(world, user.eyePos, projectileHit.entity.entityPos)
             return ActionResult.SUCCESS
@@ -112,7 +112,7 @@ class HellsMaceItem(settings: Settings) : MaceItem(settings) {
             return ActionResult.PASS
         }
 
-        Cooldowns.set(user, stack, "grapple_cooldown")
+        if (!ChainCharges.tryUse(user, stack)) return ActionResult.PASS
 
         val target = hit.pos
         val delta = target.subtract(user.entityPos)

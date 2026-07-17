@@ -81,10 +81,9 @@ object HhaConfig {
         "light_wave_cooldown" to 700.0,
         "mace_throw_damage" to 5.0,
         "mace_throw_cooldown" to 420.0,
-        "pull_cooldown" to 40.0,
-        "pull_recharge" to 400.0,
-        "pull_charges" to 2.0,
-        "grapple_cooldown" to 80.0,
+        "chain_charges" to 2.0,
+        "chain_cooldown" to 40.0,
+        "chain_recharge" to 400.0,
         "ultra_duration" to 1200.0,
         "ultra_cooldown" to 6000.0,
     )

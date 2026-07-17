@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1 — Chain charges cover the grapple, sword texture polish (2026-07-16)
+
+### Fixed
+- The 2-quick-uses-then-20s-cooldown charge system now covers **all** Hell's Mace chain uses — block grapple, projectile grapple and enemy pull share one pool. Previously only the enemy pull was charged; grappling still ran on its own flat 4s cooldown, which is why "2 quick grapples" never worked. New config keys: `chain_charges` (2), `chain_cooldown` (2 s), `chain_recharge` (20 s) — the old `pull_cooldown`/`pull_recharge`/`pull_charges`/`grapple_cooldown` keys are retired, so stale saved values no longer interfere
+
+### Changed
+- Heaven's Sword texture: the gold energy groove now runs much further up the blade (to just below the tip) in all three animation frames, and the gold band across the guard connects properly at the bottom middle instead of leaving a gap
+
 ## 0.6.0 — Auto-generated kits & addon management (2026-07-16)
 
 ### Added
